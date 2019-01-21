@@ -1,8 +1,8 @@
 # YUCONZ EMPLOYMENT RECORD SYSTEM
 Test.
-##Getting Started
+## Getting Started
 Test. 
-##Authors
+## Authors
 * Conor Finn (CF338)
 
-##Licence
+## Licence
