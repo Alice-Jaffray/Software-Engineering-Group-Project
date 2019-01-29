@@ -12,6 +12,7 @@ store documents that contain:
 ## Authors
 * Conor Finn (CF338)
 * Kieran D'Arcy (KD333)
+* Ibraheem Jhanji (IJ39)
 
 ## Licence
  [Need to decide which licence to use.]
