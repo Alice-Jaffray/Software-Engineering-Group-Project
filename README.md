@@ -10,11 +10,8 @@ store documents that contain:
 ## Getting Started
  (Nothing yet, no software.)
 ## Authors
-* Conor Finn (CF338)
-* Kieran D'Arcy (KD333)
-* Ibraheem Jhanji (IJ39)
-* Alice Jaffray (AJ418)
-* Isaiah Ojo (IO68)
-
-## Licence
- [Need to decide which licence to use.]
+* Conor Finn ([CF338](mailto:cf338@kent.ac.uk))
+* Kieran D'Arcy ([KD333](mailto:kd333@kent.ac.uk))
+* Ibraheem Jhanji ([IJ39](mailto:ij39@kent.ac.uk))
+* Alice Jaffray ([AJ418](mailto:aj418@kent.ac.uk))
+* Isaiah Ojo ([IO68](mailto:IO68@kent.ac.uk))
