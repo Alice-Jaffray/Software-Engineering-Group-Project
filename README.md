@@ -10,7 +10,7 @@ store documents that contain:
 ## Getting Started
  (Nothing yet, no software.)
 ## Authors
-* Conor Finn (CF338)
+* Conor Finn ([CF338](mailto:cf338@kent.ac.uk))
 * Kieran D'Arcy (KD333)
 * Ibraheem Jhanji (IJ39)
 * Alice Jaffray (AJ418)
