@@ -13,6 +13,7 @@ store documents that contain:
 * Conor Finn (CF338)
 * Kieran D'Arcy (KD333)
 * Ibraheem Jhanji (IJ39)
+* Alice Jaffray (AJ418)
 
 ## Licence
  [Need to decide which licence to use.]
