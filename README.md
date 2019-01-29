@@ -11,6 +11,7 @@ store documents that contain:
  (Nothing yet, no software.)
 ## Authors
 * Conor Finn (CF338)
+* Kieran D'Arcy (KD333)
 
 ## Licence
  [Need to decide which licence to use.]
