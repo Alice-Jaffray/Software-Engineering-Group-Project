@@ -1,7 +1,4 @@
-# Testing Plan
-
-Refer to the brief and cover all of the points mentioned, using the notes made in the [meeting document](../Meeting Notes/Stage 2/2019-01-29-Meeting1.md).
-
+# Testing and Issue Control Plan
 ## Testing
 
 Tests will be done before each push to the main server repository, and must follow some pass rules before pushing:
