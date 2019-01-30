@@ -3,4 +3,5 @@
   <packageImport xmi:type="uml:PackageImport" xmi:id="_bf_l4CI8EemXxpT_YNcJXQ">
     <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
   </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_39KzICSXEemMmN5Bqu1uHg" name="AppController"/>
 </uml:Model>
