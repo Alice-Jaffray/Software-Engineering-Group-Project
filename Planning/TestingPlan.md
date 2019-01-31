@@ -31,7 +31,7 @@ Tests will be done before each push to the main server repository, and must foll
     * Attempt to view personal details for another employee as HR employee.
         * Passes if document is successfully delivered to user.
     * Attempt to read document for employee that does not exist.
-        * Passes if the user is prompted to create that document.
+        * Passes if no documents are supplied. 
 
 
 * **Create Personal Details**
@@ -40,15 +40,14 @@ Tests will be done before each push to the main server repository, and must foll
     * Create document as non-HR employee. 
         * Passes if authorisation check fails.
     * Create document as HR employee for a staff member that already exists.
-        * Passes if user is prompted to amend document instead of creating new one.
+        * Passes if no documents are created. 
 
 
 * **Amend Personal Details**
     * Amend document request as HR employee, fill in new details.
         * Passes if new details are saved to database.
     * Amend request for document that does not exist as HR employee.
-        * Passes if user is prompted to create a new document.
-
+        * Passes if no documents are changed. 
 
 * **Create new Review Record**
     * Create document as HR employee.
