@@ -13,7 +13,7 @@ Tests will be done before each push to the main server repository, and must foll
     * Attempt to log in as standard employee with valid details. 
         * Passes if login successful, attempt is stored in system, system is logged in as correct user.
     * Attempt to log in as HR Employee with valid details. 
-        * Passes if the now logged in as the correct user.
+        * Passes if they're now logged in as the correct user.
     * Attempt to log in as HR Employee/Director with valid details, but lower privileges.
         * Passes if logged in as correct user and fails to create new "Personal Details Document"       
 
@@ -26,7 +26,7 @@ Tests will be done before each push to the main server repository, and must foll
 * **Read Personal Details** 
     * Attempt to view associated personal details for logged in employee (Non-HR).
         * Passes if correct document is delivered to the user.
-    * Attempt to view personal details for a different employee to logged in user. 
+    * Attempt to view personal details for a different employee to logged in user (Non-HR). 
         * Passes if authorization fails and no documents are delivered.
     * Attempt to view personal details for another employee as HR employee.
         * Passes if document is successfully delivered to user.
