@@ -24,7 +24,9 @@
     <ownedOperation xmi:type="uml:Operation" xmi:id="_6uY6cCZAEemuPal2iT2zKg" name="authenticate"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_VXMh4CY9EemuPal2iT2zKg" name="User">
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_w_nuECZLEemuPal2iT2zKg" name="login" visibility="protected"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_w_nuECZLEemuPal2iT2zKg" name="login" visibility="private">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_t0tZoCY9EemuPal2iT2zKg" name="HREmployee">
     <generalization xmi:type="uml:Generalization" xmi:id="_xnRP0CY-EemuPal2iT2zKg" general="_L5IE8CY9EemuPal2iT2zKg"/>
@@ -103,6 +105,16 @@
     <ownedEnd xmi:type="uml:Property" xmi:id="_V9mBQSZCEemuPal2iT2zKg" name="personaldetails" type="_W0ZDMCY-EemuPal2iT2zKg" association="_V9ZM8CZCEemuPal2iT2zKg">
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_V9moUCZCEemuPal2iT2zKg" value="1"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_V9moUSZCEemuPal2iT2zKg" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_wf_28CcIEemlvL77ALELbA" memberEnd="_wgJA4CcIEemlvL77ALELbA _wgKPACcIEemlvL77ALELbA" navigableOwnedEnd="_wgJA4CcIEemlvL77ALELbA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_wgHLsCcIEemlvL77ALELbA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_wgHywCcIEemlvL77ALELbA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_wgKPACcIEemlvL77ALELbA" name="employee" type="_L5IE8CY9EemuPal2iT2zKg" association="_wf_28CcIEemlvL77ALELbA"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_wgJA4CcIEemlvL77ALELbA" name="annualreview" type="_YFPnECY-EemuPal2iT2zKg" association="_wf_28CcIEemlvL77ALELbA">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wgJn8CcIEemlvL77ALELbA"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wgJn8ScIEemlvL77ALELbA" value="*"/>
     </ownedEnd>
   </packagedElement>
   <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_GJKfMCZCEemuPal2iT2zKg">
