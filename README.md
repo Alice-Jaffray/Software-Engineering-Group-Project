@@ -17,4 +17,4 @@ store documents that contain:
 * Isaiah Ojo ([IO68](mailto:IO68@kent.ac.uk))
 * 
 ## Licence 
-[LINK](LICENSE)
+Licenced under [GNU GPLv3](LICENSE)
