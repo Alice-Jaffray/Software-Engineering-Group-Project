@@ -15,3 +15,6 @@ store documents that contain:
 * Ibraheem Jhanji ([IJ39](mailto:ij39@kent.ac.uk))
 * Alice Jaffray ([AJ418](mailto:aj418@kent.ac.uk))
 * Isaiah Ojo ([IO68](mailto:IO68@kent.ac.uk))
+* 
+## Licence 
+[LINK](LICENCE)
