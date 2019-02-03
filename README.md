@@ -1,9 +1,7 @@
 # YUCONZ EMPLOYMENT RECORD SYSTEM
-Program designed to allow for the digitization of HR documents 
-so that they do not have to be stored on paper.
+Program designed to allow for the digitization of HR documents so that they do not have to be stored on paper.
 
-System will, in its first iteration, be able to create and 
-store documents that contain:
+The system will, in its first iteration, be able to create and store documents that contain:
 * An employee's personal details.
 * Records of employee reviews. 
 
