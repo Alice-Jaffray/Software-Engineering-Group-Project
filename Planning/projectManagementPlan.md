@@ -19,3 +19,4 @@ Our plan for managing the project includes iteration planning, meetings, communi
 * Gantt Chart
     * We will create a gantt chart on Excel Spreadsheet to track our progress on tasks and the whole project to ensure 
       we stick to our pre-determined timeline. 
+    * The gantt chart will be updated in the Friday meetings after we have reviewed work completed during the week.
