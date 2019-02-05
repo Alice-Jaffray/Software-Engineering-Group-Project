@@ -7,14 +7,18 @@
     <packagedElement xmi:type="uml:UseCase" xmi:id="_9M1eQN3OEeaGYq-sFt06Pg" name="Read review record">
       <include xmi:type="uml:Include" xmi:id="_irOyYN3PEeaGYq-sFt06Pg" addition="_FLFHMN3PEeaGYq-sFt06Pg"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_-7weMN3OEeaGYq-sFt06Pg" name="Amend review reord">
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_-7weMN3OEeaGYq-sFt06Pg" name="Amend review record">
       <include xmi:type="uml:Include" xmi:id="_jfZaQN3PEeaGYq-sFt06Pg" addition="_FLFHMN3PEeaGYq-sFt06Pg"/>
+      <include xmi:type="uml:Include" xmi:id="_iYmCsCedEem0rdxXY5Ntyw" addition="_9M1eQN3OEeaGYq-sFt06Pg"/>
     </packagedElement>
     <packagedElement xmi:type="uml:UseCase" xmi:id="_AnMsUN3PEeaGYq-sFt06Pg" name="Read past completed review records">
       <include xmi:type="uml:Include" xmi:id="_kNeoQN3PEeaGYq-sFt06Pg" addition="_FLFHMN3PEeaGYq-sFt06Pg"/>
       <include xmi:type="uml:Include" xmi:id="_I03b4N3QEeaGYq-sFt06Pg" addition="_9M1eQN3OEeaGYq-sFt06Pg"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_Ck_1wN3PEeaGYq-sFt06Pg" name="Perform review"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_Ck_1wN3PEeaGYq-sFt06Pg" name="Perform review">
+      <include xmi:type="uml:Include" xmi:id="_32bdQCedEem0rdxXY5Ntyw" addition="_AnMsUN3PEeaGYq-sFt06Pg"/>
+      <include xmi:type="uml:Include" xmi:id="_-2UnkCedEem0rdxXY5Ntyw" addition="_-7weMN3OEeaGYq-sFt06Pg"/>
+    </packagedElement>
     <packagedElement xmi:type="uml:UseCase" xmi:id="_DwpwkN3PEeaGYq-sFt06Pg" name="Allocate reviewer">
       <include xmi:type="uml:Include" xmi:id="_m4SosN3PEeaGYq-sFt06Pg" addition="_FLFHMN3PEeaGYq-sFt06Pg"/>
     </packagedElement>
@@ -92,7 +96,7 @@
       <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_1j_BEN3PEeaGYq-sFt06Pg" key="nature" value="UML_Nature"/>
     </eAnnotations>
     <ownedEnd xmi:type="uml:Property" xmi:id="_1j_BEd3PEeaGYq-sFt06Pg" name="create new review record" type="_7uyL4N3OEeaGYq-sFt06Pg" association="_1j-aAN3PEeaGYq-sFt06Pg"/>
-    <ownedEnd xmi:type="uml:Property" xmi:id="_1j_BEt3PEeaGYq-sFt06Pg" name="employee" type="_TeJkMN3PEeaGYq-sFt06Pg" association="_1j-aAN3PEeaGYq-sFt06Pg"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_1j_BEt3PEeaGYq-sFt06Pg" name="employee" type="_li5Q8CecEem0rdxXY5Ntyw" association="_1j-aAN3PEeaGYq-sFt06Pg"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Association" xmi:id="_4mkoUN3PEeaGYq-sFt06Pg" memberEnd="_4mlPYt3PEeaGYq-sFt06Pg _4mlPY93PEeaGYq-sFt06Pg">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_4mlPYN3PEeaGYq-sFt06Pg" source="org.eclipse.papyrus">
@@ -121,5 +125,50 @@
     </eAnnotations>
     <ownedEnd xmi:type="uml:Property" xmi:id="_FFx7A93QEeaGYq-sFt06Pg" name="hr database" type="_4xhJgN3OEeaGYq-sFt06Pg" association="_FFx7AN3QEeaGYq-sFt06Pg"/>
     <ownedEnd xmi:type="uml:Property" xmi:id="_FFx7BN3QEeaGYq-sFt06Pg" name="perform review" type="_Ck_1wN3PEeaGYq-sFt06Pg" association="_FFx7AN3QEeaGYq-sFt06Pg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_NugOsCecEem0rdxXY5Ntyw" memberEnd="_NuoKgCecEem0rdxXY5Ntyw _NuoKgSecEem0rdxXY5Ntyw" navigableOwnedEnd="_NuoKgCecEem0rdxXY5Ntyw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Num8YCecEem0rdxXY5Ntyw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Num8YSecEem0rdxXY5Ntyw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_NuoKgCecEem0rdxXY5Ntyw" name="read review record" type="_9M1eQN3OEeaGYq-sFt06Pg" association="_NugOsCecEem0rdxXY5Ntyw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_NuoKgSecEem0rdxXY5Ntyw" name="hr employee" type="_NRvFQN3PEeaGYq-sFt06Pg" association="_NugOsCecEem0rdxXY5Ntyw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_QyTW4CecEem0rdxXY5Ntyw" memberEnd="_QyT98iecEem0rdxXY5Ntyw _QyT98yecEem0rdxXY5Ntyw" navigableOwnedEnd="_QyT98iecEem0rdxXY5Ntyw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_QyT98CecEem0rdxXY5Ntyw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_QyT98SecEem0rdxXY5Ntyw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_QyT98iecEem0rdxXY5Ntyw" name="read past completed review records" type="_AnMsUN3PEeaGYq-sFt06Pg" association="_QyTW4CecEem0rdxXY5Ntyw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_QyT98yecEem0rdxXY5Ntyw" name="hr employee" type="_NRvFQN3PEeaGYq-sFt06Pg" association="_QyTW4CecEem0rdxXY5Ntyw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_li5Q8CecEem0rdxXY5Ntyw" name="Reviewee">
+    <generalization xmi:type="uml:Generalization" xmi:id="_pGt9ACecEem0rdxXY5Ntyw" general="_TeJkMN3PEeaGYq-sFt06Pg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_GxAboCedEem0rdxXY5Ntyw" memberEnd="_GxCQ0CedEem0rdxXY5Ntyw _GxCQ0SedEem0rdxXY5Ntyw" navigableOwnedEnd="_GxCQ0CedEem0rdxXY5Ntyw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_GxBpwCedEem0rdxXY5Ntyw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_GxBpwSedEem0rdxXY5Ntyw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_GxCQ0CedEem0rdxXY5Ntyw" name="read review record" type="_9M1eQN3OEeaGYq-sFt06Pg" association="_GxAboCedEem0rdxXY5Ntyw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_GxCQ0SedEem0rdxXY5Ntyw" name="reviewee" type="_li5Q8CecEem0rdxXY5Ntyw" association="_GxAboCedEem0rdxXY5Ntyw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_IsvvkCedEem0rdxXY5Ntyw" memberEnd="_Isw9siedEem0rdxXY5Ntyw _IsxkwCedEem0rdxXY5Ntyw" navigableOwnedEnd="_Isw9siedEem0rdxXY5Ntyw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Isw9sCedEem0rdxXY5Ntyw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Isw9sSedEem0rdxXY5Ntyw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_Isw9siedEem0rdxXY5Ntyw" name="read past completed review records" type="_AnMsUN3PEeaGYq-sFt06Pg" association="_IsvvkCedEem0rdxXY5Ntyw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_IsxkwCedEem0rdxXY5Ntyw" name="reviewee" type="_li5Q8CecEem0rdxXY5Ntyw" association="_IsvvkCedEem0rdxXY5Ntyw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_ZUSJkCedEem0rdxXY5Ntyw" memberEnd="_ZUTXsSedEem0rdxXY5Ntyw _ZUTXsiedEem0rdxXY5Ntyw" navigableOwnedEnd="_ZUTXsSedEem0rdxXY5Ntyw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ZUSwoCedEem0rdxXY5Ntyw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ZUTXsCedEem0rdxXY5Ntyw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_ZUTXsSedEem0rdxXY5Ntyw" name="amend review reord" type="_-7weMN3OEeaGYq-sFt06Pg" association="_ZUSJkCedEem0rdxXY5Ntyw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_ZUTXsiedEem0rdxXY5Ntyw" name="reviewee" type="_li5Q8CecEem0rdxXY5Ntyw" association="_ZUSJkCedEem0rdxXY5Ntyw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_wU4XYCedEem0rdxXY5Ntyw" memberEnd="_wU6MkSedEem0rdxXY5Ntyw _wU6MkiedEem0rdxXY5Ntyw" navigableOwnedEnd="_wU6MkiedEem0rdxXY5Ntyw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_wU5lgCedEem0rdxXY5Ntyw" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_wU6MkCedEem0rdxXY5Ntyw" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_wU6MkSedEem0rdxXY5Ntyw" name="reviewee" type="_li5Q8CecEem0rdxXY5Ntyw" association="_wU4XYCedEem0rdxXY5Ntyw"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_wU6MkiedEem0rdxXY5Ntyw" name="perform review" type="_Ck_1wN3PEeaGYq-sFt06Pg" association="_wU4XYCedEem0rdxXY5Ntyw"/>
   </packagedElement>
 </uml:Model>

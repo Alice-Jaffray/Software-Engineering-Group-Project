@@ -29,3 +29,4 @@
     * [Assigned Task].
     * [Due Date]
 
+## Discussed Topics
