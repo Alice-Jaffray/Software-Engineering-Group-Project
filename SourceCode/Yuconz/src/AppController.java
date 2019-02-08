@@ -3,7 +3,7 @@ import java.util.Scanner;
 /**
  * controls the actions to everything
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 1.0 2019/02/05
+ * @version 2019/02/08
  */
 public class AppController {
     private Scanner input;
@@ -49,6 +49,7 @@ public class AppController {
             {
                 case "1":
                     logout();
+                    runController();
             }
         }
     }
