@@ -20,6 +20,16 @@ public class AuthServer {
     }
 
     /**
+     * allows new records to be added to the database
+     */
+    private void addNewRecord(String username, String password) {
+        if(!loginDetails.containsKey(username))
+            loginDetails.put(username, password);
+        else
+            System.out.println("User already exists in database");
+    }
+
+    /**
      * authenticates the user for login purposes
      * @param name username of user
      * @param password password of user
