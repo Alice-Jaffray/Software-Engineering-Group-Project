@@ -16,11 +16,11 @@ public class AppController {
     /**
      * constructor
      */
-    public AppController() {
+    public AppController(AuthServer authServer) {
         input = new Scanner(System.in);
         name = "";
         password = "";
-        authServer = new AuthServer();
+        this.authServer = authServer;
         loggedIn = false;
         option = "";
     }
@@ -29,7 +29,7 @@ public class AppController {
      * starts the app
      */
     public static void main(String[] args) {
-        AppController controller = new AppController();
+        AppController controller = new AppController(new AuthServer());
         controller.runController();
     }
 
@@ -38,7 +38,11 @@ public class AppController {
      */
     public void runController() {
         while(loggedIn == false) {
-            login();
+            System.out.println("Please enter your username");
+            name = input.next().toLowerCase();
+            System.out.println("Please enter your password");
+            password = input.next().toLowerCase();
+            login(name, password);
         }
         while(loggedIn == true) {
             System.out.println("Please choose an option from the menu");
@@ -58,11 +62,7 @@ public class AppController {
      * logs the user into the system
      * @return true if the login was successful
      */
-    public boolean login() {
-        System.out.println("Please enter your username");
-        name = input.next().toLowerCase();
-        System.out.println("Please enter your password");
-        password = input.next().toLowerCase();
+    public boolean login(String name, String password) {
         boolean verified = authServer.authenticate(name, password);
         if(!verified) {
             System.out.println("Invalid username/password");
