@@ -7,8 +7,8 @@ import java.util.HashMap;
  * @version 1.0 2019/02/05
  */
 public class AuthServer {
-    public HashMap<String, String> loginDetails;
-    public ArrayList<LoginRecord> loginRecords;
+    private HashMap<String, String> loginDetails;
+    private ArrayList<LoginRecord> loginRecords;
     /**
      * constructor
      */
