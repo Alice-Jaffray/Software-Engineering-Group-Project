@@ -4,7 +4,7 @@ import java.util.HashMap;
  * stores when a successful login takes place
  * stores the correct user login details
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/12
+ * @version 2019/02/12v2
  */
 public class AuthServer {
     private HashMap<String, String> loginDetails;

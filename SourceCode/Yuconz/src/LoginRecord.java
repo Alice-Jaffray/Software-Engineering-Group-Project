@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * Stores the successful login attempts by users
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/12
+ * @version 2019/02/12v2
  */
 public class LoginRecord {
     private String username ;

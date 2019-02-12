@@ -5,7 +5,7 @@ import java.util.Scanner;
  * controls the actions to everything
  *
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/12
+ * @version 2019/02/12v2
  */
 public class AppController {
     private Scanner input;
@@ -95,11 +95,8 @@ public class AppController {
      * logs the user out
      */
     public boolean logout() {
-        if (loggedIn) {
             System.out.println("Logged Out");
             return false;
-        }
-        return true;
     }
 }
 
