@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -48,7 +47,7 @@ public class AppController {
             option = input.next();
             switch (option){
                 case "1":
-                    loggedIn = logout();
+                    logout();
                     runController();
                     break;
                 case "2":
@@ -84,9 +83,11 @@ public class AppController {
         boolean verified = authServer.authenticate(name, password);
         if (!verified) {
             System.out.println("Invalid username/password");
+            loggedIn = verified;
             return verified;
         } else {
             System.out.println("Logged In");
+            loggedIn = verified;
             return verified;
         }
     }
@@ -95,8 +96,20 @@ public class AppController {
      * logs the user out
      */
     public boolean logout() {
+        if (loggedIn) {
             System.out.println("Logged Out");
+            loggedIn = false;
+            return true;
+        } else {
+            System.out.println("Please log in");
+            loggedIn = false;
             return false;
+        }
+
+    }
+
+    public boolean getLoggedIn() {
+        return loggedIn;
     }
 }
 
