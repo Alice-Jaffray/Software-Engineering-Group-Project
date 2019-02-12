@@ -13,3 +13,20 @@ Notable changes to the source code for this project will be recorded here.
 * AppController - login method - now takes parameters
 ### Removed
 AppController - main method - moved from the AppController to Main class
+
+
+
+## Version - 2019/02/08
+
+### Changed
+* runController method - on logout, page is redirected to login.
+
+
+
+## Version - 2019/02/05
+
+### Added
+* LoginRecord class
+* login method to AppController
+* logout method to AppController
+* AuthServer class
