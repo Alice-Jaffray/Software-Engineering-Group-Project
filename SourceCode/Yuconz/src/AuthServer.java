@@ -40,8 +40,20 @@ public class AuthServer {
      */
     public void addDetails(String type, String name, String password) {
         //for testing
-        //switch () {}
-        loginDetails.add(new User(name, password));
+        switch (type.toLowerCase()) {
+            case "employee":
+                loginDetails.add(new Employee(name, password));
+                break;
+            case "hremployee":
+                loginDetails.add(new HREmployee(name, password));
+                break;
+            case "manager":
+                loginDetails.add(new Manager(name, password));
+                break;
+            case "director":
+                loginDetails.add(new Director(name, password));
+                break;
+        }
     }
 
     /**
