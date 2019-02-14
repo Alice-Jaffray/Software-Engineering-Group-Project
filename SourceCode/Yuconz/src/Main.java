@@ -11,9 +11,9 @@ public class Main {
      */
     public static void main(String[] args) {
         AuthServer authServer = new AuthServer();
-        authServer.addDetails("kieran", "password");
-        authServer.addDetails("conor", "password");
-        authServer.addDetails("alice", "password");
+        authServer.addDetails("hremployee", "kieran", "password");
+        authServer.addDetails("user", "conor", "password");
+        authServer.addDetails("user", "alice", "password");
         AppController appController = new AppController(authServer);
         appController.runController();
     }

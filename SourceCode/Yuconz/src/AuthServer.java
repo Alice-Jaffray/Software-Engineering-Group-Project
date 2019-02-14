@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 /**
  * stores when a successful login takes place
  * stores the correct user login details
@@ -7,16 +6,14 @@ import java.util.HashMap;
  * @version 2019/02/12v2
  */
 public class AuthServer {
-    private HashMap<String, String> loginDetails;
+    private ArrayList<User> loginDetails;
     private ArrayList<LoginRecord> loginRecords;
-
-
 
     /**
      * constructor
      */
     public AuthServer() {
-        loginDetails = new HashMap<>();
+        loginDetails = new ArrayList<>();
         loginRecords = new ArrayList<>();
     }
 
@@ -26,18 +23,14 @@ public class AuthServer {
      * @param password password of user
      * @return true if the user is verified
      */
-    public boolean authenticate(String name, String password) {
-        if(loginDetails.containsKey(name)){
-            try {
-                if (loginDetails.get(name).equals(password)) {
-                    loginRecords.add(new LoginRecord(name));
-                    return true;
-                }
-            } catch (Exception e) {
-                return false;
+    public User authenticate(String name, String password) {
+        for(User users : loginDetails) {
+            if(users.getUsername().equals(name) && users.getPassword().equals(password)) {
+                loginRecords.add(new LoginRecord(name));
+                return users;
             }
         }
-        return false;
+        return null;
     }
 
     /**
@@ -45,9 +38,10 @@ public class AuthServer {
      * @param name username of user
      * @param password password of user
      */
-    public void addDetails(String name, String password) {
+    public void addDetails(String type, String name, String password) {
         //for testing
-        loginDetails.put(name, password);
+        //switch () {}
+        loginDetails.add(new User(name, password));
     }
 
     /**
@@ -56,7 +50,13 @@ public class AuthServer {
      * @param password password of the user
      */
     public void removeDetails(String name, String password){
-        loginDetails.remove(name, password);
+        for (User users : loginDetails) {
+            if(users.getUsername().equals(name) && users.getPassword().equals(password)) {
+                loginDetails.remove(users);
+                System.out.println("User '" + name + "' as been removed");
+                break;
+            }
+        }
     }
 
     public ArrayList<LoginRecord> getLoginRecords() {

@@ -11,9 +11,9 @@ class AppControllerTest {
 
     @BeforeEach
     public void setUp() {
-        auth.addDetails("dir000", "pa55word");
-        auth.addDetails("hre000", "pa33word");
-        auth.addDetails("emp000", "password");
+        auth.addDetails("user", "dir000", "pa55word");
+        auth.addDetails("user", "hre000", "pa33word");
+        auth.addDetails("user", "emp000", "password");
     }
 
     @AfterEach

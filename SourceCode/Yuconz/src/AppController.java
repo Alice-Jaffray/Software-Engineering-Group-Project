@@ -13,6 +13,7 @@ public class AppController {
     private AuthServer authServer;
     private boolean loggedIn;
     private String option;
+    private User currentUser;
 
     /**
      * constructor
@@ -45,17 +46,19 @@ public class AppController {
             System.out.println("4. View login records");
 
             option = input.next();
-            switch (option){
+            switch (option) {
                 case "1":
                     logout();
                     runController();
                     break;
                 case "2":
+                    System.out.print("Enter type: ");
+                    String type = input.next().toLowerCase();
                     System.out.print("Enter name: ");
                     name = input.next().toLowerCase();
                     System.out.print("Enter password: ");
                     password = input.next().toLowerCase();
-                    authServer.addDetails(name, password);
+                    authServer.addDetails(type, name, password);
                     break;
                 case "3":
                     System.out.print("Enter name: ");
@@ -65,9 +68,16 @@ public class AppController {
                     authServer.removeDetails(name, password);
                     break;
                 case "4":
-                    for(LoginRecord records : authServer.getLoginRecords()){
-                        System.out.println(records.getDetails());
+                    if (currentUser instanceof HREmployee) {
+                        for (LoginRecord records : authServer.getLoginRecords()) {
+                            System.out.println(records.getDetails());
+                        }
+                    } else {
+                        //add record of credentials
+                        System.out.println("Access denied");
+                        break;
                     }
+
                 case "5":
                     break;
             }
@@ -80,15 +90,15 @@ public class AppController {
      * @return true if the login was successful
      */
     public boolean login(String name, String password) {
-        boolean verified = authServer.authenticate(name, password);
-        if (!verified) {
+        currentUser = authServer.authenticate(name, password);
+        if (currentUser == null) {
             System.out.println("Invalid username/password");
-            loggedIn = verified;
-            return verified;
+            loggedIn = false;
+            return false;
         } else {
             System.out.println("Logged In");
-            loggedIn = verified;
-            return verified;
+            loggedIn = true;
+            return true;
         }
     }
 
@@ -99,9 +109,10 @@ public class AppController {
         if (loggedIn) {
             System.out.println("Logged Out");
             loggedIn = false;
+            currentUser = null;
             return true;
         } else {
-            System.out.println("Please log in");
+            System.out.println("Not logged in");
             loggedIn = false;
             return false;
         }

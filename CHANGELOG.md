@@ -2,11 +2,21 @@
 
 Notable changes to the source code for this project will be recorded here. 
 
+
+## Version - 2019/02/14
+
+### Changed
+AuthServer - addDetails method - added "type" parameter.
+### Added
+User class
+Subclasses of User - HREmployee, Employee, Director, Manager
+
+
+
 ## Version - 2019/02/12v2
 
 ### Changed
 Main - main method - minor changes to authServer login details
-
 ### Fixed
 AppController - logout method - logs out no matter what
 
