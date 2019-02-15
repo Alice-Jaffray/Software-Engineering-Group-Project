@@ -3,7 +3,7 @@ import java.util.ArrayList;
  * stores when a successful login takes place
  * stores the correct user login details
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/12v2
+ * @version 2019/02/15
  */
 public class AuthServer {
     private ArrayList<User> loginDetails;
@@ -52,6 +52,9 @@ public class AuthServer {
                 break;
             case "director":
                 loginDetails.add(new Director(name, password));
+                break;
+            default:
+                System.out.println("Please pick a valid option!");
                 break;
         }
     }

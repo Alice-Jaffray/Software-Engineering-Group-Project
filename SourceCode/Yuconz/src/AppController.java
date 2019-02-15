@@ -4,7 +4,7 @@ import java.util.Scanner;
  * controls the actions to everything
  *
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/12v2
+ * @version 2019/02/15
  */
 public class AppController {
     private Scanner input;
@@ -36,7 +36,7 @@ public class AppController {
             name = input.next().toLowerCase();
             System.out.print("Please enter your password: ");
             password = input.next().toLowerCase();
-            loggedIn = login(name, password);
+            login(name, password);
         }
         while (loggedIn) {
             System.out.println("\nPlease choose an option from the menu");
@@ -80,6 +80,8 @@ public class AppController {
 
                 case "5":
                     break;
+                default:
+                    System.out.println("invalid choice");
             }
         }
     }
@@ -95,6 +97,13 @@ public class AppController {
             System.out.println("Invalid username/password");
             loggedIn = false;
             return false;
+        } else if(currentUser instanceof HREmployee){
+            System.out.println("Logged In");
+            loggedIn = true;
+            System.out.print("\nWould like to log in with Employee privileges(y/n): ");
+            if(input.next().equals("y")) {currentUser.lowerAuthLevel();}
+            else {System.out.println("\nPrivileges unchanged");}
+            return true;
         } else {
             System.out.println("Logged In");
             loggedIn = true;
