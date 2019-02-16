@@ -14,17 +14,19 @@ public class AppController {
     private boolean loggedIn;
     private String option;
     private User currentUser;
+    private HRDatabase hrDatabase;
 
     /**
      * constructor
      */
-    public AppController(AuthServer a) {
+    public AppController(AuthServer a, HRDatabase db) {
         authServer = a;
         input = new Scanner(System.in);
         name = "";
         password = "";
         loggedIn = false;
         option = "";
+        hrDatabase = db;
     }
 
     /**
@@ -36,14 +38,18 @@ public class AppController {
             name = input.next().toLowerCase();
             System.out.print("Please enter your password: ");
             password = input.next().toLowerCase();
-            login(name, password);
+            if (login(name, password)) {
+                requestPrivileges();
+            }
         }
+
         while (loggedIn) {
             System.out.println("\nPlease choose an option from the menu");
             System.out.println("1. Logout");
-            System.out.println("2. Add Authentication details");
-            System.out.println("3. Remove Authentication details");
-            System.out.println("4. View login records");
+            System.out.println("2. Create personal details");
+            System.out.println("3. ...");
+            System.out.println("4. ...");
+            System.out.println("5. ...");
 
             option = input.next();
             switch (option) {
@@ -52,33 +58,24 @@ public class AppController {
                     runController();
                     break;
                 case "2":
-                    System.out.print("Enter type: ");
-                    String type = input.next().toLowerCase();
-                    System.out.print("Enter name: ");
-                    name = input.next().toLowerCase();
-                    System.out.print("Enter password: ");
-                    password = input.next().toLowerCase();
-                    authServer.addDetails(type, name, password);
+                    //first approach to authentication is that we check credentials in the method we called
+                    checkSuccess(hrDatabase.createPersonalDetails(currentUser, currentUser.getUsername(), "Kieran", "D'Arcy", "11/01/1999", "01234567891", "09876543212", "Jim", "01992837465", "999", new Address("64", "Zoo Lane", "Canterbury", "Kent", "CT2 7ST")));
                     break;
                 case "3":
-                    System.out.print("Enter name: ");
-                    name = input.next();
-                    System.out.print("Enter password: ");
-                    password = input.next();
-                    authServer.removeDetails(name, password);
+                    //second approach is that we check before we call the method
+                    if (currentUser.getAuthLevel().equals("...")) {
+                        //do something
+                    }
                     break;
                 case "4":
-                    if (currentUser instanceof HREmployee) {
-                        for (LoginRecord records : authServer.getLoginRecords()) {
-                            System.out.println(records.getDetails());
-                        }
-                    } else {
-                        //add record of credentials
-                        System.out.println("Access denied");
-                        break;
+                    if (currentUser.getAuthLevel().equals("...")) {
+                        //do something
                     }
-
+                    break;
                 case "5":
+                    if (currentUser.getAuthLevel().equals("...")) {
+                        //do something
+                    }
                     break;
                 default:
                     System.out.println("invalid choice");
@@ -97,13 +94,6 @@ public class AppController {
             System.out.println("Invalid username/password");
             loggedIn = false;
             return false;
-        } else if(currentUser instanceof HREmployee){
-            System.out.println("Logged In");
-            loggedIn = true;
-            System.out.print("\nWould like to log in with Employee privileges(y/n): ");
-            if(input.next().equals("y")) {currentUser.lowerAuthLevel();}
-            else {System.out.println("\nPrivileges unchanged");}
-            return true;
         } else {
             System.out.println("Logged In");
             loggedIn = true;
@@ -128,8 +118,29 @@ public class AppController {
 
     }
 
+    public void requestPrivileges() {
+        if (currentUser.getAuthLevel().equals("hremployee")) {
+            System.out.print("\nWould like to log in with Employee privileges(y/n): ");
+            if (input.next().equals("y")) {
+                authServer.changePrivileges(currentUser);
+            } else {
+                System.out.println("\nPrivileges unchanged");
+            }
+        } else {
+            System.out.println("\nPrivileges unchanged");
+        }
+    }
+
     public boolean getLoggedIn() {
         return loggedIn;
+    }
+
+    public void checkSuccess(Object check) {
+        if (check != null && check.equals(true)) {
+            System.out.print("Success");
+        } else {
+            System.out.print("Failed");
+        }
     }
 }
 

@@ -2,7 +2,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Stores the successful login attempts by users
+ * Stores the successful login attempts by users    TEMPORARY UNTIL WE CREATE STATIC RECORDS
  * @author Alice Jaffray and Kieran D'Arcy
  * @version 2019/02/12v2
  */

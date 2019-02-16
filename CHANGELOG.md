@@ -2,6 +2,23 @@
 
 Notable changes to the source code for this project will be recorded here. 
 
+## Version - 2019/02/16
+
+### Added
+* Document class and subclasses - PersonalDetails, AnnualReview
+* Address
+* AuthRecord
+* HRDatabase
+* AuthServer - printLoginRecords method - method to print all login records instead of returning them.
+* AuthServer - changePrivileges method - method to to lower user privileges to employee level from AuthServer
+### Changed
+* EVERY METHOD THAT REQUIRES CREDENTIALS ONLY CURRENTLY WORK WITH "HREmployee"
+* AppController - checkSuccess method - returns success or fail if a credential specific method is called
+* AppController - now takes a HRDatabase as well as the usual AuthServer
+### Fixed
+* AppController - requestPrivileges method - calls a method to change the current users privileges
+
+
 
 ## Version - 2019/02/14
 

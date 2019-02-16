@@ -7,19 +7,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AppControllerTest {
     private AuthServer auth = new AuthServer();
-    private AppController app = new AppController(auth);
+    private HRDatabase hrdb = new HRDatabase();
+    private AppController app = new AppController(auth, hrdb);
 
     @BeforeEach
     public void setUp() {
-        auth.addDetails("user", "dir000", "pa55word");
-        auth.addDetails("user", "hre000", "pa33word");
-        auth.addDetails("user", "emp000", "password");
+        auth.addDetails("director", "dir000", "pa55word");
+        auth.addDetails("director", "hre000", "pa33word");
+        auth.addDetails("director", "emp000", "password");
     }
 
     @AfterEach
     public void tearDown() {
         auth = new AuthServer();
-        app = new AppController(auth);
+        hrdb = new HRDatabase();
+        app = new AppController(auth, hrdb);
     }
 
     @Test

@@ -74,8 +74,34 @@ public class AuthServer {
         }
     }
 
-    public ArrayList<LoginRecord> getLoginRecords() {
-        return loginRecords;
+    public boolean changePrivileges(User user) {
+        if (loginDetails.contains(user)) {
+            loginDetails.get(loginDetails.indexOf(user)).lowerAuthLevel();
+            System.out.println("Privileges lowered to employee, Please re-login!");
+            return true;
+        }
+        System.out.println("Failed, Problem with the system, can't find user OR insufficient privileges.");
+        return false;
+    }
+
+    public ArrayList<LoginRecord> getLoginRecords(User user) {
+        if (user.getAuthLevel().equals("hremployee")){
+            return loginRecords;
+        } else {
+            return null;
+        }
+    }
+
+
+    public boolean printLoginRecords(User user) {
+        if (user.getAuthLevel().equals("hremployee")){
+            for (LoginRecord records : loginRecords) {
+                System.out.println(records.getDetails());
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
