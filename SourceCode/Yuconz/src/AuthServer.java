@@ -3,7 +3,7 @@ import java.util.ArrayList;
  * stores when a successful login takes place
  * stores the correct user login details
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/15
+ * @version 2019/02/16
  */
 public class AuthServer {
     private ArrayList<User> loginDetails;
@@ -19,9 +19,11 @@ public class AuthServer {
 
     /**
      * authenticates the user for login purposes
+     * logs the details of the login attempt
+     *
      * @param name username of user
      * @param password password of user
-     * @return true if the user is verified
+     * @return the user who is trying to be authenticated or null if attempt failed
      */
     public User authenticate(String name, String password) {
         for(User users : loginDetails) {
@@ -35,8 +37,9 @@ public class AuthServer {
 
     /**
      * adds authentication details to the server
-     * @param name username of user
-     * @param password password of user
+     * @param type job role of user i.e. authentication level
+     * @param name username of the user
+     * @param password password of the user
      */
     public void addDetails(String type, String name, String password) {
         //for testing
@@ -74,6 +77,12 @@ public class AuthServer {
         }
     }
 
+    /**
+     * updates the user's authorisation level
+     *
+     * @param user the user who's authorisation level is being changed
+     * @return true is the authorisation level is changed and false otherwise
+     */
     public boolean changePrivileges(User user) {
         if (loginDetails.contains(user)) {
             loginDetails.get(loginDetails.indexOf(user)).lowerAuthLevel();
@@ -84,6 +93,13 @@ public class AuthServer {
         return false;
     }
 
+    /**
+     * get all the login records
+     * if the user is a HR employee
+     *
+     * @param user the user attempting to get the login records
+     * @return the login records if the user is a HR employee and null otherwise
+     */
     public ArrayList<LoginRecord> getLoginRecords(User user) {
         if (user.getAuthLevel().equals("hremployee")){
             return loginRecords;
@@ -92,7 +108,12 @@ public class AuthServer {
         }
     }
 
-
+    /**
+     * prints the the login records
+     * if the user is a HR employee
+     * @param user the user attempting to print the login records
+     * @return true if the records were printed and false if not
+     */
     public boolean printLoginRecords(User user) {
         if (user.getAuthLevel().equals("hremployee")){
             for (LoginRecord records : loginRecords) {

@@ -4,7 +4,7 @@ import java.util.Scanner;
  * controls the actions to everything
  *
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/15
+ * @version 2019/02/16
  */
 public class AppController {
     private Scanner input;
@@ -18,6 +18,8 @@ public class AppController {
 
     /**
      * constructor
+     * @param a the authServer used
+     * @param db the HR database used
      */
     public AppController(AuthServer a, HRDatabase db) {
         authServer = a;
@@ -31,6 +33,8 @@ public class AppController {
 
     /**
      * runs the app
+     * allows the user to log in
+     * gives the user options for functions they can do
      */
     public void runController() {
         while (!loggedIn) {
@@ -86,7 +90,9 @@ public class AppController {
     /**
      * logs the user into the system
      *
-     * @return true if the login was successful
+     * @param name username of the user
+     * @param password password of the user
+     * @return true if the login was successful and false otherwise
      */
     public boolean login(String name, String password) {
         currentUser = authServer.authenticate(name, password);
@@ -103,6 +109,8 @@ public class AppController {
 
     /**
      * logs the user out
+     *
+     * @return true if the user was logged out and false otherwise
      */
     public boolean logout() {
         if (loggedIn) {
@@ -118,6 +126,10 @@ public class AppController {
 
     }
 
+    /**
+     * allows the user to a request a privilege
+     * e.g. change their authorisation level
+     */
     public void requestPrivileges() {
         if (currentUser.getAuthLevel().equals("hremployee")) {
             System.out.print("\nWould like to log in with Employee privileges(y/n): ");
@@ -132,10 +144,21 @@ public class AppController {
         }
     }
 
+    /**
+     * checks if the user is logged in
+     *
+     * @return true if the user is logged in and false otherwise
+     */
     public boolean getLoggedIn() {
         return loggedIn;
     }
 
+    /**
+     * when a user tries to use a function that requires authorisation
+     * this method checks if the function was completed successfully
+     *
+     * @param check the function to check if it was successful
+     */
     public void checkSuccess(Object check) {
         if (check != null && check.equals(true)) {
             System.out.print("Success");

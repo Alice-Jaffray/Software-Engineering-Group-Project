@@ -1,5 +1,7 @@
 /**
  * the class is the superclass for all users
+ * Stores the details of a user
+ *
  * @author Alice Jaffray and Kieran D'Arcy
  * @version 2019/02/15
  */
@@ -10,6 +12,10 @@ public class User {
 
     /**
      * constructor
+     *
+     * @param username the username of the user
+     * @param password the password of the user
+     * @param authLevel the authorisation level of the user
      */
     public User(String username, String password, String authLevel) {
         this.username = username;
@@ -18,30 +24,35 @@ public class User {
     }
 
     /**
-     * gets the username
-     * @return username the username
+     * gets the username of the user
+     *
+     * @return username the username of the user
      */
     public String getUsername() {
         return username;
     }
 
     /**
-     * gets the password
-     * @return password the password
+     * gets the password of the user
+     *
+     * @return password the password of the user
      */
     public String getPassword() {
         return password;
     }
 
     /**
-     * gets the authorisation level
-     * @return authLevel of user
+     * gets the authorisation level of the user
+     *
+     * @return authLevel of user of the user
      */
-    public String getAuthLevel() { return authLevel;}
+    public String getAuthLevel() {
+        return authLevel;
+    }
 
     /**
-     * set the authorisation level
-     * @return authLevel of current user
+     * sets the authorisation level of the user
+     * prints out the new authorisation level
      */
     public void lowerAuthLevel() {
         if (authLevel.equals("hremployee")){
@@ -51,8 +62,10 @@ public class User {
     }
 
     /**
-     * gets personal details in an array
-     * @return name and password in a neat format
+     * gets personal details of a user
+     * returns the details in the form of an array
+     *
+     * @return name and password of user in a neat format
      */
     public String getPersonalDetails() {
         return "Name: " + username + "\nPassword: " + password;

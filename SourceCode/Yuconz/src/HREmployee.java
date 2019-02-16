@@ -1,7 +1,9 @@
 /**
  * subclass of Employee
+ * stores the details of a HR employee
+ *
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/15
+ * @version 2019/02/16
  */
 public class HREmployee extends Employee {
     /**

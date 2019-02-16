@@ -1,5 +1,11 @@
 import java.util.ArrayList;
 
+/**
+ * stores all the records of the employees
+ *
+ * @author Alice Jaffray and Kieran D'Arcy
+ * @version 2019/02/16
+ */
 public class HRDatabase {
     private ArrayList<AuthRecord> authRecords;
     private ArrayList<Document> documents;
@@ -15,6 +21,7 @@ public class HRDatabase {
 
     /**
      * creates a authorisation record
+     *
      * @param name name of person making attempt
      * @param document file that tried to be accessed
      * @param accessGranted permission accepted or declined
@@ -24,9 +31,11 @@ public class HRDatabase {
     }
 
     /**
-     * reads personal details
-     * @param user used for identifying user privileges
-     * @return personal details
+     * reads personal details of an employee
+     * if the user is a HR employee
+     *
+     * @param user the user attempting to read the personal details
+     * @return personal details of employee or null otherwise
      */
     public Document readPersonalDetails(User user) {
         if (user.getAuthLevel().equals("hremployee")){
@@ -37,6 +46,7 @@ public class HRDatabase {
 
     /**
      * creates a new record of personal details for an employee
+     *
      * @param creator person creating the document
      * @param forename first name of employee
      * @param surname last name of employee
@@ -47,6 +57,7 @@ public class HRDatabase {
      * @param telephoneNo home telephone number of employee
      * @param emergeContact name of emergency contact for employee
      * @param address home address of employee
+     * @return true if a new record of personal details is created and false otherwise
      */
     public boolean createPersonalDetails(User user, String creator, String forename, String surname, String DOB, String mobileNo, String emergencyNo, String nextOfKin, String telephoneNo, String emergeContact, Address address) {
         if (user.getAuthLevel().equals("hremployee")){

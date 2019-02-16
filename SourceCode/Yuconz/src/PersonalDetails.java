@@ -1,7 +1,11 @@
 import java.util.Date;
 import java.text.SimpleDateFormat;
 /**
+ * subclss of Document
+ * stores the information needed for a personal details record
  *
+ * @author Alice Jaffray and Kieran D'Arcy
+ * @version 2019/02/16
  */
 public class PersonalDetails extends Document{
     private String forename;
@@ -16,7 +20,17 @@ public class PersonalDetails extends Document{
 
     /**
      * constructor
-     * @param creator employee who created the document
+     *
+     * @param creator username of the creator of the document
+     * @param forename first name of the employee the record is about
+     * @param surname last name of the employee
+     * @param dob date of birth of the employee
+     * @param mobileNo mobile phone no. of the employee
+     * @param emergPhoNo phone no. of the emergency contact for the employee
+     * @param nextOfKin next of kin of the employee
+     * @param telephoneNo home no. of the employee
+     * @param emergContact name of the employee's emergency contact
+     * @param address address of the employee
      */
     public PersonalDetails(String creator, String forename, String surname, String dob, String mobileNo,
                            String emergPhoNo, String nextOfKin, String telephoneNo, String emergContact,

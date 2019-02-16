@@ -3,7 +3,7 @@
  * (part of their personal details)
  *
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/15
+ * @version 2019/02/16
  */
 public class Address {
     private String houseNo;
@@ -14,6 +14,11 @@ public class Address {
 
     /**
      * constructor
+     * @param houseNo house number in street
+     * @param street name of street
+     * @param town town name
+     * @param county name of county
+     * @param postcode postcode of house
      */
     public Address(String houseNo, String street, String town, String county, String postcode)
     {
