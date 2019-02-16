@@ -123,6 +123,7 @@ public class AppController {
             System.out.print("\nWould like to log in with Employee privileges(y/n): ");
             if (input.next().equals("y")) {
                 authServer.changePrivileges(currentUser);
+                logout();
             } else {
                 System.out.println("\nPrivileges unchanged");
             }
