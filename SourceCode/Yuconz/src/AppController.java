@@ -67,7 +67,6 @@ public class AppController {
             switch (option) {
                 case "1":
                     requestPrivileges("reset");
-                    runController();
                     break;
                 case "2":
                     //first approach to authentication is that we check credentials in the method we called
@@ -82,7 +81,7 @@ public class AppController {
                 case "4":
                     System.out.print("Enter new authorisation level: ");
                     option = input.next();
-                    System.out.println("Authorisation level " + checkSuccess(requestPrivileges(option)));
+                    System.out.print("Authorisation level " + checkSuccess(requestPrivileges(option)) + "\n");
                     break;
                 case "5":
                     if (currentUser.getAuthLevel().equals("...")) {
@@ -91,6 +90,7 @@ public class AppController {
                     break;
                 default:
                     System.out.println("invalid choice");
+                    break;
             }
         }
     }
@@ -141,6 +141,7 @@ public class AppController {
     public boolean requestPrivileges(String newAuthLvl) {
         if (authServer.changePrivileges(currentUser, newAuthLvl.toLowerCase())) {
             logout();
+            runController();
             return true;
         } else {
             return false;
