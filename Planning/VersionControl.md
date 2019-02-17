@@ -8,6 +8,8 @@ The tools we are using for this project are: GitLab, IntelliJ, Papyrus.
 * Provides revert functions that allow errors to be removed that cannot be solved easily by editing the code, or removing the implementation of features that do not work as expected. 
     
  * The use of GitLab provides a convenient online editor for files so we can edit our documents online, and push directly, which can often be much more convenient than having to edit locally and push all the time. 
+ 
+ * Merge conflicts in software should be rectified by a meeting between the PM and the programmer who "owns" the merging branch. They will work together to remove the conflict and ensure the program still works as expected, following the QA Plan. 
 
 ### IntelliJ:
    * IntelliJ is Git compatible and works with a wide variety of file types that can be tracked for changes. 
