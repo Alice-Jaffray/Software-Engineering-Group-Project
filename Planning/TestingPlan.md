@@ -6,6 +6,8 @@ Tests will be done before each push to the main server repository, and must foll
 * Any bugs that stop previously passed tests from passing **MUST** be fixed before merging. 
 * Tests **MUST** pass on another team member's machine before merging with the master branch. 
 * After merging, the master branch **MUST** pass all previously passed tests or the merge will be reverted and fixed.
+* Tests are to be implemented as JUnit tests, aiming for a high level of code and branch coverage. 
+* Any functionality that is found not to be tested should have a test written for it and added here; with a note of when it was added. This note should be included in the amendments section at the end of the document to track changes.
 ### Planned Tests
 * **Log In**
     * Attempt to log in with incorrect details. 
@@ -100,3 +102,6 @@ Bug reports are to be handled using the 'Issue' system on GitLab.
 
 The person who is making the report should assign it to the person responsible for that part of the program. 
 This information can be found by referring to the latest meeting documents, which will contain the person who is assigned to that part of the project. 
+
+## Amendments
+* 2019-02-11:  Document amended to include the type of tests being used (JUnit) and mentions the amendments section. 
