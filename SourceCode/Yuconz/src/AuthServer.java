@@ -81,16 +81,17 @@ public class AuthServer {
      * updates the user's authorisation level
      *
      * @param user the user who's authorisation level is being changed
+     * @param newAuthLvl the wanted authorisation level
      * @return true is the authorisation level is changed and false otherwise
      */
-    public boolean changePrivileges(User user) {
-        if (loginDetails.contains(user)) {
-            loginDetails.get(loginDetails.indexOf(user)).lowerAuthLevel();
+    public boolean changePrivileges(User user, String newAuthLvl) {
+        if (loginDetails.contains(user) && loginDetails.get(loginDetails.indexOf(user)).changeAuthLevel(newAuthLvl)) {
             System.out.println("Privileges lowered to employee, Please re-login!");
             return true;
+        } else {
+            System.out.println("Failed, can't find user OR insufficient privileges.");
+            return false;
         }
-        System.out.println("Failed, Problem with the system, can't find user OR insufficient privileges.");
-        return false;
     }
 
     /**

@@ -9,18 +9,20 @@ public class User {
     private String username;
     private String password;
     private String authLevel;
+    private String tmpAuthLvl;
 
     /**
      * constructor
      *
-     * @param username the username of the user
-     * @param password the password of the user
+     * @param username  the username of the user
+     * @param password  the password of the user
      * @param authLevel the authorisation level of the user
      */
     public User(String username, String password, String authLevel) {
         this.username = username;
         this.password = password;
         this.authLevel = authLevel;
+        tmpAuthLvl = authLevel;
     }
 
     /**
@@ -53,12 +55,19 @@ public class User {
     /**
      * sets the authorisation level of the user
      * prints out the new authorisation level
+     *
+     * @param lvl new wanted authorisation level of user
      */
-    public void lowerAuthLevel() {
-        if (authLevel.equals("hremployee")){
-            authLevel = "employee";
-            System.out.println("You now have employee privileges.\nHR Employee access will be reinstated next time you log in.");
-        }
+    public boolean changeAuthLevel(String lvl) {
+        if(lvl.equals("employee") || lvl.equals("hremployee") || lvl.equals("director") || lvl.equals("manager")) {
+            authLevel = lvl;
+            System.out.println("You now have " + lvl + " privileges.\n" + tmpAuthLvl + " access will be reinstated next time you log in.");
+            return true;
+        } else if(lvl.equals("reset")) {
+            authLevel = tmpAuthLvl;
+            System.out.println("Your Authorisation level has been returned to normal");
+            return true;
+        } else {return false;}
     }
 
     /**

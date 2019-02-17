@@ -18,7 +18,8 @@ public class AppController {
 
     /**
      * constructor
-     * @param a the authServer used
+     *
+     * @param a  the authServer used
      * @param db the HR database used
      */
     public AppController(AuthServer a, HRDatabase db) {
@@ -42,8 +43,15 @@ public class AppController {
             name = input.next().toLowerCase();
             System.out.print("Please enter your password: ");
             password = input.next().toLowerCase();
-            if (login(name, password)) {
-                requestPrivileges();
+            if (login(name, password) && currentUser.getAuthLevel().equals("hremployee")) {
+                System.out.print("\nWould like to log in with Employee privileges(y/n): ");
+                if (input.next().equals("y")) {
+                    requestPrivileges("employee");
+                } else {
+                    System.out.println("\nPrivileges unchanged");
+                }
+            } else {
+                System.out.println("\nPrivileges unchanged");
             }
         }
 
@@ -52,18 +60,18 @@ public class AppController {
             System.out.println("1. Logout");
             System.out.println("2. Create personal details");
             System.out.println("3. ...");
-            System.out.println("4. ...");
+            System.out.println("4. Change current authorisation level");
             System.out.println("5. ...");
 
             option = input.next();
             switch (option) {
                 case "1":
-                    logout();
+                    requestPrivileges("reset");
                     runController();
                     break;
                 case "2":
                     //first approach to authentication is that we check credentials in the method we called
-                    checkSuccess(hrDatabase.createPersonalDetails(currentUser, currentUser.getUsername(), "Kieran", "D'Arcy", "11/01/1999", "01234567891", "09876543212", "Jim", "01992837465", "999", new Address("64", "Zoo Lane", "Canterbury", "Kent", "CT2 7ST")));
+                    System.out.println(checkSuccess(hrDatabase.createPersonalDetails(currentUser, currentUser.getUsername(), "Kieran", "D'Arcy", "11/01/1999", "01234567891", "09876543212", "Jim", "01992837465", "999", new Address("64", "Zoo Lane", "Canterbury", "Kent", "CT2 7ST"))));
                     break;
                 case "3":
                     //second approach is that we check before we call the method
@@ -72,9 +80,9 @@ public class AppController {
                     }
                     break;
                 case "4":
-                    if (currentUser.getAuthLevel().equals("...")) {
-                        //do something
-                    }
+                    System.out.print("Enter new authorisation level: ");
+                    option = input.next();
+                    System.out.println("Authorisation level " + checkSuccess(requestPrivileges(option)));
                     break;
                 case "5":
                     if (currentUser.getAuthLevel().equals("...")) {
@@ -90,7 +98,7 @@ public class AppController {
     /**
      * logs the user into the system
      *
-     * @param name username of the user
+     * @param name     username of the user
      * @param password password of the user
      * @return true if the login was successful and false otherwise
      */
@@ -130,17 +138,12 @@ public class AppController {
      * allows the user to a request a privilege
      * e.g. change their authorisation level
      */
-    public void requestPrivileges() {
-        if (currentUser.getAuthLevel().equals("hremployee")) {
-            System.out.print("\nWould like to log in with Employee privileges(y/n): ");
-            if (input.next().equals("y")) {
-                authServer.changePrivileges(currentUser);
-                logout();
-            } else {
-                System.out.println("\nPrivileges unchanged");
-            }
+    public boolean requestPrivileges(String newAuthLvl) {
+        if (authServer.changePrivileges(currentUser, newAuthLvl.toLowerCase())) {
+            logout();
+            return true;
         } else {
-            System.out.println("\nPrivileges unchanged");
+            return false;
         }
     }
 
@@ -159,11 +162,11 @@ public class AppController {
      *
      * @param check the function to check if it was successful
      */
-    public void checkSuccess(Object check) {
+    public String checkSuccess(Object check) {
         if (check != null && check.equals(true)) {
-            System.out.print("Success");
+            return "Success";
         } else {
-            System.out.print("Failed");
+            return "Failed";
         }
     }
 }
