@@ -1,25 +1,27 @@
-import junit.framework.TestCase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class AppControllerTest extends TestCase {
+class AppControllerTest {
     private AuthServer auth = new AuthServer();
-    private AppController app = new AppController(auth);
+    private HRDatabase hrdb = new HRDatabase();
+    private AppController app = new AppController(auth, hrdb);
 
     @BeforeEach
     public void setUp() {
-        auth.addDetails("dir000", "pa55word");
-        auth.addDetails("hre000", "pa33word");
-        auth.addDetails("emp000", "password");
+        auth.addDetails("director", "dir000", "pa55word");
+        auth.addDetails("director", "hre000", "pa33word");
+        auth.addDetails("director", "emp000", "password");
     }
 
     @AfterEach
     public void tearDown() {
         auth = new AuthServer();
-        app = new AppController(auth);
+        hrdb = new HRDatabase();
+        app = new AppController(auth, hrdb);
     }
 
     @Test
@@ -41,7 +43,7 @@ class AppControllerTest extends TestCase {
     void logoutWhileLoggedIn() {
         app.login("emp000", "password");
         assertTrue(app.logout());
-        assertTrue(app.getLoggedIn());
+        assertFalse(app.getLoggedIn());
     }
 
     @Test

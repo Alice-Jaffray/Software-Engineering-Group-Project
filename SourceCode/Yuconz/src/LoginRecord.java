@@ -2,9 +2,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Stores the successful login attempts by users
+ * Stores the successful login attempts by users    TEMPORARY UNTIL WE CREATE STATIC RECORDS
+ *
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/12
+ * @version 2019/02/12v2
  */
 public class LoginRecord {
     private String username ;
@@ -14,6 +15,8 @@ public class LoginRecord {
 
     /**
      * constructor
+     *
+     * @param username the username of the user
      */
     public LoginRecord(String username) {
         this.username = username;
@@ -21,8 +24,9 @@ public class LoginRecord {
     }
 
     /**
-     * returns a neatly formated string
-     * @return String - neatly formated string containing all the field values
+     * returns a neatly formatted string of the users username and the time they logged in
+     *
+     * @return String - neatly formatted string containing all the field values
      */
     public String getDetails(){
         return "Name: " + username + "\nTime of Login: " + date_time + "\n";
