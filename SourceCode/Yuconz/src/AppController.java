@@ -135,8 +135,10 @@ public class AppController {
     }
 
     /**
-     * allows the user to a request a privilege
+    * allows the user to a request a privilege
      * e.g. change their authorisation level
+     * @param newAuthLvl The new authentication level for the user.
+     * @return true if successful.
      */
     public boolean requestPrivileges(String newAuthLvl) {
         if (authServer.changePrivileges(currentUser, newAuthLvl.toLowerCase())) {
@@ -161,7 +163,8 @@ public class AppController {
      * when a user tries to use a function that requires authorisation
      * this method checks if the function was completed successfully
      *
-     * @param check the function to check if it was successful
+     * @param check the function to check if it was successful.
+     * @return A string of success or failure.
      */
     public String checkSuccess(Object check) {
         if (check != null && check.equals(true)) {

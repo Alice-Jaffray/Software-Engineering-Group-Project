@@ -57,6 +57,7 @@ public class User {
      * prints out the new authorisation level
      *
      * @param lvl new wanted authorisation level of user
+     * @return true if changed.
      */
     public boolean changeAuthLevel(String lvl) {
         if(lvl.equals("employee") || lvl.equals("hremployee") || lvl.equals("director") || lvl.equals("manager")) {

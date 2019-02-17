@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 /**
  * stores when a successful login takes place
- * stores the correct user login details
+ * mock of server that holds login information.
  * @author Alice Jaffray and Kieran D'Arcy
  * @version 2019/02/16
  */
