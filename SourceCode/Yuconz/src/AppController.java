@@ -1,9 +1,10 @@
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
  * controls the actions to everything
  *
- * @author Alice Jaffray and Kieran D'Arcy
+ * @author Alice Jaffray and Kieran D' and Isaiah Ojo
  * @version 2019/02/16
  */
 public class AppController {
@@ -37,7 +38,7 @@ public class AppController {
      * allows the user to log in
      * gives the user options for functions they can do
      */
-    public void runController() {
+    public void runController(String test) throws FileNotFoundException {
         while (!loggedIn) {
             System.out.print("\nPlease enter your username: ");
             name = input.next().toLowerCase();
@@ -62,7 +63,8 @@ public class AppController {
             System.out.println("3. ...");
             System.out.println("4. Change current authorisation level");
             System.out.println("5. ...");
-
+            System.out.println("6. Add a record");
+            System.out.println("7. Read current records");
             option = input.next();
             switch (option) {
                 case "1":
@@ -87,6 +89,14 @@ public class AppController {
                     if (currentUser.getAuthLevel().equals("...")) {
                         //do something
                     }
+                    break;
+
+                case "6":
+                    System.out.println("Please enter the record you would like to add to the file");
+                    authServer.writeToFile(test);
+                    break;
+                case "7":
+                    authServer.readFromFile();
                     break;
                 default:
                     System.out.println("invalid choice");
@@ -140,10 +150,10 @@ public class AppController {
      * @param newAuthLvl The new authentication level for the user.
      * @return true if successful.
      */
-    public boolean requestPrivileges(String newAuthLvl) {
+    public boolean requestPrivileges(String newAuthLvl) throws FileNotFoundException{
         if (authServer.changePrivileges(currentUser, newAuthLvl.toLowerCase())) {
             logout();
-            runController();
+            runController(name);
             return true;
         } else {
             return false;

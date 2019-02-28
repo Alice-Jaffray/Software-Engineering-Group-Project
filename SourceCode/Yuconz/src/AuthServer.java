@@ -1,13 +1,26 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.FileWriter;
+import java.io.Writer;
+import java.util.Scanner;
 import java.util.ArrayList;
 /**
  * stores when a successful login takes place
  * mock of server that holds login information.
- * @author Alice Jaffray and Kieran D'Arcy
+ * @author Alice Jaffray and Kieran D'Arcy and Isaiah Ojo
  * @version 2019/02/16
  */
 public class AuthServer {
     private ArrayList<User> loginDetails;
     private ArrayList<LoginRecord> loginRecords;
+    private  final String FILENAME = "LoginRecords.csv";
+
 
     /**
      * constructor
@@ -62,6 +75,40 @@ public class AuthServer {
         }
     }
 
+    public void writeToFile(String test){
+        BufferedWriter bw = null;
+        FileWriter fw = null;
+
+        try{
+            String content = test;
+            fw = new FileWriter(FILENAME,true);
+            bw = new BufferedWriter(fw);
+            bw.write(content);
+
+            System.out.println("File has been written to successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }   finally {
+            try {
+                if (bw!= null)
+                    bw.close();
+
+                if(fw != null)
+                    fw.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void readFromFile() throws FileNotFoundException{
+        Scanner scanner = new Scanner(new File(FILENAME));
+        scanner.useDelimiter(",");
+        while(scanner.hasNext()){
+            System.out.print(scanner.next()+"|");
+        }
+        scanner.close();
+    }
     /**
      * removes details from auth server
      * @param name username of te user
@@ -76,6 +123,7 @@ public class AuthServer {
             }
         }
     }
+
 
     /**
      * updates the user's authorisation level
