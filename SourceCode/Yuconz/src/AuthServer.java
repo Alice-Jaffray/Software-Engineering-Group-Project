@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class AuthServer {
     private ArrayList<User> loginDetails;
     private ArrayList<LoginRecord> loginRecords;
-    private  final String FILENAME = "LoginRecords.csv";
+    private  final String FILENAME = "C:/Users/lafyb/Documents/LoginRecords.csv";
 
 
     /**
@@ -80,7 +80,7 @@ public class AuthServer {
         FileWriter fw = null;
 
         try{
-            String content = test;
+            String content = test += "\n";
             fw = new FileWriter(FILENAME,true);
             bw = new BufferedWriter(fw);
             bw.write(content);

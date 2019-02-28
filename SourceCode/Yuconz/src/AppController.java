@@ -38,7 +38,7 @@ public class AppController {
      * allows the user to log in
      * gives the user options for functions they can do
      */
-    public void runController(String test) throws FileNotFoundException {
+    public void runController() throws FileNotFoundException {
         while (!loggedIn) {
             System.out.print("\nPlease enter your username: ");
             name = input.next().toLowerCase();
@@ -93,7 +93,8 @@ public class AppController {
 
                 case "6":
                     System.out.println("Please enter the record you would like to add to the file");
-                    authServer.writeToFile(test);
+                    input.nextLine();
+                    authServer.writeToFile(input.next());
                     break;
                 case "7":
                     authServer.readFromFile();
@@ -145,7 +146,7 @@ public class AppController {
     }
 
     /**
-    * allows the user to a request a privilege
+    * allows the user to a request a pkierivilege
      * e.g. change their authorisation level
      * @param newAuthLvl The new authentication level for the user.
      * @return true if successful.
@@ -153,7 +154,7 @@ public class AppController {
     public boolean requestPrivileges(String newAuthLvl) throws FileNotFoundException{
         if (authServer.changePrivileges(currentUser, newAuthLvl.toLowerCase())) {
             logout();
-            runController(name);
+            runController();
             return true;
         } else {
             return false;

@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
  * @version 2019/02/16
  */
 public class Main {
-private static  String name;
     /**
      * Starts the app
      */
@@ -19,6 +18,6 @@ private static  String name;
         authServer.addDetails("employee", "conor", "password");
         authServer.addDetails("employee", "alice", "password");
         AppController appController = new AppController(authServer, hrDatabase);
-        appController.runController(name);
+        appController.runController();
         }
     }
