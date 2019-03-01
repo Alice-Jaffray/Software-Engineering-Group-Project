@@ -3,7 +3,7 @@
  * stores the details of an employee
  *
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/15
+ * @version 2019/02/28
  */
 public class Employee extends User {
     /**
@@ -13,7 +13,7 @@ public class Employee extends User {
      * @param password the password of the employee
      */
     public Employee(String username, String password) {
-        super(username, password, "employee");
+        super(username, password, AccessLevel.EMPLOYEE);
     }
 
     /**
@@ -21,9 +21,9 @@ public class Employee extends User {
      *
      * @param username the username of the employee
      * @param password the password of the employee
-     * @param authlevel the authorisation level of the employee
+     * @param accessLevel the authorisation level of the employee
      */
-    public Employee(String username, String password, String authlevel) {
-        super(username, password, authlevel);
+    public Employee(String username, String password, AccessLevel accessLevel) {
+        super(username, password, accessLevel);
     }
 }

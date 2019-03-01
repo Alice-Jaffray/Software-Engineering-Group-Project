@@ -3,7 +3,7 @@
  * stores the details of a HR employee
  *
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/16
+ * @version 2019/02/28
  */
 public class HREmployee extends Employee {
     /**
@@ -13,6 +13,6 @@ public class HREmployee extends Employee {
      * @param password
      */
     public HREmployee(String username, String password) {
-        super(username, password, "hremployee");
+        super(username, password, AccessLevel.HREMPLOYEE);
     }
 }

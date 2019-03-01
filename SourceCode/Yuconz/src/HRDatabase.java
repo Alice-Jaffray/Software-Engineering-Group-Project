@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * stores all the records of the employees
  *
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/16
+ * @version 2019/02/28
  */
 public class HRDatabase {
     private ArrayList<AuthRecord> authRecords;
@@ -20,55 +20,73 @@ public class HRDatabase {
     }
 
     /**
-     * creates a authorisation record
+     * allows a user to edit a review record
      *
-     * @param name name of person making attempt
-     * @param document file that tried to be accessed
-     * @param accessGranted permission accepted or declined
+     * @param empNo the employee's number who the record is about
+     * @param year the year the review was created
+     * @param requester the user requesting to amend the record
      */
-    public void addAuthRecord(String name, Document document, boolean accessGranted) {
-        authRecords.add(new AuthRecord(name, document, accessGranted));
+    public void amendReviewRecord(String empNo, String year, User requester){
+
     }
 
     /**
-     * reads personal details of an employee
-     * if the user is a HR employee
+     * allows a user to create a review record
      *
-     * @param user the user attempting to read the personal details
-     * @return personal details of employee or null otherwise
+     * @param empNo  the number of the employee who the record is about
+     * @param requester the user requesting to create the record
+     * @param reviewer the user who reviewed the employee
      */
-    public Document readPersonalDetails(User user) {
-        if (user.getAuthLevel().equals("hremployee")){
+    public void createReviewRecord(String empNo, User requester, User reviewer){
 
-        }
-        return null;
     }
 
     /**
-     * creates a new record of personal details for an employee
+     * allows user to read the personal details record of an employee
      *
-     * @param creator person creating the document
-     * @param forename first name of employee
-     * @param surname last name of employee
-     * @param DOB date of birth for employee
-     * @param mobileNo mobile phone no. for employee
-     * @param emergencyNo emergency contact no. for employee
-     * @param nextOfKin next of kin of an employee
-     * @param telephoneNo home telephone number of employee
-     * @param emergeContact name of emergency contact for employee
-     * @param address home address of employee
-     * @return true if a new record of personal details is created and false otherwise
+     * @param empNo the number of the employee who's record it refers to
+     * @param requester the user who has requested to view the record
      */
-    public boolean createPersonalDetails(User user, String creator, String forename, String surname, String DOB, String mobileNo, String emergencyNo, String nextOfKin, String telephoneNo, String emergeContact, Address address) {
-        if (user.getAuthLevel().equals("hremployee")){
-            document = new PersonalDetails(creator, forename, surname, DOB, mobileNo, emergencyNo, nextOfKin, telephoneNo, emergeContact, address);
-            documents.add(document);
-            addAuthRecord(user.getUsername(), document, true);
-            return true;
-        } else {
-            addAuthRecord(user.getUsername(), null, false);
-            return false;
-        }
+    public void readPersonalDetails(String empNo, User requester){
+
+    }
+
+    /**
+     * allows a user to create a record of personal details of an employee
+     * @param empNo the employee number who the record refers to
+     * @param requester the user who is requesting to create a personal details record
+     */
+    public void createPersonalDetails(String empNo, User requester){
+
+    }
+
+    /**
+     * allows a user to edit a personal details record
+     *
+     * @param empNo the number of the employee the record is about
+     * @param field the field of the record the user wants to change
+     * @param newVal the new value of the field
+     * @param requester the user who is requesting to change the record
+     */
+    public void amendPersonalDetails(String empNo, String field, String newVal, User requester){
+
+    }
+
+    /**
+     * allows a user to read the review record of an employee
+     *
+     * @param empNo the number of the employee the record refers to
+     * @param year the year the review took place
+     * @param requester the user who is requesting to read the review
+     */
+    public void readReviewRecord(String empNo, String year, User requester){
+
+    }
+
+    /**
+     * allows user to sign a review
+     */
+    public void signReview(){
 
     }
 }

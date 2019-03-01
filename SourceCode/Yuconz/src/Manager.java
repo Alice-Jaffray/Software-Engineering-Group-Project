@@ -3,7 +3,7 @@
  * Stores the details of a manager
  *
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/16
+ * @version 2019/02/28
  */
 public class Manager extends Employee {
     /**
@@ -13,6 +13,6 @@ public class Manager extends Employee {
      * @param password password of the manager
      */
     public Manager(String username, String password) {
-        super(username, password, "manager");
+        super(username, password, AccessLevel.MANAGER);
     }
 }

@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
  * stores the information needed for a personal details record
  *
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/16
+ * @version 2019/02/28
  */
 public class PersonalDetails extends Document{
     private String forename;
@@ -13,10 +13,8 @@ public class PersonalDetails extends Document{
     private Date dob;
     private String mobileNo;
     private String emergPhoNo;
-    private String nextOfKin;
     private String telephoneNo;
     private String emergContact;
-    private Address address;
 
     /**
      * constructor
@@ -27,14 +25,11 @@ public class PersonalDetails extends Document{
      * @param dob date of birth of the employee
      * @param mobileNo mobile phone no. of the employee
      * @param emergPhoNo phone no. of the emergency contact for the employee
-     * @param nextOfKin next of kin of the employee
      * @param telephoneNo home no. of the employee
      * @param emergContact name of the employee's emergency contact
-     * @param address address of the employee
      */
     public PersonalDetails(String creator, String forename, String surname, String dob, String mobileNo,
-                           String emergPhoNo, String nextOfKin, String telephoneNo, String emergContact,
-                           Address address) {
+                           String emergPhoNo, String telephoneNo, String emergContact) {
         super(creator);
         this.forename = forename;
         this.surname = surname;
@@ -43,9 +38,7 @@ public class PersonalDetails extends Document{
         } catch (Exception e) {e.printStackTrace();}
         this.mobileNo = mobileNo;
         this.emergPhoNo = emergPhoNo;
-        this.nextOfKin = nextOfKin;
         this.telephoneNo = telephoneNo;
         this.emergContact = emergContact;
-        this.address = address;
     }
 }
