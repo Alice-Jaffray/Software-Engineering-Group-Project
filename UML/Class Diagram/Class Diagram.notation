@@ -488,6 +488,10 @@
         <element xmi:type="uml:Property" href="Class%20Diagram.uml#_usx1oDwsEemKNctvBByL1w"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_utTaEDwsEemKNctvBByL1w"/>
       </children>
+      <children xmi:type="notation:Shape" xmi:id="_rvts8Dw_EemKNctvBByL1w" type="Property_ClassAttributeLabel">
+        <element xmi:type="uml:Property" href="Class%20Diagram.uml#_ruN4IDw_EemKNctvBByL1w"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_rvts8Tw_EemKNctvBByL1w"/>
+      </children>
       <styles xmi:type="notation:TitleStyle" xmi:id="_YFSDUyY-EemuPal2iT2zKg"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_YFSDVCY-EemuPal2iT2zKg"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_YFSDVSY-EemuPal2iT2zKg"/>
@@ -785,7 +789,7 @@
     <styles xmi:type="notation:FontStyle" xmi:id="_SnpggSY_EemuPal2iT2zKg"/>
     <element xmi:type="uml:Association" href="Class%20Diagram.uml#_SnTiQCY_EemuPal2iT2zKg"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_SnpggiY_EemuPal2iT2zKg" points="[320, 160, -643984, -643984]$[320, 240, -643984, -643984]$[252, 240, -643984, -643984]"/>
-    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_SoP9cCY_EemuPal2iT2zKg" id="(0.4713804713804714,1.0)"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_SoP9cCY_EemuPal2iT2zKg" id="(0.6060606060606061,1.0)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_SoP9cSY_EemuPal2iT2zKg" id="(0.6779661016949152,0.0)"/>
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_jCW_cCY_EemuPal2iT2zKg" type="Association_Edge" source="_POgFUCY9EemuPal2iT2zKg" target="_VvJSYCY-EemuPal2iT2zKg">

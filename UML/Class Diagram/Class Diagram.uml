@@ -58,7 +58,13 @@
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_Srq4MDtkEem8vr0WXxcOTQ" name="requester">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_UkQKcDtkEem8vr0WXxcOTQ" name="reviewer" type="_VXMh4CY9EemuPal2iT2zKg"/>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_UkQKcDtkEem8vr0WXxcOTQ" name="reviewerOne" type="_VXMh4CY9EemuPal2iT2zKg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1WO7QDw_EemKNctvBByL1w" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1WVB4Dw_EemKNctvBByL1w" value="1"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_6KAMQDw_EemKNctvBByL1w" name="reviewerTwo">
+        <type xmi:type="uml:Class" href="../../Stage3/UML/Class%20Diagram/Class%20Diagram.uml#_VXMh4CY9EemuPal2iT2zKg"/>
+      </ownedParameter>
     </ownedOperation>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_zoS1gCumEemxDtGNMG1uQQ" name="readPersonalDetails" visibility="public">
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_tpWRgDtiEem8vr0WXxcOTQ" name="empNo">
@@ -209,6 +215,9 @@
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
     </ownedAttribute>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_usx1oDwsEemKNctvBByL1w" name="signedByReviewerTwo">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_ruN4IDw_EemKNctvBByL1w" name="year">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
   </packagedElement>
