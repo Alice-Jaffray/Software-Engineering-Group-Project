@@ -11,9 +11,7 @@ public class AppController {
     /**
      * constructor
      */
-     public AppController(User loggedInUser, AccessLevel accessLevel) {
-         this.loggedInUser = loggedInUser;
-         this.accessLevel = accessLevel;
+     public AppController() {
      }
 
     /**

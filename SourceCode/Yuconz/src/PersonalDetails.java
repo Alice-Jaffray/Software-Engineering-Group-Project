@@ -12,33 +12,33 @@ public class PersonalDetails extends Document{
     private String surname;
     private Date dob;
     private String mobileNo;
-    private String emergPhoNo;
     private String telephoneNo;
     private String emergContact;
+    private String emergTel;
 
     /**
      * constructor
      *
-     * @param creator username of the creator of the document
+     * @param staffID username of the employee who the document refers to
      * @param forename first name of the employee the record is about
      * @param surname last name of the employee
      * @param dob date of birth of the employee
      * @param mobileNo mobile phone no. of the employee
-     * @param emergPhoNo phone no. of the emergency contact for the employee
-     * @param telephoneNo home no. of the employee
-     * @param emergContact name of the employee's emergency contact
+     * @param telephoneNo phone no. of the emergency contact for the employee
+     * @param emergContact home no. of the employee
+     * @param emergTel name of the employee's emergency contact
      */
-    public PersonalDetails(String creator, String forename, String surname, String dob, String mobileNo,
-                           String emergPhoNo, String telephoneNo, String emergContact) {
-        super(creator);
+    public PersonalDetails(String staffID, String forename, String surname, String dob, String mobileNo,
+                           String telephoneNo, String emergContact, String emergTel) {
+        super(staffID);
         this.forename = forename;
         this.surname = surname;
         try {
         this.dob = new SimpleDateFormat("dd/MM/yyyy").parse(dob);
         } catch (Exception e) {e.printStackTrace();}
         this.mobileNo = mobileNo;
-        this.emergPhoNo = emergPhoNo;
         this.telephoneNo = telephoneNo;
         this.emergContact = emergContact;
+        this.emergTel = emergTel;
     }
 }
