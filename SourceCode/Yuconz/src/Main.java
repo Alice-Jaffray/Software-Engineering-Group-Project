@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+
 /**
  * creates all needed objects to start the program
  *
@@ -5,11 +7,11 @@
  * @version 2019/02/16
  */
 public class Main {
-
     /**
      * Starts the app
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
+
         AuthServer authServer = new AuthServer();
         HRDatabase hrDatabase = new HRDatabase();
         authServer.addDetails("hremployee", "kieran", "password");
@@ -17,5 +19,5 @@ public class Main {
         authServer.addDetails("employee", "alice", "password");
         AppController appController = new AppController(authServer, hrDatabase);
         appController.runController();
+        }
     }
-}
