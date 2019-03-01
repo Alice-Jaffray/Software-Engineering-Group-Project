@@ -93,9 +93,15 @@
       </ownedParameter>
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_jm_UYDtlEem8vr0WXxcOTQ" name="requester" type="_VXMh4CY9EemuPal2iT2zKg"/>
     </ownedOperation>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_WV6YgDtoEem8vr0WXxcOTQ" name="signReview">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_DMZz8DwLEemKNctvBByL1w" name="empNo">
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_WV6YgDtoEem8vr0WXxcOTQ" name="signReview" visibility="public">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_DMZz8DwLEemKNctvBByL1w" name="signer">
         <type xmi:type="uml:Class" href="../../Stage3/UML/Class%20Diagram/Class%20Diagram.uml#_VXMh4CY9EemuPal2iT2zKg"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_pp46oDwYEemKNctvBByL1w" name="empNo">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_sxousDwYEemKNctvBByL1w" name="year">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
     </ownedOperation>
   </packagedElement>

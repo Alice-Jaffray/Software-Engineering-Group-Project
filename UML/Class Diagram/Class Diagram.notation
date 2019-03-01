@@ -626,7 +626,7 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mhNvBztTEem8vr0WXxcOTQ"/>
     </children>
     <element xmi:type="uml:Enumeration" href="Class%20Diagram.uml#_mhIPcDtTEem8vr0WXxcOTQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mhNH8TtTEem8vr0WXxcOTQ" x="-40" y="-100"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mhNH8TtTEem8vr0WXxcOTQ" x="-40" y="-120" width="121" height="121"/>
   </children>
   <styles xmi:type="notation:StringValueStyle" xmi:id="_bPlyYSI8EemXxpT_YNcJXQ" name="diagram_compatibility_version" stringValue="1.4.0"/>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_bPlyYiI8EemXxpT_YNcJXQ"/>
