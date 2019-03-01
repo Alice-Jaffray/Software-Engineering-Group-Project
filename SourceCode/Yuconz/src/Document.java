@@ -11,9 +11,18 @@ public class Document {
     /**
      * constructor
      *
-     * @param creator the creator of the document
+     * @param staffID the creator of the document
      */
-    public Document(String creator) {
-        staffID = creator;
+    public Document(String staffID) {
+        this.staffID = staffID;
+    }
+
+    /**
+     * gets the employee's id
+     *
+     * @return the employee's id
+     */
+    public String getStaffID(){
+        return staffID;
     }
 }
