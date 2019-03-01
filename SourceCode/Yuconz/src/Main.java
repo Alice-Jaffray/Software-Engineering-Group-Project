@@ -15,7 +15,8 @@ public class Main {
         AuthServer authServer = new AuthServer();
         HRDatabase hrDatabase = new HRDatabase();
 
-        AppController appController = new AppController(authServer, hrDatabase);
+
+        AppController appController = new AppController(hrDatabase, authServer);
         appController.runController();
         }
     }

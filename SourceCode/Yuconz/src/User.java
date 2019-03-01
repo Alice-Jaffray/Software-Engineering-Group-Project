@@ -46,8 +46,8 @@ public class User {
      *
      * @return the access level of the user
      */
-    public String getAccessLevel(){
-        return accessLevel.toString();
+    public AccessLevel getAccessLevel(){
+        return accessLevel;
     }
 
 }

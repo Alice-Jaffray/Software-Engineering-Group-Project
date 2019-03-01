@@ -15,8 +15,10 @@ public class AppController {
     /**
      * constructor
      */
-     public AppController() {
+     public AppController(HRDatabase hr, AuthServer a) {
          scan = new Scanner(System.in);
+         hrDatabase = hr;
+         authServer = a;
      }
 
     /**
@@ -29,7 +31,6 @@ public class AppController {
                  loggedIn = true;
              }
          }
-
          mainMenu();
      }
 

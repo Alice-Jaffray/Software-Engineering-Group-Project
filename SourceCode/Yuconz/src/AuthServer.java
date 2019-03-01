@@ -125,22 +125,22 @@ public class AuthServer {
     }
 
 
-    /**
+/*    *//**
      * updates the user's authorisation level
      *
      * @param user the user who's authorisation level is being changed
      * @param newAuthLvl the wanted authorisation level
      * @return true is the authorisation level is changed and false otherwise
-     */
+     *//*
     public boolean changePrivileges(User user, String newAuthLvl) {
-        if (loginDetails.contains(user) && loginDetails.get(loginDetails.indexOf(user)).changeAuthLevel(newAuthLvl)) {
+        if (loginDetails.contains(user) && loginDetails.get(loginDetails.indexOf(user)).cha(newAuthLvl)) {
             System.out.println("Privileges lowered to employee, Please re-login!");
             return true;
         } else {
             System.out.println("Failed, can't find user OR insufficient privileges.");
             return false;
         }
-    }
+    }*/
 
     /**
      * get all the login records
@@ -150,7 +150,7 @@ public class AuthServer {
      * @return the login records if the user is a HR employee and null otherwise
      */
     public ArrayList<LoginRecord> getLoginRecords(User user) {
-        if (user.getAuthLevel().equals("hremployee")){
+        if (user.getAccessLevel().equals("hremployee")){
             return loginRecords;
         } else {
             return null;
@@ -164,7 +164,7 @@ public class AuthServer {
      * @return true if the records were printed and false if not
      */
     public boolean printLoginRecords(User user) {
-        if (user.getAuthLevel().equals("hremployee")){
+        if (user.getAccessLevel().equals("hremployee")){
             for (LoginRecord records : loginRecords) {
                 System.out.println(records.getDetails());
             }

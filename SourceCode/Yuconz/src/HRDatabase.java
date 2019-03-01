@@ -142,8 +142,4 @@ public class HRDatabase {
        }
        return null;
     }
-
-    public User getUser(String str) {
-        return new Employee("AAA000", "password");
-    }
 }
