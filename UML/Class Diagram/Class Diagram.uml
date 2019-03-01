@@ -104,7 +104,7 @@
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_AVgUsyu3Eem-_s3i7rjvhQ"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_AVg7wCu3Eem-_s3i7rjvhQ" value="*"/>
     </ownedAttribute>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_6uY6cCZAEemuPal2iT2zKg" name="authenticate"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_6uY6cCZAEemuPal2iT2zKg" name="authenticate "/>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_VXMh4CY9EemuPal2iT2zKg" name="User">
     <ownedAttribute xmi:type="uml:Property" xmi:id="_w_nuECZLEemuPal2iT2zKg" name="username" visibility="private">
