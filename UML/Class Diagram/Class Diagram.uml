@@ -166,22 +166,49 @@
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_YFPnECY-EemuPal2iT2zKg" name="AnnualReview">
     <generalization xmi:type="uml:Generalization" xmi:id="_dEIi8CY-EemuPal2iT2zKg" general="_VvG2ICY-EemuPal2iT2zKg"/>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_3qrpsCuiEemxDtGNMG1uQQ" name="date">
-      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDate"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="__P5HkCuiEemxDtGNMG1uQQ" name="reviewerSummary">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_AaUVwDwqEemKNctvBByL1w" name="name">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="__YEzMCuiEemxDtGNMG1uQQ" name="reviewee">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_HcYqUDwqEemKNctvBByL1w" name="firstReviewer">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_mu1-MCujEemxDtGNMG1uQQ" name="previousYearAchievements ">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_SphRIDwqEemKNctvBByL1w" name="secondReviewer">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_m2QNwCujEemxDtGNMG1uQQ" name="trainingAndMentoring">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_VHDDgDwqEemKNctvBByL1w" name="section">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_m3N3ECujEemxDtGNMG1uQQ" name="employeeComments">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_aMnPIDwqEemKNctvBByL1w" name="jobTitle">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_ejJxkDwqEemKNctvBByL1w" name="objectives">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_r83ksDwqEemKNctvBByL1w" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_r88dMDwqEemKNctvBByL1w" value="*"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_sriokDwqEemKNctvBByL1w" name="achivements">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_u_QXoDwqEemKNctvBByL1w" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_u_UCADwqEemKNctvBByL1w" value="*"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_voLY0DwqEemKNctvBByL1w" name="summary">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_zSXyoDwqEemKNctvBByL1w" name="goals">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_1SnzIDwqEemKNctvBByL1w" name="reviewerComments">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4IudkDwqEemKNctvBByL1w" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_4IwSwDwqEemKNctvBByL1w" value="*"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_pMcPADwrEemKNctvBByL1w" name="signedByReviewee">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_QXvJ0DwsEemKNctvBByL1w" name="signedByReviewerOne">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_usx1oDwsEemKNctvBByL1w" name="signedByReviewerTwo">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
   </packagedElement>
