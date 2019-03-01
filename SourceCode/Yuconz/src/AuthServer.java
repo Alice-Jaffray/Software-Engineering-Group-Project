@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class AuthServer {
     private ArrayList<User> loginDetails;
     private ArrayList<LoginRecord> loginRecords;
-    private  final String FILENAME = "C:/Users/lafyb/Documents/LoginRecords.csv";
+    private  final String FILENAME = "LoginRecords.csv";
 
 
     /**

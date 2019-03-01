@@ -89,4 +89,8 @@ public class HRDatabase {
     public void signReview(){
 
     }
+
+    public User getUser(String str) {
+        return new Employee("AAA000", "password");
+    }
 }
