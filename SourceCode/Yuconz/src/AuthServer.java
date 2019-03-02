@@ -128,6 +128,26 @@ public class AuthServer {
     }
 
     /**
+     * Delete a user from the database by their login.
+     * @param username The new user's username.
+     * @return true if succeeded.
+     */
+    boolean deleteLogin(String username) {
+        //Query
+        String sql = "DELETE FROM users WHERE empID = ?;";
+
+        try (Connection con = this.connect();
+             PreparedStatement prep = con.prepareStatement(sql)) {
+            prep.setString(1, username);
+            prep.executeUpdate();
+            return true;
+        } catch (SQLException sqlEx) {
+            System.err.println(sqlEx.getMessage());
+            return false;
+        }
+    }
+
+    /**
      * Hash and salt a password using SHA-512.
      * @param password Password to hash.
      * @param salt Salt to use;

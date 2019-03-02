@@ -17,99 +17,173 @@ public class AppController {
      * constructor
      */
     AppController(HRDatabase hr, AuthServer a) {
-         scan = new Scanner(System.in);
-         hrDatabase = hr;
-         authServer = a;
-         loggedIn = false;
-     }
+        scan = new Scanner(System.in);
+        hrDatabase = hr;
+        authServer = a;
+        loggedIn = false;
+    }
 
     /**
      * Calls display methods for the user.
      */
-     void runController() {
-         while(!loggedIn) {
-             if(loginPrompt()) {
-                 loggedIn = true;
-             }
-         }
-         baseMainMenu();
-         switch(accessLevel) {
-             case EMPLOYEE: employeeMainMenu(); break;
-             case HREMPLOYEE: hREmployeeMainMenu(); break;
-             default: employeeMainMenu(); break;
-         }
-     }
+    void runController() {
+        while(!loggedIn) {
+            loginPrompt();
+        }
+        baseMainMenu();
+        switch(accessLevel) {
+            case EMPLOYEE: employeeMainMenu(); break;
+            case HREMPLOYEE: hREmployeeMainMenu(); break;
+            default: employeeMainMenu(); break;
+        }
+    }
+
+    /**
+     * Read the logs from the AuthServer.
+     */
+    private void readLogs() {
+        authServer.readFromFile();
+    }
+
+    /**
+     * Logs the user into the system
+     *
+     * @param username username of the user
+     * @param password password of the user
+     * @return true if the login was successful and false otherwise
+     */
+    boolean login(String username, String password){
+        String access = authServer.authenticate(username, password);
+        if(access.equals("denied")) {
+            loggedIn = false;
+            return false;
+        } else {
+            switch(access) {
+                case "employee": accessLevel = AccessLevel.EMPLOYEE; break;
+                case "hremployee": accessLevel = AccessLevel.HREMPLOYEE; break;
+                case "manager": accessLevel = AccessLevel.MANAGER; break;
+                case "director": accessLevel = AccessLevel.DIRECTOR; break;
+                default: return false;
+            }
+            loggedIn = true;
+            return true;
+        }
+    }
+
+    /**
+     * logs the user out.
+     */
+    void logout(){
+        System.out.println("Logged Out");
+        loggedInUser = null;
+        loggedIn = false;
+    }
+
+    /**
+     * sets the user to have an employee access level
+     */
+    void setBasicAccess(){
+        accessLevel = AccessLevel.EMPLOYEE;
+    }
+
+    /**
+     * Getter for access level.
+     * @return access level for the logged in user.
+     */
+    AccessLevel getAccessLevel() {
+        return accessLevel;
+    }
+
+    /**
+     * Getter for logged in user.
+     * @return the logged in user.
+     */
+    User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    /**
+     * Getter for if anyone is logged into the system.
+     * @return true if there is a user logged in.
+     */
+    boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    // Methods for displaying menus and such. Untestable, so out of the way.
+
+
 
     /**
      * Displays the login screen functionality.
      * @return true if valid details were entered.
      */
-     private boolean loginPrompt() {
-         System.out.println("Welcome to Yuconz Document System. Please enter your username and password:");
-         System.out.println();
-         System.out.print("Username: ");
-         String username = scan.next();
-         System.out.println();
-         System.out.print("Password: ");
-         String password = scan.next();
-         if(login(username, password)) {
-             System.out.println();
-             System.out.println("Logged In");
-             loggedInUser = hrDatabase.getUser(username);
-             // Higher level users get the option to login as a base level employee.
-             try {
-                 if (loggedInUser.getAccessLevel() != AccessLevel.EMPLOYEE) {
-                     basicAccessPrompt();
-                 }
-             } catch (NullPointerException ex) {
-                 System.out.println("User not present in HR database, contact system administrator.");
-             }
-             return true;
-         } else {
-             System.out.println();
-             System.out.println("Invalid username or password.");
-             return false;
-         }
-     }
+    private boolean loginPrompt() {
+        System.out.println("Welcome to Yuconz Document System. Please enter your username and password:");
+        System.out.println();
+        System.out.print("Username: ");
+        String username = scan.next();
+        System.out.println();
+        System.out.print("Password: ");
+        String password = scan.next();
+        if(login(username, password)) {
+            System.out.println();
+            System.out.println("Logged In");
+            loggedInUser = hrDatabase.getUser(username);
+            // Higher level users get the option to login as a base level employee.
+            try {
+                if (loggedInUser.getAccessLevel() != AccessLevel.EMPLOYEE) {
+                    basicAccessPrompt();
+                }
+            } catch (NullPointerException ex) {
+                System.out.println("User not present in HR database, contact system administrator.");
+            }
+            return true;
+        } else {
+            System.out.println();
+            System.out.println("Invalid username or password.");
+            return false;
+        }
+    }
 
     /**
      * User access menu.
      */
     private void basicAccessPrompt() {
-         while (true) {
-             System.out.print("Would you like to login with base employee access? (y/n): ");
-             String option = scan.next().toLowerCase();
-             if (option.equals("y")) {
-                 setBasicAccess();
-             } else if (option.equals("n")) {
-                 return;
-             } else {
-                 System.out.println("That is not a valid option. Please enter either 'y' or 'n' (no quotes).");
-             }
-         }
-     }
+        while (true) {
+            System.out.print("Would you like to login with base employee access? (y/n): ");
+            String option = scan.next().toLowerCase();
+            if (option.equals("y")) {
+                setBasicAccess();
+            } else if (option.equals("n")) {
+                return;
+            } else {
+                System.out.println("That is not a valid option. Please enter either 'y' or 'n' (no quotes).");
+            }
+        }
+    }
 
-     private void baseMainMenu() {
-         System.out.println("Welcome to the Yuconz document system.");
-         System.out.println("Please select an option.");
-         System.out.println();
+    private void baseMainMenu() {
+        System.out.println("Welcome to the Yuconz document system.");
+        System.out.println("Please select an option.");
+        System.out.println();
 
-         System.out.println("1. Logout");
-         System.out.println("2. Read logs");
-     }
+        System.out.println("1. Logout");
+        System.out.println("2. Read logs");
+    }
 
-     private void hREmployeeMainMenu() {
-         System.out.println("3. Add new login");
+    private void hREmployeeMainMenu() {
+        System.out.println("3. Add new login");
 
-         String option = scan.next();
-         switch (option) {
-             case "1": logout(); break;
-             case "2": readLogs(); break;
-             case "3": addNewLogin(); break;
-             default: System.out.println("That is not a valid option.");
-         }
-         runController();
-     }
+        String option = scan.next();
+        switch (option) {
+            case "1": logout(); break;
+            case "2": readLogs(); break;
+            case "3": addNewLogin(); break;
+            default: System.out.println("That is not a valid option.");
+        }
+        runController();
+    }
 
     private void employeeMainMenu() {
         String option = scan.next();
@@ -119,45 +193,6 @@ public class AppController {
             default: System.out.println("That is not a valid option.");
         }
         runController();
-    }
-
-    /**
-     * Read the logs from the AuthServer.
-     */
-    private void readLogs() {
-        authServer.readFromFile();
-     }
-
-    /**
-     * logs the user into the system
-     *
-     * @param username username of the user
-     * @param password password of the user
-     * @return true if the login was successful and false otherwise
-     */
-    private boolean login(String username, String password){
-         String access = authServer.authenticate(username, password);
-         if(access.equals("denied")) {
-             return false;
-         } else {
-             switch(access) {
-                 case "employee": accessLevel = AccessLevel.EMPLOYEE; break;
-                 case "hremployee": accessLevel = AccessLevel.HREMPLOYEE; break;
-                 case "manager": accessLevel = AccessLevel.MANAGER; break;
-                 case "director": accessLevel = AccessLevel.DIRECTOR; break;
-                 default: return false;
-             }
-             return true;
-         }
-     }
-
-    /**
-     * logs the user out.
-     */
-    private void logout(){
-            System.out.println("Logged Out");
-            loggedInUser = null;
-            loggedIn = false;
     }
 
     private void addNewLogin() {
@@ -204,12 +239,5 @@ public class AppController {
         } else {
             System.out.println(user + " could not be added to database.");
         }
-    }
-
-    /**
-     * sets the user to have an employee access level
-     */
-    private void setBasicAccess(){
-        accessLevel = AccessLevel.EMPLOYEE;
     }
 }
