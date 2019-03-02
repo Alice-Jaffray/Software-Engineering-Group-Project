@@ -15,7 +15,7 @@ public class AppController {
     /**
      * constructor
      */
-     public AppController(HRDatabase hr, AuthServer a) {
+    AppController(HRDatabase hr, AuthServer a) {
          scan = new Scanner(System.in);
          hrDatabase = hr;
          authServer = a;
@@ -24,7 +24,7 @@ public class AppController {
     /**
      * Calls display methods for the user.
      */
-    public void runController() {
+     void runController() {
          boolean loggedIn = false;
          while(!loggedIn) {
              if(loginPrompt()) {
@@ -91,8 +91,20 @@ public class AppController {
      * @param password password of the user
      * @return true if the login was successful and false otherwise
      */
-     public boolean login(String username, String password){ //TODO
-        return true;
+    private boolean login(String username, String password){
+         String access = authServer.authenticate(username, password);
+         if(access.equals("denied")) {
+             return false;
+         } else {
+             switch(access) {
+                 case "employee": accessLevel = AccessLevel.EMPLOYEE; break;
+                 case "hremployee": accessLevel = AccessLevel.HREMPLOYEE; break;
+                 case "manager": accessLevel = AccessLevel.MANAGER; break;
+                 case "director": accessLevel = AccessLevel.DIRECTOR; break;
+                 default: return false;
+             }
+             return true;
+         }
      }
 
     /**
@@ -115,7 +127,7 @@ public class AppController {
     /**
      * sets the user to have an employee access level
      */
-    public void setBasicAccess(){
+    private void setBasicAccess(){
         accessLevel = AccessLevel.EMPLOYEE;
     }
 }
