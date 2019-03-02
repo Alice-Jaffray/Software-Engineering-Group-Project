@@ -12,7 +12,7 @@ public enum AccessLevel {
     DIRECTOR("director");
 
     // the access level string
-    public String accessLevel;
+    public final String accessLevel;
 
     /**
      * Initialise with the corresponding accessLevel string

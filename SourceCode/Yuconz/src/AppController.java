@@ -11,6 +11,7 @@ public class AppController {
     private AccessLevel accessLevel;
     private HRDatabase hrDatabase;
     private AuthServer authServer;
+    private boolean loggedIn;
 
     /**
      * constructor
@@ -19,19 +20,24 @@ public class AppController {
          scan = new Scanner(System.in);
          hrDatabase = hr;
          authServer = a;
+         loggedIn = false;
      }
 
     /**
      * Calls display methods for the user.
      */
      void runController() {
-         boolean loggedIn = false;
          while(!loggedIn) {
              if(loginPrompt()) {
                  loggedIn = true;
              }
          }
-         mainMenu();
+         baseMainMenu();
+         switch(accessLevel) {
+             case EMPLOYEE: employeeMainMenu(); break;
+             case HREMPLOYEE: hREmployeeMainMenu(); break;
+             default: employeeMainMenu(); break;
+         }
      }
 
     /**
@@ -39,7 +45,7 @@ public class AppController {
      * @return true if valid details were entered.
      */
      private boolean loginPrompt() {
-         System.out.println("Welcome to Yuconz Document System. Please Enter Your username:");
+         System.out.println("Welcome to Yuconz Document System. Please enter your username and password:");
          System.out.println();
          System.out.print("Username: ");
          String username = scan.next();
@@ -83,21 +89,37 @@ public class AppController {
          }
      }
 
-     private void mainMenu() {
+     private void baseMainMenu() {
          System.out.println("Welcome to the Yuconz document system.");
          System.out.println("Please select an option.");
          System.out.println();
 
          System.out.println("1. Logout");
+         System.out.println("2. Read logs");
+     }
+
+     private void hREmployeeMainMenu() {
+         System.out.println("3. Add new login");
 
          String option = scan.next();
          switch (option) {
              case "1": logout(); break;
              case "2": readLogs(); break;
+             case "3": addNewLogin(); break;
              default: System.out.println("That is not a valid option.");
          }
          runController();
      }
+
+    private void employeeMainMenu() {
+        String option = scan.next();
+        switch (option) {
+            case "1": logout(); break;
+            case "2": readLogs(); break;
+            default: System.out.println("That is not a valid option.");
+        }
+        runController();
+    }
 
     /**
      * Read the logs from the AuthServer.
@@ -133,12 +155,54 @@ public class AppController {
      * logs the user out.
      */
     private void logout(){
-        if(loggedInUser != null){
             System.out.println("Logged Out");
             loggedInUser = null;
+            loggedIn = false;
+    }
+
+    private void addNewLogin() {
+        System.out.println("Enter details for new user:");
+        System.out.print("Enter Username: ");
+        String user = scan.next();
+        System.out.println();
+        System.out.print("Enter Password: ");
+        String pass = scan.next();
+        System.out.println();
+        System.out.println("Select Access Level: ");
+        System.out.println("1. Employee");
+        System.out.println("2. HR Employee");
+        System.out.println("3. Manager");
+        System.out.println("4. Director");
+        String access = "";
+        boolean selected = false;
+        while(!selected) {
+            String option = scan.next();
+            switch (option) {
+                case "1":
+                    access = "employee";
+                    selected = true;
+                    break;
+                case "2":
+                    access = "hremployee";
+                    selected = true;
+                    break;
+                case "3":
+                    access = "manager";
+                    selected = true;
+                    break;
+                case "4":
+                    access = "director";
+                    selected = true;
+                    break;
+                default:
+                    System.out.println("Please select a valid option.");
+            }
         }
-        else {
-            System.err.println("No user logged in");
+
+        if(authServer.insertLogin(user, pass, access)) {
+            System.out.println(user + " added to database.");
+        } else {
+            System.out.println(user + " could not be added to database.");
         }
     }
 

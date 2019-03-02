@@ -1,13 +1,20 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+// SQL Functionality
+import org.jetbrains.annotations.Nullable;
+
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.io.File;
+// File writing for logging.
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+// Hashing;
+import java.security.SecureRandom;
+import java.security.MessageDigest;
 /**
  * stores when a successful login takes place
  * mock of server that holds login information.
@@ -45,11 +52,15 @@ public class AuthServer {
         // SQL Query
         String sql = "select access from users where empID = ? and password = ?;";
 
+         // Check salt is in database;
+        byte[] salt = getSalt(user);
+        if(salt == null) {writeToFile(user, false);return "denied";}
+
         try (Connection con = this.connect();
              PreparedStatement prep = con.prepareStatement(sql)) {
             // Fill placeholders (? characters).
             prep.setString(1, user);
-            prep.setString(2, password);
+            prep.setBytes(2, generateHash(password, salt));
 
             ResultSet results = prep.executeQuery();
             // Analyse Results
@@ -68,27 +79,81 @@ public class AuthServer {
     }
 
     /**
+     * Get the salt for a user from the database.
+     * @param empID The user to get the salt for.
+     * @return The returned salt, or null if no salt was found.
+     */
+    @Nullable
+    private byte[] getSalt(String empID) {
+         String sql = "select salt from users where empID = ?";
+         try (Connection con = this.connect();
+         PreparedStatement prep = con.prepareStatement(sql)) {
+            prep.setString(1, empID);
+            ResultSet r = prep.executeQuery();
+            if(r.getBytes(1) != null) {
+                return r.getBytes(1);
+            }
+         } catch (SQLException ex) {
+             System.err.println(ex.getMessage());
+         }
+         return null;
+    }
+
+    /**
      * Insert a new login into the system.
      * @param username The new user's username.
      * @param password The new user's password.
      * @param access The new user's access level for the system.
      * @return true if succeeded.
      */
-    public boolean insertLogin(String username, String password, String access) {
+     boolean insertLogin(String username, String password, String access) {
         //Query
-        String sql = "INSERT INTO users values (?, ?, ?);";
+        String sql = "INSERT INTO users (empID, password, salt, access) values (?, ?, ?, ?);";
+        // Hash and salt.
+        byte[] salt = generateSalt();
+        byte[] hashedPass = generateHash(password, salt);
 
         try (Connection con = this.connect();
              PreparedStatement prep = con.prepareStatement(sql)) {
             prep.setString(1, username);
-            prep.setString(2, password);
-            prep.setString(3, access);
+            prep.setBytes(2, hashedPass);
+            prep.setBytes(3, salt);
+            prep.setString(4, access);
             prep.executeUpdate();
             return true;
         } catch (SQLException sqlEx) {
-            System.out.println(sqlEx.getMessage());
+            System.err.println(sqlEx.getMessage());
             return false;
         }
+    }
+
+    /**
+     * Hash and salt a password using SHA-512.
+     * @param password Password to hash.
+     * @param salt Salt to use;
+     * @return Hashed password.
+     */
+    private byte[] generateHash(String password, byte[] salt) {
+        byte[] hashed = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(salt);
+            hashed = md.digest(password.getBytes());
+        } catch (NoSuchAlgorithmException e){
+            System.err.println(e.getMessage());
+        }
+        return hashed;
+    }
+
+    /**
+     * Generate a 16 byte salt for passwords.
+     * @return 16 byte secure random salt.
+     */
+    private byte[] generateSalt() {
+        SecureRandom rand = new SecureRandom();
+        byte[] salt = new byte[16];
+        rand.nextBytes(salt);
+        return salt;
     }
 
     /**
