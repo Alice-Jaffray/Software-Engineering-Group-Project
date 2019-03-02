@@ -6,7 +6,7 @@ The system will, in its first iteration, be able to create and store documents t
 * Records of employee reviews. 
 
 ## Getting Started
- (Nothing yet, no software.)
+ To start the software, run the main method in the Main class. 
 ## Authors
 * Conor Finn ([CF338](mailto:cf338@kent.ac.uk))
 * Kieran D'Arcy ([KD333](mailto:kd333@kent.ac.uk))
