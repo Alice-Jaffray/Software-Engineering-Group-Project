@@ -51,7 +51,13 @@ public class AppController {
              System.out.println("Logged In");
              loggedInUser = hrDatabase.getUser(username);
              // Higher level users get the option to login as a base level employee.
-             if(loggedInUser.getAccessLevel() != AccessLevel.EMPLOYEE) { basicAccessPrompt(); }
+             try {
+                 if (loggedInUser.getAccessLevel() != AccessLevel.EMPLOYEE) {
+                     basicAccessPrompt();
+                 }
+             } catch (NullPointerException ex) {
+                 System.out.println("User not present in HR database, contact system administrator.");
+             }
              return true;
          } else {
              System.out.println();
@@ -81,7 +87,23 @@ public class AppController {
          System.out.println("Welcome to the Yuconz document system.");
          System.out.println("Please select an option.");
          System.out.println();
-         System.out.println("1. ");
+
+         System.out.println("1. Logout");
+
+         String option = scan.next();
+         switch (option) {
+             case "1": logout(); break;
+             case "2": readLogs(); break;
+             default: System.out.println("That is not a valid option.");
+         }
+         runController();
+     }
+
+    /**
+     * Read the logs from the AuthServer.
+     */
+    private void readLogs() {
+        authServer.readFromFile();
      }
 
     /**
@@ -108,19 +130,15 @@ public class AppController {
      }
 
     /**
-     * logs the user out
-     *
-     * @return true if the user was logged out and false otherwise
+     * logs the user out.
      */
-    public boolean logout(){
+    private void logout(){
         if(loggedInUser != null){
             System.out.println("Logged Out");
             loggedInUser = null;
-            return true;
         }
         else {
-            System.out.println("Not logged in");
-            return false;
+            System.err.println("No user logged in");
         }
     }
 

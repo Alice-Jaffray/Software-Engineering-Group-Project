@@ -5,6 +5,8 @@ import java.util.Scanner;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.FileWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * stores when a successful login takes place
@@ -13,21 +15,7 @@ import java.io.FileWriter;
  * @version 2019/02/16
  */
 public class AuthServer {
-    private final String FILENAME = "LoginRecords.csv";
-
-    /**
-     * constructor
-     */
-    public AuthServer() {
-
-    }
-
-    public static void main(String[] args) {
-        AuthServer a = new AuthServer();
-        System.out.println(a.authenticate("cfi000", "admin"));
-        System.out.println(a.insertLogin("mro000", "davidBarnes", "director"));
-        System.out.println(a.authenticate("mro000", "davidBarnes"));
-    }
+    private final String FILENAME = "Databases/LoginRecords.csv";
 
     /**
      * Connects to the Authentication database.
@@ -66,12 +54,15 @@ public class AuthServer {
             ResultSet results = prep.executeQuery();
             // Analyse Results
             if(results.getString(1) == null)  {
+                writeToFile(user, false);
                 return "denied";
             } else {
+                writeToFile(user, true);
                 return results.getString(1);
             }
         } catch(SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
+            writeToFile(user, false);
             return "denied";
         }
     }
@@ -101,20 +92,20 @@ public class AuthServer {
     }
 
     /**
-     *
-     * @param test
+     * Writes to the login records file.
+     * @param username User attempting to log in.
+     * @param success If the login was successful.
      */
-    public void writeToFile(String test){
+    private void writeToFile(String username, boolean success){
         BufferedWriter bw = null;
         FileWriter fw = null;
 
         try{
-            String content = test += "\n";
+            String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            String content = username + "," + dateTime + "," + success + "\n";
             fw = new FileWriter(FILENAME,true);
             bw = new BufferedWriter(fw);
             bw.write(content);
-
-            System.out.println("File has been written to successfully");
         } catch (IOException e) {
             e.printStackTrace();
         }   finally {
@@ -131,16 +122,19 @@ public class AuthServer {
     }
 
     /**
-     *
-     * @throws FileNotFoundException
+     * Read from the LoginRecords.csv file and print to the terminal.
      */
-    public void readFromFile() throws FileNotFoundException{
-        Scanner scanner = new Scanner(new File(FILENAME));
-        scanner.useDelimiter(",");
-        while(scanner.hasNext()){
-            System.out.print(scanner.next()+"|");
+    void readFromFile() {
+        try {
+            Scanner scanner = new Scanner(new File(FILENAME));
+            scanner.useDelimiter(",");
+            while (scanner.hasNext()) {
+                System.out.print(scanner.next()+" | ");
+            }
+            scanner.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
         }
-        scanner.close();
     }
 
 }
