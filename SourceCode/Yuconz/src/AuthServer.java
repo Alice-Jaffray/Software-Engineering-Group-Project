@@ -1,15 +1,12 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.*;
 import java.util.Scanner;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.FileWriter;
-import java.io.Writer;
-import java.util.Scanner;
 import java.util.ArrayList;
+
 /**
  * stores when a successful login takes place
  * mock of server that holds login information.
@@ -17,64 +14,62 @@ import java.util.ArrayList;
  * @version 2019/02/16
  */
 public class AuthServer {
-    private ArrayList<User> loginDetails;
-    private ArrayList<LoginRecord> loginRecords;
-    private  final String FILENAME = "LoginRecords.csv";
+    private final String FILENAME = "LoginRecords.csv";
 
 
     /**
      * constructor
      */
     public AuthServer() {
-        loginDetails = new ArrayList<>();
-        loginRecords = new ArrayList<>();
+
+    }
+
+    public static void main(String[] args) {
+        AuthServer a = new AuthServer();
+        System.out.print(a.authenticate("aja000", "password"));
     }
 
     /**
      * authenticates the user for login purposes
      * logs the details of the login attempt
      *
-     * @param name username of user
+     * @param user username of user
      * @param password password of user
      * @return the user who is trying to be authenticated or null if attempt failed
      */
-    public User authenticate(String name, String password) {
-        for(User users : loginDetails) {
-            if(users.getUsername().equals(name) && users.getPassword().equals(password)) {
-                loginRecords.add(new LoginRecord(name));
-                return users;
+    public String authenticate(String user, String password) {
+        // SQL Query
+        String sql = "select access from users where empID = ? and password = ?;";
+
+
+        try (Connection con = this.connect();
+             PreparedStatement prep = con.prepareStatement(sql)) {
+            prep.setString(1, user);
+            prep.setString(2, password);
+            ResultSet results = prep.executeQuery();
+            if(results.getString(1) == null)  {
+                return "denied";
+            } else {
+                return results.getString(1);
             }
-        }
-        return null;
-    }
-
-    /**
-     * adds authentication details to the server
-     * @param type job role of user i.e. authentication level
-     * @param name username of the user
-     * @param password password of the user
-     */
-    public void addDetails(String type, String name, String password) {
-        //for testing
-        switch (type.toLowerCase()) {
-            case "employee":
-                loginDetails.add(new Employee(name, password));
-                break;
-            case "hremployee":
-                loginDetails.add(new HREmployee(name, password));
-                break;
-            case "manager":
-                loginDetails.add(new Manager(name, password));
-                break;
-            case "director":
-                loginDetails.add(new Director(name, password));
-                break;
-            default:
-                System.out.println("Please pick a valid option!");
-                break;
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+            return "denied";
         }
     }
 
+    private Connection connect() {
+        Connection con = null;
+        try{
+            String url = "jdbc:sqlite:Databases/Yuconz.db";
+            con = DriverManager.getConnection(url);
+        } catch (Exception ex) {
+            System.err.println( ex.getClass().getName() + ": " + ex.getMessage() );
+            System.exit(0);
+        }
+        return con;
+    }
+/*
     public void writeToFile(String test){
         BufferedWriter bw = null;
         FileWriter fw = null;
@@ -109,11 +104,11 @@ public class AuthServer {
         }
         scanner.close();
     }
-    /**
+    *//**
      * removes details from auth server
      * @param name username of te user
      * @param password password of the user
-     */
+     *//*
     public void removeDetails(String name, String password){
         for (User users : loginDetails) {
             if(users.getUsername().equals(name) && users.getPassword().equals(password)) {
@@ -124,31 +119,13 @@ public class AuthServer {
         }
     }
 
-
-/*    *//**
-     * updates the user's authorisation level
-     *
-     * @param user the user who's authorisation level is being changed
-     * @param newAuthLvl the wanted authorisation level
-     * @return true is the authorisation level is changed and false otherwise
-     *//*
-    public boolean changePrivileges(User user, String newAuthLvl) {
-        if (loginDetails.contains(user) && loginDetails.get(loginDetails.indexOf(user)).cha(newAuthLvl)) {
-            System.out.println("Privileges lowered to employee, Please re-login!");
-            return true;
-        } else {
-            System.out.println("Failed, can't find user OR insufficient privileges.");
-            return false;
-        }
-    }*/
-
-    /**
+    *//**
      * get all the login records
      * if the user is a HR employee
      *
      * @param user the user attempting to get the login records
      * @return the login records if the user is a HR employee and null otherwise
-     */
+     *//*
     public ArrayList<LoginRecord> getLoginRecords(User user) {
         if (user.getAccessLevel().equals("hremployee")){
             return loginRecords;
@@ -157,12 +134,12 @@ public class AuthServer {
         }
     }
 
-    /**
+    *//**
      * prints the the login records
      * if the user is a HR employee
      * @param user the user attempting to print the login records
      * @return true if the records were printed and false if not
-     */
+     *//*
     public boolean printLoginRecords(User user) {
         if (user.getAccessLevel().equals("hremployee")){
             for (LoginRecord records : loginRecords) {
@@ -172,6 +149,6 @@ public class AuthServer {
         } else {
             return false;
         }
-    }
+    }*/
 }
 
