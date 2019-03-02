@@ -13,6 +13,5 @@ The system will, in its first iteration, be able to create and store documents t
 * Ibraheem Jhanji ([IJ39](mailto:ij39@kent.ac.uk))
 * Alice Jaffray ([AJ418](mailto:aj418@kent.ac.uk))
 * Isaiah Ojo ([IO68](mailto:IO68@kent.ac.uk))
-* 
 ## Licence 
 Licenced under [GNU GPLv3](LICENSE)
