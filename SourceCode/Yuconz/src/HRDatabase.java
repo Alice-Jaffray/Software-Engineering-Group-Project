@@ -149,7 +149,7 @@ public class HRDatabase {
      * @return true if a new record of personal details is created and false otherwise
      */
     public boolean createPersonalDetails(String empNo, User requester) {
-        if (requester.getAccessLevel().equals("hremployee")) {
+        if (requester.getAccessLevel().toString().equals("hremployee")) {
             //SQL query
             String sql = "INSERT INTO PersonalDetails (empNo) VALUES (?);";
             try (Connection con = this.connect();
