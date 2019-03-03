@@ -34,6 +34,7 @@ public class AppController {
         switch(accessLevel) {
             case EMPLOYEE: employeeMainMenu(); break;
             case HREMPLOYEE: hREmployeeMainMenu(); break;
+            case DIRECTOR: directorMainMenu(); break;
             default: employeeMainMenu(); break;
         }
     }
@@ -65,6 +66,7 @@ public class AppController {
                 case "director": accessLevel = AccessLevel.DIRECTOR; break;
                 default: return false;
             }
+            loggedInUser = hrDatabase.getUser(username);
             loggedIn = true;
             return true;
         }
@@ -77,6 +79,36 @@ public class AppController {
         System.out.println("Logged Out");
         loggedInUser = null;
         loggedIn = false;
+    }
+
+    /**
+     * Get the personal details of the logged in user.
+     * @return a personal details document for the logged in employee.
+     */
+    PersonalDetails readOwnPersonalDetails() {
+        return hrDatabase.readPersonalDetails(loggedInUser.getUsername(), loggedInUser);
+    }
+
+    /**
+     * Get the personal details document for a different employee.
+     * @param empID The owner of the document
+     * @return the document associated with empID.
+     */
+    PersonalDetails readOtherPersonalDetails(String empID) {
+        return hrDatabase.readPersonalDetails(empID, loggedInUser);
+    }
+
+    /**
+     * Create a new blank document for the employee associated with empID.
+     * @param empID the employee the document is for.
+     * @return true if successful.
+     */
+    boolean createPersonalDetails(String empID) {
+        return hrDatabase.createPersonalDetails(empID, loggedInUser);
+    }
+
+    PersonalDetails amendPersonalDetails(String empID, String field, String newVal) {
+        return hrDatabase.amendPersonalDetails(empID, field, newVal, loggedInUser);
     }
 
     /**
@@ -112,8 +144,6 @@ public class AppController {
 
     // Methods for displaying menus and such. Untestable, so out of the way.
 
-
-
     /**
      * Displays the login screen functionality.
      * @return true if valid details were entered.
@@ -129,7 +159,6 @@ public class AppController {
         if(login(username, password)) {
             System.out.println();
             System.out.println("Logged In");
-            loggedInUser = hrDatabase.getUser(username);
             // Higher level users get the option to login as a base level employee.
             try {
                 if (loggedInUser.getAccessLevel() != AccessLevel.EMPLOYEE) {
@@ -169,30 +198,125 @@ public class AppController {
         System.out.println();
 
         System.out.println("1. Logout");
-        System.out.println("2. Read logs");
-    }
-
-    private void hREmployeeMainMenu() {
-        System.out.println("3. Add new login");
-
-        String option = scan.next();
-        switch (option) {
-            case "1": logout(); break;
-            case "2": readLogs(); break;
-            case "3": addNewLogin(); break;
-            default: System.out.println("That is not a valid option.");
-        }
-        runController();
+        System.out.println("2. Read Own Personal Details");
     }
 
     private void employeeMainMenu() {
         String option = scan.next();
         switch (option) {
             case "1": logout(); break;
-            case "2": readLogs(); break;
+            case "2": readOwnPersonalDetails(); break;
             default: System.out.println("That is not a valid option.");
         }
         runController();
+    }
+
+    private void hREmployeeMainMenu() {
+        System.out.println("3. Add new login");
+        System.out.println("4. Read other personal details.");
+        System.out.println("5. Create new personal details");
+        System.out.println("6. Amend existing personal details.");
+
+        String option = scan.next();
+        switch (option) {
+            case "1": logout(); break;
+            case "2": readOwnPersonalDetails(); break;
+            case "3": addNewLogin(); break;
+            case "4": readOtherPersonalDetails();
+            case "5": createPersonalDetails();
+            case "6": amendPersonalDetails();
+            default: System.out.println("That is not a valid option.");
+        }
+        runController();
+    }
+
+    private void directorMainMenu() {
+        System.out.println("3. Read other personal details document.");
+        String option = scan.next();
+        switch (option) {
+            case "1": logout(); break;
+            case "2": readOwnPersonalDetails(); break;
+            case "3": readOtherPersonalDetails(); break;
+            default: System.out.println("That is not a valid option.");
+        }
+        runController();
+    }
+
+    private void readOtherPersonalDetails() {
+        System.out.print("Enter username of document owner:");
+        PersonalDetails p = readOtherPersonalDetails(scan.next());
+        if(p != null) {
+            System.out.println();
+            System.out.println(p.getStaffID());
+            System.out.println(p.getForename());
+            System.out.println(p.getSurname());
+            System.out.println(p.getDob());
+            System.out.println(p.getMobileNo());
+            System.out.println(p.getTelephoneNo());
+            System.out.println(p.getEmergContact());
+            System.out.println(p.getEmergTel());
+        } else {
+            System.out.println("No personal details document for that employee was found. Contact HR.");
+        }
+    }
+
+    private void createPersonalDetails() {
+        System.out.print("Enter username of new employee: ");
+        boolean success = createPersonalDetails(scan.next());
+        System.out.println();
+        if (success) {
+            System.out.println("Success! Please amend the document to add values.");
+        } else {
+            System.out.println("Failure, document not created.");
+        }
+    }
+
+    private void amendPersonalDetails() {
+        System.out.println("Enter username of employee: ");
+        String emp = scan.next();
+        boolean done = false;
+        while(!done){
+            System.out.println("Select a field to change: ");
+            System.out.println("1. Forename");
+            System.out.println("2. Surname");
+            System.out.println("3. Date of Birth");
+            System.out.println("4. Mobile Number");
+            System.out.println("5. Telephone Number");
+            System.out.println("6. Emergency Contact Name");
+            System.out.println("7. Emergency Telephone Number");
+            boolean selected = false;
+            while (!selected) {
+                String option = scan.next();
+                System.out.print("Please enter the new value: ");
+                switch (option) {
+                    case "1": amendPersonalDetails(emp, "forename", scan.next()); selected = true;  break;
+                    case "2": amendPersonalDetails(emp, "surname", scan.next()); selected = true;  break;
+                    case "3": amendPersonalDetails(emp, "dob", scan.next()); selected = true;  break;
+                    case "4": amendPersonalDetails(emp, "mobileNo", scan.next()); selected = true;  break;
+                    case "5": amendPersonalDetails(emp, "telephoneNo", scan.next()); selected = true;  break;
+                    case "6": amendPersonalDetails(emp, "emergContact", scan.next()); selected = true; break;
+                    case "7": amendPersonalDetails(emp, "emergTel", scan.next()); selected = true; break;
+                    default: System.out.println("Please select a valid option.");
+                }
+                System.out.println("Done? (y/n)");
+                option = scan.next();
+                boolean finished = false;
+                while (!finished) {
+                    switch (option) {
+                        case "y":
+                            finished = true;
+                            done = true;
+                            break;
+                        case "n":
+                            finished = true;
+                            done = false;
+                            break;
+                        default: System.out.println("Please select a valid option.");
+                    }
+                }
+            }
+        }
+        System.out.println("Done!");
     }
 
     private void addNewLogin() {
@@ -233,8 +357,38 @@ public class AppController {
                     System.out.println("Please select a valid option.");
             }
         }
+        System.out.println("Select Access Level: ");
+        System.out.println("1. Human Resources");
+        System.out.println("2. Services Delivery");
+        System.out.println("3. Sales and Marketing");
+        System.out.println("4. Administration");
+        selected = false;
+        String department = "";
+        while(!selected) {
+            String option = scan.next();
+            switch (option) {
+                case "1":
+                    department = "human resources";
+                    selected = true;
+                    break;
+                case "2":
+                    department = "services delivery";
+                    selected = true;
+                    break;
+                case "3":
+                    department = "sales and marketing";
+                    selected = true;
+                    break;
+                case "4":
+                    department = "administration";
+                    selected = true;
+                    break;
+                default:
+                    System.out.println("Please select a valid option.");
+            }
+        }
 
-        if(authServer.insertLogin(user, pass, access)) {
+        if(authServer.insertLogin(user, pass, access) && hrDatabase.addUser(user, department, null, access)) {
             System.out.println(user + " added to database.");
         } else {
             System.out.println(user + " could not be added to database.");

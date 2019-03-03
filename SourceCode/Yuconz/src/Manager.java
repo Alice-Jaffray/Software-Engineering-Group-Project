@@ -6,13 +6,14 @@
  * @version 2019/02/28
  */
 public class Manager extends Employee {
+
     /**
      * constructor
-     *
-     * @param username username of the manager
-     * @param password password of the manager
+     * @param username username for the manager.
+     * @param manager direct superior.
+     * @param department department the user works in.
      */
-    public Manager(String username, String password) {
-        super(username, password, AccessLevel.MANAGER);
+    public Manager(String username, String manager, String department) {
+        super(username, manager, department, AccessLevel.MANAGER);
     }
 }

@@ -12,6 +12,6 @@ public class Director extends User {
      * @param password password of the director
      */
     public Director(String username, String password) {
-        super(username, password, AccessLevel.DIRECTOR);
+        super(username, password, AccessLevel.DIRECTOR, null);
     }
 }

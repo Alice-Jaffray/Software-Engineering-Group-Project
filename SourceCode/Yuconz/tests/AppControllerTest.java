@@ -2,28 +2,50 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppControllerTest {
 
     private AuthServer a = new AuthServer("DatabasesTest/LoginRecordsTest.csv", "jdbc:sqlite:DatabasesTest/YuconzTest.db");
+    private HRDatabase hr = new HRDatabase("DatabasesTest/AuthorisationRecordsTest", "jdbc:sqlite:DatabasesTest/pdTest.db");
     private AppController app;
 
     @BeforeEach
     void setUp() {
         a.insertLogin("cfi000", "admin", "hremployee");
+        hr.addUser("cfi000", "human resources", null, "hremployee");
         a.insertLogin("aaa000", "password", "employee");
+        hr.addUser("aaa000", "services delivery", null, "employee");
         a.insertLogin("mro000", "pa33word", "director");
+        hr.addUser("mro000", "administration", null, "director");
         a.insertLogin("man000", "pa55word", "manager");
-        app = new AppController(new HRDatabase(), a);
+        hr.addUser("man000", "administration", null, "manager");
+        app = new AppController(hr, a);
     }
 
     @AfterEach
     void tearDown() {
-        a.deleteLogin("cfi000");
-        a.deleteLogin("aaa000");
-        a.deleteLogin("mro000");
-        a.deleteLogin("man000");
+        try {
+            Connection con = this.connect("jdbc:sqlite:DatabasesTest/YuconzTest.db");
+            Statement s = con.createStatement();
+            String sql = "DELETE FROM users;";
+            s.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+        try {
+            Connection con = this.connect("jdbc:sqlite:DatabasesTest/pdTest.db");
+            Statement s = con.createStatement();
+            String sql = "DELETE FROM employees;";
+            s.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.getMessage();
+        }
     }
 
     @Test
@@ -93,7 +115,7 @@ class AppControllerTest {
     @Test
     void rightUserObject() {
         app.login("cfi000", "admin");
-        assertEquals(app.getLoggedInUser().getUsername(), "cfi000", "HR Employee did not match.");
+        assertEquals("cfi000", app.getLoggedInUser().getUsername(), "HR Employee did not match.");
         app.logout();
         app.login("aaa000", "password");
         assertEquals(app.getLoggedInUser().getUsername(), "aaa000", "Employee did not match.");
@@ -102,8 +124,18 @@ class AppControllerTest {
         assertEquals(app.getLoggedInUser().getUsername(), "mro000", "Director did not match.");
         app.logout();
         app.login("man000", "pa55word");
-        assertEquals(app.getLoggedInUser().getUsername(), "cfi000", "Manager did not match.");
+        assertEquals(app.getLoggedInUser().getUsername(), "man000", "Manager did not match.");
         app.logout();
+    }
+
+    private Connection connect(String url) {
+        Connection con = null;
+        try{
+            con = DriverManager.getConnection(url);
+        } catch (Exception ex) {
+            System.exit(0);
+        }
+        return con;
     }
 
 }

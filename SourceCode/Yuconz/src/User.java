@@ -7,20 +7,21 @@
  */
 public class User {
     private String username;
-    private String password;
     private AccessLevel accessLevel;
+    private String department;
+    private String manager;
 
     /**
      * constructor
-     *
-     * @param username  the username of the user
-     * @param password  the password of the user
-     * @param accessLevel the authorisation level of the user
+     * @param username
+     * @param department
+     * @param accessLevel
      */
-    public User(String username, String password, AccessLevel accessLevel) {
+    public User(String username, String department, AccessLevel accessLevel, String manager) {
         this.username = username;
-        this.password = password;
+        this.department = department;
         this.accessLevel = accessLevel;
+        this.manager = manager;
     }
 
     /**
@@ -33,15 +34,6 @@ public class User {
     }
 
     /**
-     * gets the password of the user
-     *
-     * @return the password of the user
-     */
-    public String getPassword(){
-        return password;
-    }
-
-    /**
      * gets the access level of the user
      *
      * @return the access level of the user
@@ -50,4 +42,19 @@ public class User {
         return accessLevel;
     }
 
+    /**
+     * gets user's department.
+     * @return the user's department.
+     */
+    public String getDepartment() {
+        return department;
+    }
+
+    /**
+     * gets the manager of the user.
+     * @return manager.
+     */
+    public String getManager() {
+        return manager;
+    }
 }

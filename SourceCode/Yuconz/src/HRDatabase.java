@@ -44,6 +44,66 @@ public class HRDatabase {
     }
 
     /**
+     * Get a user object from the hr database.
+     * @param empNo the user to get.
+     * @return a user object with the user's information.
+     */
+    public User getUser(String empNo) {
+        // SQL Query
+        String sql = "SELECT * FROM employees WHERE empID = ?";
+        try(Connection con = this.connect();
+            PreparedStatement prep = con.prepareStatement(sql)) {
+            prep.setString(1, empNo);
+
+            ResultSet results = prep.executeQuery();
+            if(results.getString(1) != null) {
+                String user = results.getString(1);
+                String department = results.getString(2);
+                String manager = results.getString(3);
+                String accessString = results.getString(4);
+                AccessLevel access;
+                switch (accessString) {
+                    case "employee": access = AccessLevel.EMPLOYEE;
+                    case "hremployee": access = AccessLevel.HREMPLOYEE;
+                    case "manager": access = AccessLevel.MANAGER;
+                    case "director": access = AccessLevel.DIRECTOR;
+                    default: access = AccessLevel.EMPLOYEE;
+                }
+                return new User(user, department, access, manager);
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * Add a user to the HR database.
+     * @param username username to add.
+     * @param department department the user works in.
+     * @param manager the username of the user's direct superior.
+     * @param access the access level of the new user.
+     * @return true if successful.
+     */
+    boolean addUser(String username, String department, String manager, String access) {
+        //Query
+        String sql = "INSERT INTO employees (empID, department, manager, access) values (?, ?, ?, ?);";
+
+        try (Connection con = this.connect();
+             PreparedStatement prep = con.prepareStatement(sql)) {
+            prep.setString(1, username);
+            prep.setString(2, department);
+            prep.setString(3, manager);
+            prep.setString(4, access);
+            prep.executeUpdate();
+            return true;
+        } catch (SQLException sqlEx) {
+            System.err.println(sqlEx.getMessage());
+            return false;
+        }
+    }
+
+    /**
      * allows user to read the personal details record of an employee
      *
      * @param empNo     the number of the employee who's record it refers to
@@ -51,7 +111,7 @@ public class HRDatabase {
      * @return personal details record of an employee or null otherwise
      */
     public PersonalDetails readPersonalDetails(String empNo, User requester) {
-        if (requester.getAccessLevel().equals("hremployee") || requester.getAccessLevel().equals("director") || document.getStaffID().equals(empNo)) {
+        if (requester.getAccessLevel().toString().equals("hremployee") || requester.getAccessLevel().toString().equals("director") || document.getStaffID().equals(empNo)) {
             // SQL Query
             String sql = "SELECT * FROM PersonalDetails where empNo = ?;";
             try (Connection con = this.connect();

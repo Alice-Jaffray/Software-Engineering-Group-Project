@@ -6,24 +6,25 @@
  * @version 2019/02/28
  */
 public class Employee extends User {
+
     /**
      * constructor
-     *
-     * @param username the username of the employee
-     * @param password the password of the employee
+     * @param username employee's unique username.
+     * @param manager employees direct manager
+     * @param department department the employee works for.
      */
-    public Employee(String username, String password) {
-        super(username, password, AccessLevel.EMPLOYEE);
+    public Employee(String username, String manager, String department) {
+        super(username, department, AccessLevel.EMPLOYEE, manager);
     }
 
     /**
-     * second constructor
-     *
-     * @param username the username of the employee
-     * @param password the password of the employee
-     * @param accessLevel the authorisation level of the employee
+     * second constructor for different access levels.
+     * @param username user's unique username.
+     * @param manager user's direct superior
+     * @param department department the user works in.
+     * @param a access level the user has.
      */
-    public Employee(String username, String password, AccessLevel accessLevel) {
-        super(username, password, accessLevel);
+    protected Employee(String username, String manager, String department, AccessLevel a) {
+        super(username, department, a, manager);
     }
 }
