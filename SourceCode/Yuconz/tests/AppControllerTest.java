@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AppControllerTest {
 
-    private AuthServer a = new AuthServer();
+    private AuthServer a = new AuthServer("DatabasesTest/LoginRecordsTest.csv", "jdbc:sqlite:DatabasesTest/YuconzTest.db");
     private AppController app;
 
     @BeforeEach

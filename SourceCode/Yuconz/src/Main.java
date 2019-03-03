@@ -12,7 +12,7 @@ public class Main {
      */
     public static void main(String[] args) throws FileNotFoundException {
 
-        AuthServer authServer = new AuthServer();
+        AuthServer authServer = new AuthServer("Databases/LoginRecords.csv", "jdbc:sqlite:Databases/Yuconz.db");
         HRDatabase hrDatabase = new HRDatabase();
 
 

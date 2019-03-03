@@ -22,7 +22,14 @@ import java.security.MessageDigest;
  * @version 2019/02/16
  */
 public class AuthServer {
-    private final String FILENAME = "Databases/LoginRecords.csv";
+    private final String FILENAME;
+    private final String DATABASE;
+
+    public AuthServer(String loginLogs, String database) {
+        DATABASE = database;
+        FILENAME = loginLogs;
+    }
+
 
     /**
      * Connects to the Authentication database.
@@ -31,7 +38,7 @@ public class AuthServer {
     private Connection connect() {
         Connection con = null;
         try{
-            String url = "jdbc:sqlite:Databases/Yuconz.db";
+            String url = DATABASE;
             con = DriverManager.getConnection(url);
         } catch (Exception ex) {
             System.err.println( ex.getClass().getName() + ": " + ex.getMessage() );
