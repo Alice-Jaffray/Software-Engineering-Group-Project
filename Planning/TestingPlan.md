@@ -9,22 +9,33 @@ Tests will be done before each push to the main server repository, and must foll
 * Tests are to be implemented as JUnit tests, aiming for a high level of code and branch coverage. 
 * Any functionality that is found not to be tested should have a test written for it and added here; with a note of when it was added. This note should be included in the amendments section at the end of the document to track changes.
 ### Planned Tests
-* **Log In**
-    * Attempt to log in with incorrect details. 
-        * Passes if login fails and attempt is stored in system. 
-    * Attempt to log in as standard employee with valid details. 
-        * Passes if login successful, attempt is stored in system, system is logged in as correct user.
-    * Attempt to log in as HR Employee with valid details. 
-        * Passes if they're now logged in as the correct user.
-    * Attempt to log in as HR Employee/Director with valid details, but lower privileges.
-        * Passes if logged in as correct user and fails to create new "Personal Details Document"       
+* **AppController**
+    * Attempt login with valid details (all user types)
+        * Passes if all log in sucessfully.
+    * Attempt login with invalid username (all user types)
+        * Passes if all login attempts denied.
+    * Attempt login with invalid username (all user types)
+        * Passes if all login attempts denied.
+    * Log out of the system after logging in. 
+        * Passes if the user is logged in before the command and logged out after. 
+    * Set basic access after logging in. (all user types)
+        * Passes if logged in user now has basic system access.
+    * Check access level in class matches database. (all user types)
+        * Passes if access levels match.
+    * Check if the system found the right user in the HR database.
+        * Passes if the user from the HR Database has the same empID used to log in.
 
+* **AuthServer**
+    * Authenticate with valid details (all user types)
+        * Passes if right access level is returned. 
+    * Authenticate with wrong username and password (and cases) (all user types)
+        * Passes if authenticate returns "denied".
+    * Insert new login into the database.
+        * Passes if new user is authenticated. 
+    * Delete a login from the database.
+        * Passes if deleted login no longer authenticates. 
 
-* **Log Out**
-    * Log out from all user types (Director, HR Employee, Employee) in turn.
-        * Passes if user no longer has access rights and system recorded logged out user.
-
-
+___
 * **Read Personal Details** 
     * Attempt to view associated personal details for logged in employee (Non-HR).
         * Passes if correct document is delivered to the user.
@@ -105,3 +116,4 @@ This information can be found by referring to the latest meeting documents, whic
 
 ## Amendments
 * 2019-02-11:  Document amended to include the type of tests being used (JUnit) and mentions the amendments section. 
+* 2019-03-03: Document will now be split by class once the test classes are written. Unwritten classes will remain by use case until covered elsewhere. 
