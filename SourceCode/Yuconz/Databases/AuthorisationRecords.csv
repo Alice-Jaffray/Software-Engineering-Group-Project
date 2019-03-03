@@ -1,0 +1,14 @@
+Username,empNo.requestType,Date and Time, Access Granted?
+
+kd,kpd123.CreatePersonalDetails,2019-03-03 19:01:52,false
+kd,kpd123.ReadPersonalDetails,2019-03-03 19:01:52,true
+kd,kpd123.CreatePersonalDetails,2019-03-03 19:07:28,false
+kd,kpd123.ReadPersonalDetails,2019-03-03 19:07:28,true
+kd,kpd123.CreatePersonalDetails,2019-03-03 19:09:24,false
+kd,kpd123.ReadPersonalDetails,2019-03-03 19:09:24,true
+kd,kpd123.AmendPersonalDetails,2019-03-03 19:09:24,false
+kd,abc123.ReadPersonalDetails,2019-03-03 19:11:53,false
+kd,kpd123.ReadPersonalDetails,2019-03-03 19:18:07,true
+kd,abc123.AmendPersonalDetails,2019-03-03 19:18:07,false
+kd,kpd123.ReadPersonalDetails,2019-03-03 19:19:45,true
+kd,abc123.AmendPersonalDetails,2019-03-03 19:19:45,false
