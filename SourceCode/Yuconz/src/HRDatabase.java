@@ -51,7 +51,7 @@ public class HRDatabase {
      * @return personal details record of an employee or null otherwise
      */
     public PersonalDetails readPersonalDetails(String empNo, User requester) {
-        if (requester.getAccessLevel().equals("hremployee") || requester.getAccessLevel().equals("director") || document.getStaffID().equals(empNo)) {
+        if (requester.getAccessLevel().equals("hremployee") || requester.getAccessLevel().equals("director") || requester.getUsername().equals(empNo)) {
             // SQL Query
             String sql = "SELECT * FROM PersonalDetails where empNo = ?;";
             try (Connection con = this.connect();
