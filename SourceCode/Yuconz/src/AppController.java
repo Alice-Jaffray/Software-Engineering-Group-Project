@@ -107,8 +107,8 @@ public class AppController {
         return hrDatabase.createPersonalDetails(empID, loggedInUser);
     }
 
-    PersonalDetails amendPersonalDetails(String empID, String field, String newVal) {
-        return hrDatabase.amendPersonalDetails(empID, field, newVal, loggedInUser);
+    void amendPersonalDetails(String empID, String field, String newVal) {
+        hrDatabase.amendPersonalDetails(empID, field, newVal, loggedInUser);
     }
 
     /**
@@ -146,9 +146,8 @@ public class AppController {
 
     /**
      * Displays the login screen functionality.
-     * @return true if valid details were entered.
      */
-    private boolean loginPrompt() {
+    private void loginPrompt() {
         System.out.println("Welcome to Yuconz Document System. Please enter your username and password:");
         System.out.println();
         System.out.print("Username: ");
@@ -167,11 +166,9 @@ public class AppController {
             } catch (NullPointerException ex) {
                 System.out.println("User not present in HR database, contact system administrator.");
             }
-            return true;
         } else {
             System.out.println();
             System.out.println("Invalid username or password.");
-            return false;
         }
     }
 
