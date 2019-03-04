@@ -63,11 +63,11 @@ public class HRDatabase {
                 String accessString = results.getString(4);
                 AccessLevel access;
                 switch (accessString) {
-                    case "employee": access = AccessLevel.EMPLOYEE;
-                    case "hremployee": access = AccessLevel.HREMPLOYEE;
-                    case "manager": access = AccessLevel.MANAGER;
-                    case "director": access = AccessLevel.DIRECTOR;
-                    default: access = AccessLevel.EMPLOYEE;
+                    case "employee": access = AccessLevel.EMPLOYEE; break;
+                    case "hremployee": access = AccessLevel.HREMPLOYEE; break;
+                    case "manager": access = AccessLevel.MANAGER; break;
+                    case "director": access = AccessLevel.DIRECTOR; break;
+                    default: access = AccessLevel.EMPLOYEE; break;
                 }
                 return new User(user, department, access, manager);
             }
@@ -111,7 +111,7 @@ public class HRDatabase {
      * @return personal details record of an employee or null otherwise
      */
     public PersonalDetails readPersonalDetails(String empNo, User requester) {
-        if (requester.getAccessLevel().toString().equals("hremployee") || requester.getAccessLevel().toString().equals("director") || document.getStaffID().equals(empNo)) {
+        if (requester.getAccessLevel().toString().equals("hremployee") || requester.getAccessLevel().toString().equals("director")) {
             // SQL Query
             String sql = "SELECT * FROM PersonalDetails where empNo = ?;";
             try (Connection con = this.connect();
@@ -166,6 +166,7 @@ public class HRDatabase {
             }
         } else {
             writeToFile(requester.getUsername(), empNo + ".CreatePersonalDetails", false);
+            System.err.println("Access level " + requester.getAccessLevel().toString());
             return false;
         }
     }
@@ -179,7 +180,7 @@ public class HRDatabase {
      * @param requester the user who is requesting to change the record or null otherwise
      */
     public PersonalDetails amendPersonalDetails(String empNo, String field, String newVal, User requester) {
-        if (requester.getAccessLevel().equals("hremployee")) {
+        if (requester.getAccessLevel() == AccessLevel.HREMPLOYEE) {
             //SQL query
             String sql = "UPDATE PersonalDetails SET "+field+" = ? WHERE empNo =?;";
             try (Connection con = this.connect();

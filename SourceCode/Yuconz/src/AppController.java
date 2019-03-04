@@ -68,6 +68,7 @@ public class AppController {
             }
             loggedInUser = hrDatabase.getUser(username);
             loggedIn = true;
+            System.out.println(accessLevel.toString());
             return true;
         }
     }
@@ -82,19 +83,11 @@ public class AppController {
     }
 
     /**
-     * Get the personal details of the logged in user.
-     * @return a personal details document for the logged in employee.
-     */
-    PersonalDetails readOwnPersonalDetails() {
-        return hrDatabase.readPersonalDetails(loggedInUser.getUsername(), loggedInUser);
-    }
-
-    /**
      * Get the personal details document for a different employee.
      * @param empID The owner of the document
      * @return the document associated with empID.
      */
-    PersonalDetails readOtherPersonalDetails(String empID) {
+    PersonalDetails readPersonalDetails(String empID) {
         return hrDatabase.readPersonalDetails(empID, loggedInUser);
     }
 
@@ -160,7 +153,7 @@ public class AppController {
             System.out.println("Logged In");
             // Higher level users get the option to login as a base level employee.
             try {
-                if (loggedInUser.getAccessLevel() != AccessLevel.EMPLOYEE) {
+                if (accessLevel != AccessLevel.EMPLOYEE) {
                     basicAccessPrompt();
                 }
             } catch (NullPointerException ex) {
@@ -181,6 +174,7 @@ public class AppController {
             String option = scan.next().toLowerCase();
             if (option.equals("y")) {
                 setBasicAccess();
+                return;
             } else if (option.equals("n")) {
                 return;
             } else {
@@ -219,9 +213,9 @@ public class AppController {
             case "1": logout(); break;
             case "2": readOwnPersonalDetails(); break;
             case "3": addNewLogin(); break;
-            case "4": readOtherPersonalDetails();
-            case "5": createPersonalDetails();
-            case "6": amendPersonalDetails();
+            case "4": readOtherPersonalDetails(); break;
+            case "5": createPersonalDetails(); break;
+            case "6": amendPersonalDetails(); break;
             default: System.out.println("That is not a valid option.");
         }
         runController();
@@ -239,9 +233,19 @@ public class AppController {
         runController();
     }
 
+    private void readOwnPersonalDetails() {
+        PersonalDetails p = readPersonalDetails(loggedInUser.getUsername());
+        printPersonalDetails(p);
+    }
+
     private void readOtherPersonalDetails() {
         System.out.print("Enter username of document owner:");
-        PersonalDetails p = readOtherPersonalDetails(scan.next());
+        PersonalDetails p = readPersonalDetails(scan.next());
+        printPersonalDetails(p);
+
+    }
+
+    private void printPersonalDetails(PersonalDetails p) {
         if(p != null) {
             System.out.println();
             System.out.println(p.getStaffID());
@@ -264,7 +268,7 @@ public class AppController {
         if (success) {
             System.out.println("Success! Please amend the document to add values.");
         } else {
-            System.out.println("Failure, document not created.");
+            System.out.println("Failure, document not created. Document may already exist.");
         }
     }
 
