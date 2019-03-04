@@ -2,7 +2,7 @@
 
 ## Software
 Software submitted to the project must follow the following quality points: 
-* All methods and classes **MUST** have [JavaDoc](https://www.oracle.com/technetwork/java/javase/tech/index-137868.html) style comments, covering all parameters and return types and a simple explanation of what the method/class does. 
+* All non-private methods and classes **MUST** have [JavaDoc](https://www.oracle.com/technetwork/java/javase/tech/index-137868.html) style comments, covering all parameters and return types and a simple explanation of what the method/class does. 
     * Note: IntelliJ provides a template for the JavaDoc comment for the method head as soon as you type `/** + Enter`  above the header.
     
 * Code should be written to use parameters wherever possible, whether for passing user input or test double elements to ensure easier testing. 

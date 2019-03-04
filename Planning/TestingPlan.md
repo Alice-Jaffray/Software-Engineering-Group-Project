@@ -35,32 +35,26 @@ Tests will be done before each push to the main server repository, and must foll
     * Delete a login from the database.
         * Passes if deleted login no longer authenticates. 
 
+* **HRDatabase - Personal Details**
+    * Get an instance of all user types from the database. 
+        * Passes if a user object with all the correct information is returned.
+    * Add a new user to the HRDatabase.
+        * Passes if a new user can be added only once. 
+    * Read a newly added personal details document from the database as HR employee.
+        * Passes if the new document has the right staff ID. 
+    * Read an employee's own personal details document.
+        * Passes if correct document is returned. 
+    * Read document for non-existing employee
+        * Passes if null returned. 
+    * Create a new personal details document as other employee.
+        * Passes if create document fails. 
+    * Create a new personal details document as HR employee. 
+        * Passes if the new document can only be added once. 
+    * Amend a personal details document as HR employee.
+        * Passes if new values are stored in the document. 
+    * Amend own personal details document.
+        * Passes if document amended. 
 ___
-* **Read Personal Details** 
-    * Attempt to view associated personal details for logged in employee (Non-HR).
-        * Passes if correct document is delivered to the user.
-    * Attempt to view personal details for a different employee to logged in user (Non-HR). 
-        * Passes if authorization fails and no documents are delivered.
-    * Attempt to view personal details for another employee as HR employee.
-        * Passes if document is successfully delivered to user.
-    * Attempt to read document for employee that does not exist.
-        * Passes if no documents are supplied. 
-
-
-* **Create Personal Details**
-    * Create document for new staff member as HR employee and fill in.
-        * Passes if new document can be read from the database (readPersonalDetails).
-    * Create document as non-HR employee. 
-        * Passes if authorisation check fails.
-    * Create document as HR employee for a staff member that already exists.
-        * Passes if no documents are created. 
-
-
-* **Amend Personal Details**
-    * Amend document request as HR employee, fill in new details.
-        * Passes if new details are saved to database.
-    * Amend request for document that does not exist as HR employee.
-        * Passes if no documents are changed. 
 
 * **Create new Review Record**
     * Create document as HR employee.
@@ -117,3 +111,4 @@ This information can be found by referring to the latest meeting documents, whic
 ## Amendments
 * 2019-02-11:  Document amended to include the type of tests being used (JUnit) and mentions the amendments section. 
 * 2019-03-03: Document will now be split by class once the test classes are written. Unwritten classes will remain by use case until covered elsewhere. 
+* 2019-03-04: Test cases added for HRDatabase. 

@@ -15,6 +15,8 @@ public class AppController {
 
     /**
      * constructor
+     * @param hr HR Database object to use.
+     * @param a AuthServer object to use.
      */
     AppController(HRDatabase hr, AuthServer a) {
         scan = new Scanner(System.in);
@@ -193,10 +195,12 @@ public class AppController {
     }
 
     private void employeeMainMenu() {
+        System.out.println("3. Amend own personal details.");
         String option = scan.next();
         switch (option) {
             case "1": logout(); break;
             case "2": readOwnPersonalDetails(); break;
+            case "3": amendOwnPersonalDetails(); break;
             default: System.out.println("That is not a valid option.");
         }
         runController();
@@ -272,9 +276,17 @@ public class AppController {
         }
     }
 
+    private void amendOwnPersonalDetails() {
+        amendPersonalDetailsMenu(loggedInUser.getUsername());
+    }
+
     private void amendPersonalDetails() {
         System.out.println("Enter username of employee: ");
         String emp = scan.next();
+        amendPersonalDetailsMenu(emp);
+    }
+
+    private void amendPersonalDetailsMenu(String emp) {
         boolean done = false;
         while(!done){
             System.out.println("Select a field to change: ");

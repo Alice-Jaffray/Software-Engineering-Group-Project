@@ -25,6 +25,11 @@ public class AuthServer {
     private final String FILENAME;
     private final String DATABASE;
 
+    /**
+     * constructor
+     * @param loginLogs file path for log file.
+     * @param database file path for SQLite database.
+     */
     public AuthServer(String loginLogs, String database) {
         DATABASE = database;
         FILENAME = loginLogs;
@@ -88,7 +93,7 @@ public class AuthServer {
     /**
      * Get the salt for a user from the database.
      * @param empID The user to get the salt for.
-     * @return The returned salt, or null if no salt was found.
+     * @return The returned salt, or null if no salt was made.
      */
     @Nullable
     private byte[] getSalt(String empID) {

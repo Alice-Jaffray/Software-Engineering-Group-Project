@@ -2,6 +2,17 @@
 
 Notable changes to the source code for this project will be recorded here. 
 
+## Version - 2019/03/04
+
+### Added
+* Enumerated list for access level.
+* Updated tests for new database functionality. 
+
+### Changed
+* AuthServer and HRDatabase now interact with static SQLite databases.
+* AuthServer and HRDatabase now write login and authorisation attempt logs in .csv files. 
+* Methods have moved from User classes to AppController and HRDatabase. 
+
 ## Version - 2019/02/16
 
 ### Added

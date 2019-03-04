@@ -111,7 +111,7 @@ public class HRDatabase {
      * @return personal details record of an employee or null otherwise
      */
     public PersonalDetails readPersonalDetails(String empNo, User requester) {
-        if (requester.getAccessLevel().toString().equals("hremployee") || requester.getAccessLevel().toString().equals("director")) {
+        if (requester.getAccessLevel().toString().equals("hremployee") || requester.getAccessLevel().toString().equals("director") || empNo.equals(requester.getUsername())) {
             // SQL Query
             String sql = "SELECT * FROM PersonalDetails where empNo = ?;";
             try (Connection con = this.connect();
@@ -180,7 +180,7 @@ public class HRDatabase {
      * @param requester the user who is requesting to change the record or null otherwise
      */
     public PersonalDetails amendPersonalDetails(String empNo, String field, String newVal, User requester) {
-        if (requester.getAccessLevel() == AccessLevel.HREMPLOYEE) {
+        if (requester.getAccessLevel() == AccessLevel.HREMPLOYEE || empNo.equals(requester.getUsername())) {
             //SQL query
             String sql = "UPDATE PersonalDetails SET "+field+" = ? WHERE empNo =?;";
             try (Connection con = this.connect();

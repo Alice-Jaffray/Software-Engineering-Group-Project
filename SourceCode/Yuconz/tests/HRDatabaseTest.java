@@ -86,17 +86,35 @@ class HRDatabaseTest {
     }
 
     @Test
+    void readNonExistantPersonalDetails() {
+        assertNull(hr.readPersonalDetails("emp001", hr.getUser("cfi000")), "Not null result.");
+    }
+
+    @Test
     void createPersonalDetails() {
         assertTrue(hr.createPersonalDetails("cfi000", hr.getUser("cfi000")));
         assertFalse(hr.createPersonalDetails("cfi000", hr.getUser("cfi000")));
     }
 
     @Test
-    void amendPersonalDetails() {
-        hr.createPersonalDetails("cfi000", hr.getUser("cfi000"));
-        assertNull(hr.readPersonalDetails("cfi000", hr.getUser("cfi000")).getForename(), "Forename did not start empty.");
-        hr.amendPersonalDetails("cfi000", "forename", "Conor", hr.getUser("cfi000"));
-        assertEquals("Conor", hr.readPersonalDetails("cfi000", hr.getUser("cfi000")).getForename(), "Forename was not changed.");
+    void illegalCreatePersonalDetails() {
+        assertFalse(hr.createPersonalDetails("aaa000", hr.getUser("aaa000")));
+    }
+
+    @Test
+    void amendOwnPersonalDetails() {
+        hr.createPersonalDetails("aaa000", hr.getUser("cfi000"));
+        assertNull(hr.readPersonalDetails("aaa000", hr.getUser("aaa000")).getForename(), "Forename did not start empty.");
+        hr.amendPersonalDetails("aaa000", "forename", "John", hr.getUser("aaa000"));
+        assertEquals("John", hr.readPersonalDetails("aaa000", hr.getUser("aaa000")).getForename(), "Forename was not changed.");
+    }
+
+    @Test
+    void amendPersonalDetailsHR() {
+        hr.createPersonalDetails("aaa000", hr.getUser("cfi000"));
+        assertNull(hr.readPersonalDetails("aaa000", hr.getUser("cfi000")).getForename(), "Forename did not start empty.");
+        hr.amendPersonalDetails("aaa000", "forename", "John", hr.getUser("cfi000"));
+        assertEquals("John", hr.readPersonalDetails("aaa000", hr.getUser("cfi000")).getForename(), "Forename was not changed.");
     }
 
     private Connection connect(String url) {

@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 
 /**
  * creates all needed objects to start the program
@@ -10,7 +9,7 @@ public class Main {
     /**
      * Starts the app
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
 
         AuthServer authServer = new AuthServer("Databases/LoginRecords.csv", "jdbc:sqlite:Databases/Yuconz.db");
         HRDatabase hrDatabase = new HRDatabase("Databases/AuthorisationRecords.csv", "jdbc:sqlite:Databases/pd.db");
