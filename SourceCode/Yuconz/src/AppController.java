@@ -51,12 +51,12 @@ public class AppController {
     /**
      * Logs the user into the system
      *
-     * @param username username of the user
+     * @param empNo employee number of the user
      * @param password password of the user
      * @return true if the login was successful and false otherwise
      */
-    boolean login(String username, String password){
-        String access = authServer.authenticate(username, password);
+    boolean login(String empNo, String password){
+        String access = authServer.authenticate(empNo, password);
         if(access.equals("denied")) {
             loggedIn = false;
             return false;
@@ -68,7 +68,7 @@ public class AppController {
                 case "director": accessLevel = AccessLevel.DIRECTOR; break;
                 default: return false;
             }
-            loggedInUser = hrDatabase.getUser(username);
+            loggedInUser = hrDatabase.getUser(empNo);
             loggedIn = true;
             System.out.println(accessLevel.toString());
             return true;
@@ -86,24 +86,30 @@ public class AppController {
 
     /**
      * Get the personal details document for a different employee.
-     * @param empID The owner of the document
-     * @return the document associated with empID.
+     * @param empNo The owner of the document
+     * @return the document associated with empNo.
      */
-    PersonalDetails readPersonalDetails(String empID) {
-        return hrDatabase.readPersonalDetails(empID, loggedInUser);
+    PersonalDetails readPersonalDetails(String empNo) {
+        return hrDatabase.readPersonalDetails(empNo, loggedInUser);
     }
 
     /**
-     * Create a new blank document for the employee associated with empID.
-     * @param empID the employee the document is for.
+     * Create a new blank document for the employee associated with an employee number.
+     * @param empNo the employee the document is for.
      * @return true if successful.
      */
-    boolean createPersonalDetails(String empID) {
-        return hrDatabase.createPersonalDetails(empID, loggedInUser);
+    boolean createPersonalDetails(String empNo) {
+        return hrDatabase.createPersonalDetails(empNo, loggedInUser);
     }
 
-    void amendPersonalDetails(String empID, String field, String newVal) {
-        hrDatabase.amendPersonalDetails(empID, field, newVal, loggedInUser);
+    /**
+     * Amend a personal details document associated with an employee number.
+     * @param empNo employee number
+     * @param field field to change
+     * @param newVal new value for the field.
+     */
+    void amendPersonalDetails(String empNo, String field, String newVal) {
+        hrDatabase.amendPersonalDetails(empNo, field, newVal, loggedInUser);
     }
 
     /**
@@ -143,14 +149,14 @@ public class AppController {
      * Displays the login screen functionality.
      */
     private void loginPrompt() {
-        System.out.println("Welcome to Yuconz Document System. Please enter your username and password:");
+        System.out.println("Welcome to Yuconz Document System. Please enter your employee number and password:");
         System.out.println();
-        System.out.print("Username: ");
-        String username = scan.next();
+        System.out.print("Employee Number: ");
+        String empNo = scan.next();
         System.out.println();
         System.out.print("Password: ");
         String password = scan.next();
-        if(login(username, password)) {
+        if(login(empNo, password)) {
             System.out.println();
             System.out.println("Logged In");
             // Higher level users get the option to login as a base level employee.
@@ -163,7 +169,7 @@ public class AppController {
             }
         } else {
             System.out.println();
-            System.out.println("Invalid username or password.");
+            System.out.println("Invalid employee number or password.");
         }
     }
 
@@ -238,12 +244,12 @@ public class AppController {
     }
 
     private void readOwnPersonalDetails() {
-        PersonalDetails p = readPersonalDetails(loggedInUser.getUsername());
+        PersonalDetails p = readPersonalDetails(loggedInUser.getEmpNo());
         printPersonalDetails(p);
     }
 
     private void readOtherPersonalDetails() {
-        System.out.print("Enter username of document owner:");
+        System.out.print("Enter employee number of document owner:");
         PersonalDetails p = readPersonalDetails(scan.next());
         printPersonalDetails(p);
 
@@ -252,7 +258,7 @@ public class AppController {
     private void printPersonalDetails(PersonalDetails p) {
         if(p != null) {
             System.out.println();
-            System.out.println(p.getStaffID());
+            System.out.println(p.getEmpNo());
             System.out.println(p.getForename());
             System.out.println(p.getSurname());
             System.out.println(p.getDob());
@@ -266,7 +272,7 @@ public class AppController {
     }
 
     private void createPersonalDetails() {
-        System.out.print("Enter username of new employee: ");
+        System.out.print("Enter employee number of new employee: ");
         boolean success = createPersonalDetails(scan.next());
         System.out.println();
         if (success) {
@@ -277,11 +283,11 @@ public class AppController {
     }
 
     private void amendOwnPersonalDetails() {
-        amendPersonalDetailsMenu(loggedInUser.getUsername());
+        amendPersonalDetailsMenu(loggedInUser.getEmpNo());
     }
 
     private void amendPersonalDetails() {
-        System.out.println("Enter username of employee: ");
+        System.out.println("Enter employee number of employee: ");
         String emp = scan.next();
         amendPersonalDetailsMenu(emp);
     }
@@ -334,7 +340,7 @@ public class AppController {
 
     private void addNewLogin() {
         System.out.println("Enter details for new user:");
-        System.out.print("Enter Username: ");
+        System.out.print("Enter Employee Number: ");
         String user = scan.next();
         System.out.println();
         System.out.print("Enter Password: ");

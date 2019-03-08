@@ -6,31 +6,31 @@
  * @version 2019/02/28
  */
 public class User {
-    private String username;
+    private String empNo;
     private AccessLevel accessLevel;
     private String department;
     private String manager;
 
     /**
      * constructor
-     * @param username
+     * @param empNo
      * @param department
      * @param accessLevel
      */
-    public User(String username, String department, AccessLevel accessLevel, String manager) {
-        this.username = username;
+    public User(String empNo, String department, AccessLevel accessLevel, String manager) {
+        this.empNo = empNo;
         this.department = department;
         this.accessLevel = accessLevel;
         this.manager = manager;
     }
 
     /**
-     * gets the username of the user
+     * gets the employee number of the user
      *
-     * @return the username of the user
+     * @return employee number.
      */
-    public String getUsername(){
-        return username;
+    public String getEmpNo(){
+        return empNo;
     }
 
     /**

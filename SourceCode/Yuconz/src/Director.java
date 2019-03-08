@@ -8,10 +8,10 @@ public class Director extends User {
     /**
      * constructor
      *
-     * @param username username of the director
+     * @param empNo unique employee number.
      * @param password password of the director
      */
-    public Director(String username, String password) {
-        super(username, password, AccessLevel.DIRECTOR, null);
+    public Director(String empNo, String password) {
+        super(empNo, password, AccessLevel.DIRECTOR, null);
     }
 }

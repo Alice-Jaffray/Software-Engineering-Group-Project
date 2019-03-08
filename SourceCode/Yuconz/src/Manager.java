@@ -9,11 +9,11 @@ public class Manager extends Employee {
 
     /**
      * constructor
-     * @param username username for the manager.
+     * @param empNo unique employee number for this manager.
      * @param manager direct superior.
      * @param department department the user works in.
      */
-    public Manager(String username, String manager, String department) {
-        super(username, manager, department, AccessLevel.MANAGER);
+    public Manager(String empNo, String manager, String department) {
+        super(empNo, manager, department, AccessLevel.MANAGER);
     }
 }

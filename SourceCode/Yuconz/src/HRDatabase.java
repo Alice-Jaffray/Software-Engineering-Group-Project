@@ -79,19 +79,19 @@ public class HRDatabase {
 
     /**
      * Add a user to the HR database.
-     * @param username username to add.
+     * @param empNo employee number to add.
      * @param department department the user works in.
-     * @param manager the username of the user's direct superior.
+     * @param manager the employee number of the user's direct superior.
      * @param access the access level of the new user.
      * @return true if successful.
      */
-    boolean addUser(String username, String department, String manager, String access) {
+    boolean addUser(String empNo, String department, String manager, String access) {
         //Query
         String sql = "INSERT INTO employees (empID, department, manager, access) values (?, ?, ?, ?);";
 
         try (Connection con = this.connect();
              PreparedStatement prep = con.prepareStatement(sql)) {
-            prep.setString(1, username);
+            prep.setString(1, empNo);
             prep.setString(2, department);
             prep.setString(3, manager);
             prep.setString(4, access);
@@ -111,7 +111,7 @@ public class HRDatabase {
      * @return personal details record of an employee or null otherwise
      */
     public PersonalDetails readPersonalDetails(String empNo, User requester) {
-        if (requester.getAccessLevel().toString().equals("hremployee") || requester.getAccessLevel().toString().equals("director") || empNo.equals(requester.getUsername())) {
+        if (requester.getAccessLevel().toString().equals("hremployee") || requester.getAccessLevel().toString().equals("director") || empNo.equals(requester.getEmpNo())) {
             // SQL Query
             String sql = "SELECT * FROM PersonalDetails where empNo = ?;";
             try (Connection con = this.connect();
@@ -129,7 +129,7 @@ public class HRDatabase {
                     document.setTelephoneNo(results.getString(6));
                     document.setEmergContact(results.getString(7));
                     document.setEmergTel(results.getString(8));
-                    writeToFile(requester.getUsername(), empNo + ".ReadPersonalDetails", true);
+                    writeToFile(requester.getEmpNo(), empNo + ".ReadPersonalDetails", true);
                     return document;
                 }
             } catch(SQLException e) {
@@ -137,7 +137,7 @@ public class HRDatabase {
             }
 
         }
-        writeToFile(requester.getUsername(), empNo + ".ReadPersonalDetails", false);
+        writeToFile(requester.getEmpNo(), empNo + ".ReadPersonalDetails", false);
         return null;
     }
 
@@ -157,15 +157,15 @@ public class HRDatabase {
                 //fill placeholder
                 prep.setString(1, empNo);
                 prep.executeUpdate();
-                writeToFile(requester.getUsername(), empNo + ".CreatePersonalDetails", true);
+                writeToFile(requester.getEmpNo(), empNo + ".CreatePersonalDetails", true);
                 return true;
             } catch (SQLException sqlEx) {
                 System.err.println(sqlEx.getMessage());
-                writeToFile(requester.getUsername(), empNo + ".CreatePersonalDetails", false);
+                writeToFile(requester.getEmpNo(), empNo + ".CreatePersonalDetails", false);
                 return false;
             }
         } else {
-            writeToFile(requester.getUsername(), empNo + ".CreatePersonalDetails", false);
+            writeToFile(requester.getEmpNo(), empNo + ".CreatePersonalDetails", false);
             System.err.println("Access level " + requester.getAccessLevel().toString());
             return false;
         }
@@ -180,7 +180,7 @@ public class HRDatabase {
      * @param requester the user who is requesting to change the record or null otherwise
      */
     public PersonalDetails amendPersonalDetails(String empNo, String field, String newVal, User requester) {
-        if (requester.getAccessLevel() == AccessLevel.HREMPLOYEE || empNo.equals(requester.getUsername())) {
+        if (requester.getAccessLevel() == AccessLevel.HREMPLOYEE || empNo.equals(requester.getEmpNo())) {
             //SQL query
             String sql = "UPDATE PersonalDetails SET "+field+" = ? WHERE empNo =?;";
             try (Connection con = this.connect();
@@ -190,13 +190,13 @@ public class HRDatabase {
                 prep.setString(2, empNo);
                 //Execute statement
                 prep.executeUpdate();
-                writeToFile(requester.getUsername(), empNo + ".AmendPersonalDetails", true);
+                writeToFile(requester.getEmpNo(), empNo + ".AmendPersonalDetails", true);
                 return readPersonalDetails(empNo, requester);
             } catch (SQLException sqlEx) {
                 System.err.println(sqlEx.getMessage());
             }
         }
-        writeToFile(requester.getUsername(), empNo + ".AmendPersonalDetails", false);
+        writeToFile(requester.getEmpNo(), empNo + ".AmendPersonalDetails", false);
         return null;
     }
 
@@ -218,13 +218,13 @@ public class HRDatabase {
      * @return true if the record is created and false otherwise
      */
     public AnnualReview createReviewRecord(String empNo, User requester, User reviewer) {
-/*        if (document.getStaffID().equals(empNo) || reviewer.getUsername().equals(reviewer)) {
+/*        if (document.getEmpNo().equals(empNo) || reviewer.getEmpNo().equals(reviewer)) {
             document = new AnnualReview(empNo, null, null, null, null, null, null);
-            authRecord = new AuthRecord(requester.getUsername(), null, true);
+            authRecord = new AuthRecord(requester.getEmpNo(), null, true);
             authRecords.add(authRecord);
             return true;
         } else {
-            authRecord = new AuthRecord(requester.getUsername(), null, false);
+            authRecord = new AuthRecord(requester.getEmpNo(), null, false);
             authRecords.add(authRecord);
             return false;
         }
@@ -240,8 +240,8 @@ public class HRDatabase {
      * @param requester the user requesting to amend the record
      */
 /*    public AnnualReview amendReviewRecord(String empNo, String year, User requester) {
-        if (annualReview.getFirstReviewer().equals(requester.getUsername()) ||
-                annualReview.getSecondReviewer().equals(requester.getUsername())) {
+        if (annualReview.getFirstReviewer().equals(requester.getEmpNo()) ||
+                annualReview.getSecondReviewer().equals(requester.getEmpNo())) {
         }
         return null;
     }*/
@@ -262,13 +262,19 @@ public class HRDatabase {
         return null;
     }
 
-    private void writeToFile(String username, String documentName, boolean success){
+    /**
+     * Write data to the log file.
+     * @param empNo Employee number.
+     * @param documentName Document accessed.
+     * @param success true if allowed access.
+     */
+    private void writeToFile(String empNo, String documentName, boolean success){
         BufferedWriter bw = null;
         FileWriter fw = null;
 
         try{
             String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-            String content = username + "," +  documentName + "," + dateTime + "," + success + "\n";
+            String content = empNo + "," +  documentName + "," + dateTime + "," + success + "\n";
             fw = new FileWriter(FILENAME,true);
             bw = new BufferedWriter(fw);
             bw.write(content);

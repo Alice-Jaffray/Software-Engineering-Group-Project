@@ -56,7 +56,7 @@ public class AuthServer {
      * authenticates the user for login purposes
      * logs the details of the login attempt
      *
-     * @param user username of user
+     * @param user employee number of the user
      * @param password password of user
      * @return the user who is trying to be authenticated or null if attempt failed
      */
@@ -92,15 +92,15 @@ public class AuthServer {
 
     /**
      * Get the salt for a user from the database.
-     * @param empID The user to get the salt for.
+     * @param empNo The user to get the salt for.
      * @return The returned salt, or null if no salt was made.
      */
     @Nullable
-    private byte[] getSalt(String empID) {
+    private byte[] getSalt(String empNo) {
          String sql = "select salt from users where empID = ?";
          try (Connection con = this.connect();
          PreparedStatement prep = con.prepareStatement(sql)) {
-            prep.setString(1, empID);
+            prep.setString(1, empNo);
             ResultSet r = prep.executeQuery();
             if(r.getBytes(1) != null) {
                 return r.getBytes(1);
@@ -113,12 +113,12 @@ public class AuthServer {
 
     /**
      * Insert a new login into the system.
-     * @param username The new user's username.
+     * @param empNo The new user's employee number.
      * @param password The new user's password.
      * @param access The new user's access level for the system.
      * @return true if succeeded.
      */
-     boolean insertLogin(String username, String password, String access) {
+     boolean insertLogin(String empNo, String password, String access) {
         //Query
         String sql = "INSERT INTO users (empID, password, salt, access) values (?, ?, ?, ?);";
         // Hash and salt.
@@ -127,7 +127,7 @@ public class AuthServer {
 
         try (Connection con = this.connect();
              PreparedStatement prep = con.prepareStatement(sql)) {
-            prep.setString(1, username);
+            prep.setString(1, empNo);
             prep.setBytes(2, hashedPass);
             prep.setBytes(3, salt);
             prep.setString(4, access);
@@ -141,16 +141,16 @@ public class AuthServer {
 
     /**
      * Delete a user from the database by their login.
-     * @param username The new user's username.
+     * @param empNo The new user's employee number.
      * @return true if succeeded.
      */
-    boolean deleteLogin(String username) {
+    boolean deleteLogin(String empNo) {
         //Query
         String sql = "DELETE FROM users WHERE empID = ?;";
 
         try (Connection con = this.connect();
              PreparedStatement prep = con.prepareStatement(sql)) {
-            prep.setString(1, username);
+            prep.setString(1, empNo);
             prep.executeUpdate();
             return true;
         } catch (SQLException sqlEx) {
@@ -190,16 +190,16 @@ public class AuthServer {
 
     /**
      * Writes to the login records file.
-     * @param username User attempting to log in.
+     * @param empNo User attempting to log in.
      * @param success If the login was successful.
      */
-    private void writeToFile(String username, boolean success){
+    private void writeToFile(String empNo, boolean success){
         BufferedWriter bw = null;
         FileWriter fw = null;
 
         try{
             String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-            String content = username + "," + dateTime + "," + success + "\n";
+            String content = empNo + "," + dateTime + "," + success + "\n";
             fw = new FileWriter(FILENAME,true);
             bw = new BufferedWriter(fw);
             bw.write(content);

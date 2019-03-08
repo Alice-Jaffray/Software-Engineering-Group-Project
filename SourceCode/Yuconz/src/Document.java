@@ -6,15 +6,15 @@
  * @version 2019/02/16
  */
 public class Document {
-    private String staffID;
+    private String empNo;
 
     /**
      * constructor
      *
-     * @param staffID the creator of the document
+     * @param empNo the creator of the document
      */
-    public Document(String staffID) {
-        this.staffID = staffID;
+    public Document(String empNo) {
+        this.empNo = empNo;
     }
 
     /**
@@ -22,7 +22,7 @@ public class Document {
      *
      * @return the employee's id
      */
-    public String getStaffID(){
-        return staffID;
+    public String getEmpNo(){
+        return empNo;
     }
 }

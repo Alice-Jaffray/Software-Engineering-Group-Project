@@ -9,11 +9,11 @@ public class HREmployee extends Employee {
 
     /**
      * constructor
-     * @param username username for the hr employee.
+     * @param empNo employee login for the hr employee.
      * @param manager direct superior.
      * @param department department the user works in.
      */
-    public HREmployee(String username, String manager, String department) {
-        super(username, manager, department, AccessLevel.HREMPLOYEE);
+    public HREmployee(String empNo, String manager, String department) {
+        super(empNo, manager, department, AccessLevel.HREMPLOYEE);
     }
 }

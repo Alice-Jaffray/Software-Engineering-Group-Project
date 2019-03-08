@@ -12,9 +12,9 @@ Tests will be done before each push to the main server repository, and must foll
 * **AppController**
     * Attempt login with valid details (all user types)
         * Passes if all log in sucessfully.
-    * Attempt login with invalid username (all user types)
+    * Attempt login with invalid empNo (all user types)
         * Passes if all login attempts denied.
-    * Attempt login with invalid username (all user types)
+    * Attempt login with invalid empNo (all user types)
         * Passes if all login attempts denied.
     * Log out of the system after logging in. 
         * Passes if the user is logged in before the command and logged out after. 
@@ -28,7 +28,7 @@ Tests will be done before each push to the main server repository, and must foll
 * **AuthServer**
     * Authenticate with valid details (all user types)
         * Passes if right access level is returned. 
-    * Authenticate with wrong username and password (and cases) (all user types)
+    * Authenticate with wrong empNo and password (and cases) (all user types)
         * Passes if authenticate returns "denied".
     * Insert new login into the database.
         * Passes if new user is authenticated. 

@@ -1,4 +1,4 @@
-Username,Date and Time,Access Granted?
+Employee Number,Date and Time,Access Granted?
 cfi000,2019-03-02 20:47:49,true
 cfi00,2019-03-02 20:53:09,false
 cfi000,2019-03-02 20:53:21,true
@@ -30,3 +30,9 @@ aja000,2019-03-04 00:56:19,true
 aja000,2019-03-04 01:05:03,true
 aja000,2019-03-04 02:08:53,true
 aja000,2019-03-05 13:31:45,true
+aja000,2019-03-05 14:04:49,true
+aaa000,2019-03-05 14:11:46,false
+aja000,2019-03-05 14:11:54,true
+aaa000,2019-03-05 14:12:41,false
+aaa000,2019-03-05 14:12:46,true
+aja000,2019-03-08 12:45:45,true

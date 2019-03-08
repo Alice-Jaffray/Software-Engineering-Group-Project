@@ -9,22 +9,22 @@ public class Employee extends User {
 
     /**
      * constructor
-     * @param username employee's unique username.
+     * @param empNo employee's unique employee number.
      * @param manager employees direct manager
      * @param department department the employee works for.
      */
-    public Employee(String username, String manager, String department) {
-        super(username, department, AccessLevel.EMPLOYEE, manager);
+    public Employee(String empNo, String manager, String department) {
+        super(empNo, department, AccessLevel.EMPLOYEE, manager);
     }
 
     /**
      * second constructor for different access levels.
-     * @param username user's unique username.
+     * @param empNo user's unique employee number.
      * @param manager user's direct superior
      * @param department department the user works in.
      * @param a access level the user has.
      */
-    protected Employee(String username, String manager, String department, AccessLevel a) {
-        super(username, department, a, manager);
+    protected Employee(String empNo, String manager, String department, AccessLevel a) {
+        super(empNo, department, a, manager);
     }
 }

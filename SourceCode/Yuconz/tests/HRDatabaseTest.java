@@ -45,7 +45,7 @@ class HRDatabaseTest {
 
     @Test
     void getUserHREmployee() {
-        assertEquals("cfi000", hr.getUser("cfi000").getUsername(), "User object login wrong.");
+        assertEquals("cfi000", hr.getUser("cfi000").getEmpNo(), "User object login wrong.");
         assertEquals(AccessLevel.HREMPLOYEE, hr.getUser("cfi000").getAccessLevel(), "User object access wrong.");
         assertEquals("human resources", hr.getUser("cfi000").getDepartment(), "User object department wrong.");
         assertEquals("mro000", hr.getUser("cfi000").getManager(), "User object manager wrong.");
@@ -53,21 +53,21 @@ class HRDatabaseTest {
 
     @Test
     void getUserDirector() {
-        assertEquals("mro000", hr.getUser("mro000").getUsername(), "User object login wrong.");
+        assertEquals("mro000", hr.getUser("mro000").getEmpNo(), "User object login wrong.");
         assertEquals(AccessLevel.DIRECTOR, hr.getUser("mro000").getAccessLevel(), "User object access wrong.");
         assertEquals("human resources", hr.getUser("mro000").getDepartment(), "User object department wrong.");
         assertNull(hr.getUser("mro000").getManager(), "User object manager wrong.");
     }
     @Test
     void getUserEmployee() {
-        assertEquals("aaa000", hr.getUser("aaa000").getUsername(), "User object login wrong.");
+        assertEquals("aaa000", hr.getUser("aaa000").getEmpNo(), "User object login wrong.");
         assertEquals(AccessLevel.EMPLOYEE, hr.getUser("aaa000").getAccessLevel(), "User object access wrong.");
         assertEquals("services delivery", hr.getUser("aaa000").getDepartment(), "User object department wrong.");
         assertNull(hr.getUser("aaa000").getManager(), "User object manager wrong.");
     }
     @Test
     void getUserManager() {
-        assertEquals("man000", hr.getUser("man000").getUsername(), "User object login wrong.");
+        assertEquals("man000", hr.getUser("man000").getEmpNo(), "User object login wrong.");
         assertEquals(AccessLevel.MANAGER, hr.getUser("man000").getAccessLevel(), "User object access wrong.");
         assertEquals("administration", hr.getUser("man000").getDepartment(), "User object department wrong.");
         assertNull(hr.getUser("man000").getManager(), "User object manager wrong.");
@@ -82,7 +82,7 @@ class HRDatabaseTest {
     @Test
     void readPersonalDetails() {
         hr.createPersonalDetails("cfi000", hr.getUser("cfi000"));
-        assertEquals(new PersonalDetails("cfi000").getStaffID(), hr.readPersonalDetails("cfi000", hr.getUser("cfi000")).getStaffID());
+        assertEquals(new PersonalDetails("cfi000").getEmpNo(), hr.readPersonalDetails("cfi000", hr.getUser("cfi000")).getEmpNo());
     }
 
     @Test

@@ -115,16 +115,16 @@ class AppControllerTest {
     @Test
     void rightUserObject() {
         app.login("cfi000", "admin");
-        assertEquals("cfi000", app.getLoggedInUser().getUsername(), "HR Employee did not match.");
+        assertEquals("cfi000", app.getLoggedInUser().getEmpNo(), "HR Employee did not match.");
         app.logout();
         app.login("aaa000", "password");
-        assertEquals(app.getLoggedInUser().getUsername(), "aaa000", "Employee did not match.");
+        assertEquals(app.getLoggedInUser().getEmpNo(), "aaa000", "Employee did not match.");
         app.logout();
         app.login("mro000", "pa33word");
-        assertEquals(app.getLoggedInUser().getUsername(), "mro000", "Director did not match.");
+        assertEquals(app.getLoggedInUser().getEmpNo(), "mro000", "Director did not match.");
         app.logout();
         app.login("man000", "pa55word");
-        assertEquals(app.getLoggedInUser().getUsername(), "man000", "Manager did not match.");
+        assertEquals(app.getLoggedInUser().getEmpNo(), "man000", "Manager did not match.");
         app.logout();
     }
 

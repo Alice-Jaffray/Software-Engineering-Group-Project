@@ -19,11 +19,11 @@ public class AnnualReview extends Document{
 
     /**
      * constructor
-     * @param staffID name of employee who created the document
+     * @param empNo employee number of employee who created the document
      */
-    public AnnualReview(String staffID, String date, String reviewerSummary, String reviewee,
+    public AnnualReview(String empNo, String date, String reviewerSummary, String reviewee,
                         String previousYearAchievements, String trainingAndMentoring, String employeeComments) {
-        super(staffID);
+        super(empNo);
         try {
             this.date = new SimpleDateFormat("dd/MM/yyyy").parse(date);
         } catch (Exception e) {e.printStackTrace();}
@@ -35,18 +35,18 @@ public class AnnualReview extends Document{
     }
 
     /**
-     * gets the username of the first reviewer
+     * gets the employee number of the first reviewer
      *
-     * @return username of the first reviewer
+     * @return employee number of the first reviewer
      */
     public String getFirstReviewer(){
         return firstReviewer;
     }
 
     /**
-     * gets the username of the second reviewer
+     * gets the employee number of the second reviewer
      *
-     * @return username of the second reviewer
+     * @return employee number of the second reviewer
      */
     public String getSecondReviewer(){
         return secondReviewer;

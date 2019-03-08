@@ -17,10 +17,10 @@ public class PersonalDetails extends Document{
     /**
      * constructor
      *
-     * @param staffID username of the employee who the document refers to
+     * @param empNo employee number of the employee who the document refers to
      */
-    public PersonalDetails(String staffID) {
-        super(staffID);
+    public PersonalDetails(String empNo) {
+        super(empNo);
         forename = "";
         surname = "";
         dob = "";
