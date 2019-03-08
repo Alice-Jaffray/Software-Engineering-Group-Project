@@ -263,7 +263,7 @@
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_r83ksDwqEemKNctvBByL1w" value="1"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_r88dMDwqEemKNctvBByL1w" value="*"/>
     </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_sriokDwqEemKNctvBByL1w" name="achivements">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_sriokDwqEemKNctvBByL1w" name="achievements">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_u_QXoDwqEemKNctvBByL1w" value="1"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_u_UCADwqEemKNctvBByL1w" value="*"/>
