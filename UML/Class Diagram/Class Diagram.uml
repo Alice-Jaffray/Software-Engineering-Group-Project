@@ -21,9 +21,7 @@
     <ownedOperation xmi:type="uml:Operation" xmi:id="_pt7YEDtSEem8vr0WXxcOTQ" name="setBasicAccess" visibility="private"/>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_26pR8DwLEemKNctvBByL1w" name="runController" visibility="private"/>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_4oXYADwLEemKNctvBByL1w" name="readOwnPersonalDetails" visibility="private">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_4zTvED4AEemqi8Y6eAevPg" direction="return">
-        <type xmi:type="uml:Class" href="#_W0ZDMCY-EemuPal2iT2zKg"/>
-      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_4zTvED4AEemqi8Y6eAevPg" type="_W0ZDMCY-EemuPal2iT2zKg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_-yibQDwLEemKNctvBByL1w" name="createPersonalDetails" visibility="private">
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_WWNeMD3_Eemqi8Y6eAevPg" name="empID">
@@ -59,9 +57,7 @@
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_Tnq0UD3_Eemqi8Y6eAevPg" name="empID">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_H5lKoD4BEemqi8Y6eAevPg" direction="return">
-        <type xmi:type="uml:Class" href="#_W0ZDMCY-EemuPal2iT2zKg"/>
-      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_H5lKoD4BEemqi8Y6eAevPg" type="_W0ZDMCY-EemuPal2iT2zKg" direction="return"/>
     </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_L5IE8CY9EemuPal2iT2zKg" name="Employee">
@@ -94,9 +90,7 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1WO7QDw_EemKNctvBByL1w" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1WVB4Dw_EemKNctvBByL1w" value="1"/>
       </ownedParameter>
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_6KAMQDw_EemKNctvBByL1w" name="reviewerTwo">
-        <type xmi:type="uml:Class" href="#_VXMh4CY9EemuPal2iT2zKg"/>
-      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_6KAMQDw_EemKNctvBByL1w" name="reviewerTwo" type="_VXMh4CY9EemuPal2iT2zKg"/>
     </ownedOperation>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_zoS1gCumEemxDtGNMG1uQQ" name="readPersonalDetails" visibility="public">
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_tpWRgDtiEem8vr0WXxcOTQ" name="empNo">
@@ -132,9 +126,7 @@
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_jm_UYDtlEem8vr0WXxcOTQ" name="requester" type="_VXMh4CY9EemuPal2iT2zKg"/>
     </ownedOperation>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_WV6YgDtoEem8vr0WXxcOTQ" name="signReview" visibility="public">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_DMZz8DwLEemKNctvBByL1w" name="signer">
-        <type xmi:type="uml:Class" href="#_VXMh4CY9EemuPal2iT2zKg"/>
-      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_DMZz8DwLEemKNctvBByL1w" name="signer" type="_VXMh4CY9EemuPal2iT2zKg"/>
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_pp46oDwYEemKNctvBByL1w" name="empNo">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
@@ -281,6 +273,8 @@
     </ownedAttribute>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_zSXyoDwqEemKNctvBByL1w" name="goals">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3vNX0EGwEem7Z8HNEIpabg" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3v24EEGwEem7Z8HNEIpabg" value="*"/>
     </ownedAttribute>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_1SnzIDwqEemKNctvBByL1w" name="reviewerComments">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>

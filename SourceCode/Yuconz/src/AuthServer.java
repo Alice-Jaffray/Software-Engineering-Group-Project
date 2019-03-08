@@ -1,5 +1,5 @@
 // SQL Functionality
-import org.jetbrains.annotations.Nullable;
+//import org.jetbrains.annotations.Nullable;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
@@ -95,7 +95,7 @@ public class AuthServer {
      * @param empNo The user to get the salt for.
      * @return The returned salt, or null if no salt was made.
      */
-    @Nullable
+    //@Nullable
     private byte[] getSalt(String empNo) {
          String sql = "select salt from users where empID = ?";
          try (Connection con = this.connect();

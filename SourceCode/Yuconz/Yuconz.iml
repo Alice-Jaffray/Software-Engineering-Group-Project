@@ -35,11 +35,12 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/sqlite-jdbc-3.23.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../libs/sqlite-jdbc-3.23.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="sqlite-jdbc-3.23.1" level="project" />
   </component>
 </module>
