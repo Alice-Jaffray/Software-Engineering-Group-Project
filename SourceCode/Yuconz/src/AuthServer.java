@@ -1,10 +1,7 @@
-// SQL Functionality
 import org.jetbrains.annotations.Nullable;
-
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.io.File;
-// File writing for logging.
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.io.BufferedWriter;
@@ -12,7 +9,6 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-// Hashing;
 import java.security.SecureRandom;
 import java.security.MessageDigest;
 /**
