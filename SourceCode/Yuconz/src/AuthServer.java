@@ -1,10 +1,6 @@
-// SQL Functionality
-//import org.jetbrains.annotations.Nullable;
-
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.io.File;
-// File writing for logging.
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.io.BufferedWriter;
@@ -12,7 +8,6 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-// Hashing;
 import java.security.SecureRandom;
 import java.security.MessageDigest;
 /**
@@ -95,7 +90,7 @@ public class AuthServer {
      * @param empNo The user to get the salt for.
      * @return The returned salt, or null if no salt was made.
      */
-    //@Nullable
+
     private byte[] getSalt(String empNo) {
          String sql = "select salt from users where empID = ?";
          try (Connection con = this.connect();

@@ -6,8 +6,8 @@
   <packagedElement xmi:type="uml:Class" xmi:id="_39KzICSXEemMmN5Bqu1uHg" name="AppController">
     <ownedAttribute xmi:type="uml:Property" xmi:id="_e5Ac8DtSEem8vr0WXxcOTQ" name="loggedInUser" visibility="private" type="_VXMh4CY9EemuPal2iT2zKg"/>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_fTpVEDtTEem8vr0WXxcOTQ" name="accessLevel" visibility="private" type="_mhIPcDtTEem8vr0WXxcOTQ"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_fK2F4CZAEemuPal2iT2zKg" name="login">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_kL7IEDtSEem8vr0WXxcOTQ" name="username">
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_fK2F4CZAEemuPal2iT2zKg" name="login" visibility="public">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_kL7IEDtSEem8vr0WXxcOTQ" name="empNo">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_l2_iwDtSEem8vr0WXxcOTQ" name="password">
@@ -24,7 +24,7 @@
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_4zTvED4AEemqi8Y6eAevPg" type="_W0ZDMCY-EemuPal2iT2zKg" direction="return"/>
     </ownedOperation>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_-yibQDwLEemKNctvBByL1w" name="createPersonalDetails" visibility="private">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_WWNeMD3_Eemqi8Y6eAevPg" name="empID">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_WWNeMD3_Eemqi8Y6eAevPg" name="empNo">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_1omGkD4AEemqi8Y6eAevPg" direction="return">
@@ -32,7 +32,7 @@
       </ownedParameter>
     </ownedOperation>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_AXdKoDwMEemKNctvBByL1w" name="amendPersonalDetails" visibility="private">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_aubboD3_Eemqi8Y6eAevPg" name="empID">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_aubboD3_Eemqi8Y6eAevPg" name="empNo">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_eLIzED3_Eemqi8Y6eAevPg" name="field">
@@ -44,7 +44,7 @@
     </ownedOperation>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_BtSVIDwMEemKNctvBByL1w" name="createReview" visibility="private"/>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_Dk0egDwMEemKNctvBByL1w" name="readReview" visibility="private">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_m72lUD4AEemqi8Y6eAevPg" name="empID">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_m72lUD4AEemqi8Y6eAevPg" name="empNo">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_oTu-QD4AEemqi8Y6eAevPg" name="year">
@@ -54,7 +54,7 @@
     <ownedOperation xmi:type="uml:Operation" xmi:id="_G_kuIDwMEemKNctvBByL1w" name="amendReview" visibility="private"/>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_JxMhMDwMEemKNctvBByL1w" name="signReview" visibility="private"/>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_Q6HB4D3_Eemqi8Y6eAevPg" name="readOtherPersonalDetails" visibility="private">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_Tnq0UD3_Eemqi8Y6eAevPg" name="empID">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_Tnq0UD3_Eemqi8Y6eAevPg" name="empNo">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_H5lKoD4BEemqi8Y6eAevPg" type="_W0ZDMCY-EemuPal2iT2zKg" direction="return"/>
@@ -147,7 +147,7 @@
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_6uY6cCZAEemuPal2iT2zKg" name="authenticate ">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_aKj8wD4DEemaF9jbFlzkZQ" name="username">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_aKj8wD4DEemaF9jbFlzkZQ" name="empNo">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_5UUQwD4IEemBuZBtWeiFUw" name="pass">
@@ -156,7 +156,7 @@
     </ownedOperation>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_WJi-YD4DEemaF9jbFlzkZQ" name="connect" visibility="private"/>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_66KNMD4IEemBuZBtWeiFUw" name="addLogin">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_-N_VcD4IEemBuZBtWeiFUw" name="user">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_-N_VcD4IEemBuZBtWeiFUw" name="empNo">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_A0s5AD4JEemBuZBtWeiFUw" name="pass">
@@ -170,7 +170,7 @@
       </ownedParameter>
     </ownedOperation>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_HoGqAD4KEemLsb19Mr1djA" name="deleteLogin">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_J7XGED4KEemLsb19Mr1djA" name="empID">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_J7XGED4KEemLsb19Mr1djA" name="empNo">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_MIXJID4KEemLsb19Mr1djA" direction="return">
@@ -178,7 +178,7 @@
       </ownedParameter>
     </ownedOperation>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_cIBq0D4KEemLsb19Mr1djA" name="logRecord" visibility="private">
-      <ownedParameter xmi:type="uml:Parameter" xmi:id="_faObYD4KEemLsb19Mr1djA" name="user">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_faObYD4KEemLsb19Mr1djA" name="empNo">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_gy_lID4KEemLsb19Mr1djA" name="success">
@@ -187,7 +187,7 @@
     </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_VXMh4CY9EemuPal2iT2zKg" name="User">
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_w_nuECZLEemuPal2iT2zKg" name="username" visibility="private">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_w_nuECZLEemuPal2iT2zKg" name="empNo" visibility="private">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_LlDg4Cu4Eem-_s3i7rjvhQ" name="department" visibility="private">
@@ -213,7 +213,7 @@
     </ownedEnd>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_VvG2ICY-EemuPal2iT2zKg" name="Document">
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_Hnn5cCuhEemxDtGNMG1uQQ" name="StaffID">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Hnn5cCuhEemxDtGNMG1uQQ" name="empNo">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
   </packagedElement>
@@ -263,7 +263,7 @@
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_r83ksDwqEemKNctvBByL1w" value="1"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_r88dMDwqEemKNctvBByL1w" value="*"/>
     </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_sriokDwqEemKNctvBByL1w" name="achivements">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_sriokDwqEemKNctvBByL1w" name="achievements">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_u_QXoDwqEemKNctvBByL1w" value="1"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_u_UCADwqEemKNctvBByL1w" value="*"/>
@@ -388,7 +388,7 @@
     <ownedAttribute xmi:type="uml:Property" xmi:id="_8URT4Cu2Eem-_s3i7rjvhQ" name="datetime">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDate"/>
     </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_-uhv0Cu2Eem-_s3i7rjvhQ" name="username">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_-uhv0Cu2Eem-_s3i7rjvhQ" name="empNo">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_F7ur8D4DEemaF9jbFlzkZQ" name="success">
@@ -415,7 +415,7 @@
     <ownedEnd xmi:type="uml:Property" xmi:id="_AVg7wSu3Eem-_s3i7rjvhQ" name="authserver" type="_QEJ68CY9EemuPal2iT2zKg" association="_AVfGkCu3Eem-_s3i7rjvhQ"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_wFyS4Cu4Eem-_s3i7rjvhQ" name="AuthorisationRecord" visibility="public">
-    <ownedAttribute xmi:type="uml:Property" xmi:id="_6ZCEUCu4Eem-_s3i7rjvhQ" name="username">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_6ZCEUCu4Eem-_s3i7rjvhQ" name="empNo">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_B_NLgCu5Eem-_s3i7rjvhQ" name="requestedDocument" type="_VvG2ICY-EemuPal2iT2zKg"/>
