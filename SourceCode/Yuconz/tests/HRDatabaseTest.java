@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HRDatabaseTest {
 
-    private HRDatabase hr = new HRDatabase("DatabasesTest/AuthorisationRecordsTest.csv", "jdbc:sqlite:DatabasesTest/pdTest.db");
+    private HRDatabase hr = new HRDatabase("DatabasesTest/AuthorisationRecordsTest.csv", "jdbc:sqlite:DatabasesTest/YuconzTest.db");
 
     @BeforeEach
     void setUp() {
@@ -25,7 +25,7 @@ class HRDatabaseTest {
     @AfterEach
     void tearDown() {
         try {
-            Connection con = this.connect("jdbc:sqlite:DatabasesTest/pdTest.db");
+            Connection con = this.connect("jdbc:sqlite:DatabasesTest/YuconzTest.db");
             Statement s = con.createStatement();
             String sql = "DELETE FROM employees;";
             s.executeUpdate(sql);
@@ -33,7 +33,7 @@ class HRDatabaseTest {
             e.getMessage();
         }
         try {
-            Connection con = this.connect("jdbc:sqlite:DatabasesTest/pdTest.db");
+            Connection con = this.connect("jdbc:sqlite:DatabasesTest/YuconzTest.db");
             Statement s = con.createStatement();
             String sql = "DELETE FROM PersonalDetails;";
             s.executeUpdate(sql);

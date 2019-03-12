@@ -10,9 +10,10 @@ import java.sql.Statement;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppControllerTest {
+    private final String DATABASE = "jdbc:sqlite:DatabasesTest/YuconzTest.db";
 
-    private AuthServer a = new AuthServer("DatabasesTest/LoginRecordsTest.csv", "jdbc:sqlite:DatabasesTest/YuconzTest.db");
-    private HRDatabase hr = new HRDatabase("DatabasesTest/AuthorisationRecordsTest", "jdbc:sqlite:DatabasesTest/pdTest.db");
+    private AuthServer a = new AuthServer("DatabasesTest/LoginRecordsTest.csv", DATABASE);
+    private HRDatabase hr = new HRDatabase("DatabasesTest/AuthorisationRecordsTest", DATABASE);
     private AppController app;
 
     @BeforeEach
@@ -31,7 +32,7 @@ class AppControllerTest {
     @AfterEach
     void tearDown() {
         try {
-            Connection con = this.connect("jdbc:sqlite:DatabasesTest/YuconzTest.db");
+            Connection con = this.connect(DATABASE);
             Statement s = con.createStatement();
             String sql = "DELETE FROM users;";
             s.executeUpdate(sql);
@@ -39,7 +40,7 @@ class AppControllerTest {
             e.getMessage();
         }
         try {
-            Connection con = this.connect("jdbc:sqlite:DatabasesTest/pdTest.db");
+            Connection con = this.connect(DATABASE);
             Statement s = con.createStatement();
             String sql = "DELETE FROM employees;";
             s.executeUpdate(sql);

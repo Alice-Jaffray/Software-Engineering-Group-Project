@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
 
         AuthServer authServer = new AuthServer("Databases/LoginRecords.csv", "jdbc:sqlite:Databases/Yuconz.db");
-        HRDatabase hrDatabase = new HRDatabase("Databases/AuthorisationRecords.csv", "jdbc:sqlite:Databases/pd.db");
+        HRDatabase hrDatabase = new HRDatabase("Databases/AuthorisationRecords.csv", "jdbc:sqlite:Databases/Yuconz.db");
 
 
         AppController appController = new AppController(hrDatabase, authServer);

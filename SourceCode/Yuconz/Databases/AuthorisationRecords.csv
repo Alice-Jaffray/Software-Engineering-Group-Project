@@ -54,3 +54,6 @@ aja000,aja000.ReadPersonalDetails,2019-03-08 12:45:51,true
 aja000,ioj000.ReadPersonalDetails,2019-03-08 12:46:04,false
 aja000,ioj000.CreatePersonalDetails,2019-03-08 12:46:13,true
 aja000,ioj000.ReadPersonalDetails,2019-03-08 12:46:17,true
+aja000,aja000.ReadPersonalDetails,2019-03-12 00:41:47,false
+aja000,aja000.CreatePersonalDetails,2019-03-12 00:41:57,true
+aja000,aja000.ReadPersonalDetails,2019-03-12 00:42:03,true
