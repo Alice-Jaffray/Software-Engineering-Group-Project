@@ -191,6 +191,9 @@ public class AppController {
         }
     }
 
+    /**
+     * Basic user main menu.
+     */
     private void baseMainMenu() {
         System.out.println("Welcome to the Yuconz document system.");
         System.out.println("Please select an option.");
@@ -200,6 +203,9 @@ public class AppController {
         System.out.println("2. Read Own Personal Details");
     }
 
+    /**
+     * Options for employee.
+     */
     private void employeeMainMenu() {
         System.out.println("3. Amend own personal details.");
         String option = scan.next();
@@ -212,6 +218,9 @@ public class AppController {
         runController();
     }
 
+    /**
+     * Options for HR Employee.
+     */
     private void hREmployeeMainMenu() {
         System.out.println("3. Add new login");
         System.out.println("4. Read other personal details.");
@@ -231,6 +240,9 @@ public class AppController {
         runController();
     }
 
+    /**
+     * Options for director.
+     */
     private void directorMainMenu() {
         System.out.println("3. Read other personal details document.");
         String option = scan.next();
@@ -243,11 +255,17 @@ public class AppController {
         runController();
     }
 
+    /**
+     * Prints result of read own personal details.
+     */
     private void readOwnPersonalDetails() {
         PersonalDetails p = readPersonalDetails(loggedInUser.getEmpNo());
         printPersonalDetails(p);
     }
 
+    /**
+     * Prints result of read other personal details.
+     */
     private void readOtherPersonalDetails() {
         System.out.print("Enter employee number of document owner:");
         PersonalDetails p = readPersonalDetails(scan.next());
@@ -255,6 +273,10 @@ public class AppController {
 
     }
 
+    /**
+     * Prints a personal details document to the terminal.
+     * @param p The document to print.
+     */
     private void printPersonalDetails(PersonalDetails p) {
         if(p != null) {
             System.out.println();
@@ -271,6 +293,9 @@ public class AppController {
         }
     }
 
+    /**
+     * Menu for creating personal details.
+     */
     private void createPersonalDetails() {
         System.out.print("Enter employee number of new employee: ");
         boolean success = createPersonalDetails(scan.next());
@@ -282,16 +307,26 @@ public class AppController {
         }
     }
 
+    /**
+     * Passes logged in user to amendPersonalDetails menu.
+     */
     private void amendOwnPersonalDetails() {
         amendPersonalDetailsMenu(loggedInUser.getEmpNo());
     }
 
+    /**
+     * Passes entered user to amendPersonalDetails menu.
+     */
     private void amendPersonalDetails() {
         System.out.println("Enter employee number of employee: ");
         String emp = scan.next();
         amendPersonalDetailsMenu(emp);
     }
 
+    /**
+     * Amends the personal details for a user using a text interface.
+     * @param emp The user to change the details of.
+     */
     private void amendPersonalDetailsMenu(String emp) {
         boolean done = false;
         while(!done){
@@ -338,6 +373,9 @@ public class AppController {
         System.out.println("Done!");
     }
 
+    /**
+     * Add new login menu for HR employees.
+     */
     private void addNewLogin() {
         System.out.println("Enter details for new user:");
         System.out.print("Enter Employee Number: ");
