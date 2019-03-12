@@ -42,29 +42,40 @@ public class HRDatabase {
 
     /**
      * Get a user object from the hr database.
+     *
      * @param empNo the user to get.
      * @return a user object with the user's information.
      */
     public User getUser(String empNo) {
         // SQL Query
         String sql = "SELECT * FROM employees WHERE empID = ?";
-        try(Connection con = this.connect();
-            PreparedStatement prep = con.prepareStatement(sql)) {
+        try (Connection con = this.connect();
+             PreparedStatement prep = con.prepareStatement(sql)) {
             prep.setString(1, empNo);
 
             ResultSet results = prep.executeQuery();
-            if(results.getString(1) != null) {
+            if (results.getString(1) != null) {
                 String user = results.getString(1);
                 String department = results.getString(2);
                 String manager = results.getString(3);
                 String accessString = results.getString(4);
                 AccessLevel access;
                 switch (accessString) {
-                    case "employee": access = AccessLevel.EMPLOYEE; break;
-                    case "hremployee": access = AccessLevel.HREMPLOYEE; break;
-                    case "manager": access = AccessLevel.MANAGER; break;
-                    case "director": access = AccessLevel.DIRECTOR; break;
-                    default: access = AccessLevel.EMPLOYEE; break;
+                    case "employee":
+                        access = AccessLevel.EMPLOYEE;
+                        break;
+                    case "hremployee":
+                        access = AccessLevel.HREMPLOYEE;
+                        break;
+                    case "manager":
+                        access = AccessLevel.MANAGER;
+                        break;
+                    case "director":
+                        access = AccessLevel.DIRECTOR;
+                        break;
+                    default:
+                        access = AccessLevel.EMPLOYEE;
+                        break;
                 }
                 return new User(user, department, access, manager);
             }
@@ -76,10 +87,11 @@ public class HRDatabase {
 
     /**
      * Add a user to the HR database.
-     * @param empNo employee number to add.
+     *
+     * @param empNo      employee number to add.
      * @param department department the user works in.
-     * @param manager the employee number of the user's direct superior.
-     * @param access the access level of the new user.
+     * @param manager    the employee number of the user's direct superior.
+     * @param access     the access level of the new user.
      * @return true if successful.
      */
     boolean addUser(String empNo, String department, String manager, String access) {
@@ -108,7 +120,7 @@ public class HRDatabase {
      * @return personal details record of an employee or null otherwise
      */
     public PersonalDetails readPersonalDetails(String empNo, User requester) {
-        if (requester.getAccessLevel().toString().equals("hremployee") || requester.getAccessLevel().toString().equals("director") || empNo.equals(requester.getEmpNo())) {
+        if (requester.getAccessLevel() == AccessLevel.HREMPLOYEE || requester.getAccessLevel() == AccessLevel.DIRECTOR || empNo.equals(requester.getEmpNo())) {
             // SQL Query
             String sql = "SELECT * FROM PersonalDetails where empNo = ?;";
             try (Connection con = this.connect();
@@ -117,7 +129,7 @@ public class HRDatabase {
                 prep.setString(1, empNo);
 
                 ResultSet results = prep.executeQuery();
-                if(results.getString(1) != null) {
+                if (results.getString(1) != null) {
                     PersonalDetails document = new PersonalDetails(empNo);
                     document.setForename(results.getString(2));
                     document.setSurname(results.getString(3));
@@ -129,7 +141,7 @@ public class HRDatabase {
                     writeToFile(requester.getEmpNo(), empNo + ".ReadPersonalDetails", true);
                     return document;
                 }
-            } catch(SQLException e) {
+            } catch (SQLException e) {
                 System.err.println(e.getMessage());
             }
 
@@ -146,7 +158,7 @@ public class HRDatabase {
      * @return true if a new record of personal details is created and false otherwise
      */
     public boolean createPersonalDetails(String empNo, User requester) {
-        if (requester.getAccessLevel().toString().equals("hremployee")) {
+        if (requester.getAccessLevel() == AccessLevel.HREMPLOYEE) {
             //SQL query
             String sql = "INSERT INTO PersonalDetails (empNo) VALUES (?);";
             try (Connection con = this.connect();
@@ -179,7 +191,7 @@ public class HRDatabase {
     public PersonalDetails amendPersonalDetails(String empNo, String field, String newVal, User requester) {
         if (requester.getAccessLevel() == AccessLevel.HREMPLOYEE || empNo.equals(requester.getEmpNo())) {
             //SQL query
-            String sql = "UPDATE PersonalDetails SET "+field+" = ? WHERE empNo =?;";
+            String sql = "UPDATE PersonalDetails SET " + field + " = ? WHERE empNo =?;";
             try (Connection con = this.connect();
                  PreparedStatement prep = con.prepareStatement(sql)) {
                 //fill placeholder
@@ -203,30 +215,86 @@ public class HRDatabase {
      * @param signer the user who signs the record so it's marked as finished
      */
     public void signReview(User signer) {
-
     }
 
     /**
-     * allows a user to create a review record
+     * allows user to read Annual Reviews
      *
-     * @param empNo     the number of the employee who the record is about
-     * @param requester the user requesting to create the record
-     * @param reviewer  the user who reviewed the employee
-     * @return true if the record is created and false otherwise
+     * @param empNo     the number of the employee who's review it refers to
+     * @param requester the user who has requested to view the review
+     * @param year      the year of the review
+     * @return annual review or null otherwise
      */
-    public AnnualReview createReviewRecord(String empNo, User requester, User reviewer) {
-/*        if (document.getEmpNo().equals(empNo) || reviewer.getEmpNo().equals(reviewer)) {
-            document = new AnnualReview(empNo, null, null, null, null, null, null);
-            authRecord = new AuthRecord(requester.getEmpNo(), null, true);
-            authRecords.add(authRecord);
-            return true;
+    public AnnualReview readAnnualReview(String empNo, String year, User requester) {
+        if (requester.getAccessLevel() == AccessLevel.HREMPLOYEE || requester.getAccessLevel() == AccessLevel.DIRECTOR) {// also don't know who's allowed to view this
+            // SQL Query
+            String sql = "SELECT * FROM AnnualReviews WHERE empID = ? AND year = ?;";
+            try (Connection con = this.connect();
+                 PreparedStatement prep = con.prepareStatement(sql)) {
+                // Fill placeholders (? characters).
+                prep.setString(1, empNo);
+                prep.setString(2, year);
+
+                ResultSet results = prep.executeQuery();
+                if (results.getString(1) != null && results.getString(15) != null) {
+                    AnnualReview document = new AnnualReview(empNo);
+                    document.setName(results.getString(2));
+                    document.setFirstReviewer(results.getString(3));
+                    document.setSecondReviewer(results.getString(4));
+                    document.setSection(results.getString(5));
+                    document.setJobTitle(results.getString(6));
+                    document.setObjectives(new String[]{results.getString(7)});
+                    document.setAchievments(results.getString(8));
+                    document.setSummary(results.getString(9));
+                    document.setGoals(results.getString(10));
+                    document.setReviewerComments(results.getString(11));
+                    document.setSignedByReviewee(results.getBoolean(12));
+                    document.setSignedByReviewerOne(results.getBoolean(13));
+                    document.setSignedByReviewerTwo(results.getBoolean(14));
+                    document.setYear(results.getString(15));
+                    writeToFile(requester.getEmpNo(), empNo + ".ReadAnnualReview", true);
+                    return document;
+                }
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
+            }
+
+        }
+        writeToFile(requester.getEmpNo(), empNo + ".ReadAnnualReview", false);
+        return null;
+    }
+
+    /**
+     * allows a user to create an annual review of an employee
+     *
+     * @param empNo     the employee number who the review refers to
+     * @param requester the user who is requesting to create an annual review
+     * @return true if a new annual review is created and false otherwise
+     */
+    public boolean createAnnualReview(String empNo, User requester) {
+        if (requester.getAccessLevel().toString().equals("hremployee")) { //change accordingly...i don't really know who's allowed to create annual reviews
+            //current year
+            String year = new SimpleDateFormat("yyyy").format(new Date());
+            //SQL query
+            String sql = "INSERT INTO AnnualReviews (empID, year) VALUES (?, ?);";
+            try (Connection con = this.connect();
+                 PreparedStatement prep = con.prepareStatement(sql)) {
+                //fill placeholder
+                prep.setString(1, empNo);
+                prep.setString(2, year);
+                prep.executeUpdate();
+                writeToFile(requester.getEmpNo(), empNo + ".CreateAnnualReview", true);
+                return true;
+            } catch (SQLException sqlEx) {
+                System.err.println(sqlEx.getMessage());
+                writeToFile(requester.getEmpNo(), empNo + ".CreateAnnualReview", false);
+                return false;
+            }
         } else {
-            authRecord = new AuthRecord(requester.getEmpNo(), null, false);
-            authRecords.add(authRecord);
+            writeToFile(requester.getEmpNo(), empNo + ".CreateAnnualReview", false);
+            System.err.println("Access level " + requester.getAccessLevel().toString());
             return false;
         }
-        */
-        return null;
     }
 
     /**
@@ -236,53 +304,97 @@ public class HRDatabase {
      * @param year      the year the review was created
      * @param requester the user requesting to amend the record
      */
-/*    public AnnualReview amendReviewRecord(String empNo, String year, User requester) {
-        if (annualReview.getFirstReviewer().equals(requester.getEmpNo()) ||
-                annualReview.getSecondReviewer().equals(requester.getEmpNo())) {
-        }
-        return null;
-    }*/
+    public AnnualReview amendAnnualReview(String empNo, String year, String field, String newVal, User requester) {
+        if (requester.getAccessLevel() == AccessLevel.HREMPLOYEE || empNo.equals(requester.getEmpNo())) {
+            AnnualReview a = alternativeAmendAnnualReview(empNo, year, field, newVal, requester);
+            //Runs the alternative amend Annual Review method for specific fields
+            if (a != null) {
+                return a;
+            }
+            //SQL query
+            String sql = "UPDATE AnnualReviews SET " + field + " = ? WHERE empID = ? AND year = ?;";
 
-    /**
-     * allows a user to read the review record of an employee
-     *
-     * @param empNo     the number of the employee the record refers to
-     * @param year      the year the review took place
-     * @param requester the user who is requesting to read the review
-     * @return the document to be read
-     */
-    public AnnualReview readReviewRecord(String empNo, String year, User requester) {
-/*        if (requester.getAccessLevel().equals("hremployee")) {
+            try (Connection con = this.connect();
+                 PreparedStatement prep = con.prepareStatement(sql)) {
+                //fill placeholder
+                prep.setString(1, newVal);
+                prep.setString(2, empNo);
+                prep.setString(3, year);
 
+                //Execute statement
+                prep.executeUpdate();
+                writeToFile(requester.getEmpNo(), empNo + ".AmendAnnualReview", true);
+                return readAnnualReview(empNo, year, requester);
+            } catch (SQLException sqlEx) {
+                System.err.println(sqlEx.getMessage());
+            }
         }
-        */
+        writeToFile(requester.getEmpNo(), empNo + ".AmendAnnualReview", false);
         return null;
     }
 
     /**
-     * Write data to the log file.
-     * @param empNo Employee number.
-     * @param documentName Document accessed.
-     * @param success true if allowed access.
+     * alternative method for amendAnnualReview for specific fields
+     *
+     * @param empNo     - employee ID
+     * @param year      - year of the review
+     * @param field     - field in the review that is amended
+     * @param newVal    - new value of field
+     * @param requester - person requesting the review document
+     * @return
      */
-    private void writeToFile(String empNo, String documentName, boolean success){
+    public AnnualReview alternativeAmendAnnualReview(String empNo, String year, String field, String newVal, User requester) {
+        if (field.equals("objectives") || field.equals("achievements") || field.equals("goals") || field.equals("reviewerComments")) { // Checks if the field requires multiple lines(e.g. Objectives, Achievements, Goals, Comments)
+            //SQL query
+            String sql = "Update AnnualReviews SET " + field + " = (SELECT IFNULL(" + field + ", '') FROM AnnualReviews WHERE empID = ? AND year = ?) || ? || CHAR(10) WHERE empID = ? AND year = ?;";
+
+            try (Connection con = this.connect();
+                 PreparedStatement prep = con.prepareStatement(sql)) {
+
+                //fill placeholder
+                prep.setString(1, empNo);
+                prep.setString(2, year);
+                prep.setString(3, newVal);
+                prep.setString(4, empNo);
+                prep.setString(5, year);
+
+                //Execute statement
+                prep.executeUpdate();
+                writeToFile(requester.getEmpNo(), empNo + ".AmendAnnualReview", true);
+                return readAnnualReview(empNo, year, requester);
+            } catch (Exception sqlEx) {
+                System.err.println(sqlEx.getMessage());
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * Write data to the log file.
+     *
+     * @param empNo        Employee number.
+     * @param documentName Document accessed.
+     * @param success      true if allowed access.
+     */
+    private void writeToFile(String empNo, String documentName, boolean success) {
         BufferedWriter bw = null;
         FileWriter fw = null;
 
-        try{
+        try {
             String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-            String content = empNo + "," +  documentName + "," + dateTime + "," + success + "\n";
-            fw = new FileWriter(FILENAME,true);
+            String content = empNo + "," + documentName + "," + dateTime + "," + success + "\n";
+            fw = new FileWriter(FILENAME, true);
             bw = new BufferedWriter(fw);
             bw.write(content);
         } catch (IOException e) {
             e.printStackTrace();
-        }   finally {
+        } finally {
             try {
-                if (bw!= null)
+                if (bw != null)
                     bw.close();
 
-                if(fw != null)
+                if (fw != null)
                     fw.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
