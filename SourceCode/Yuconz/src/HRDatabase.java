@@ -1,74 +1,293 @@
-import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.sql.*;
 
 /**
  * stores all the records of the employees
  *
  * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/16
+ * @version 2019/02/28
  */
 public class HRDatabase {
-    private ArrayList<AuthRecord> authRecords;
-    private ArrayList<Document> documents;
+    private final String DATABASE;
+    private final String FILENAME;
     private Document document;
 
     /**
      * constructor
      */
-    public HRDatabase() {
-        authRecords = new ArrayList<AuthRecord>();
-        documents = new ArrayList<Document>();
+    public HRDatabase(String filename, String database) {
+        DATABASE = database;
+        FILENAME = filename;
     }
 
     /**
-     * creates a authorisation record
+     * Connects to the Authentication database.
      *
-     * @param name name of person making attempt
-     * @param document file that tried to be accessed
-     * @param accessGranted permission accepted or declined
+     * @return A connection to the database.
      */
-    public void addAuthRecord(String name, Document document, boolean accessGranted) {
-        authRecords.add(new AuthRecord(name, document, accessGranted));
+    private Connection connect() {
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(DATABASE);
+        } catch (Exception ex) {
+            System.err.println(ex.getClass().getName() + ": " + ex.getMessage());
+            System.exit(0);
+        }
+        return con;
     }
 
     /**
-     * reads personal details of an employee
-     * if the user is a HR employee
-     *
-     * @param user the user attempting to read the personal details
-     * @return personal details of employee or null otherwise
+     * Get a user object from the hr database.
+     * @param empNo the user to get.
+     * @return a user object with the user's information.
      */
-    public Document readPersonalDetails(User user) {
-        if (user.getAuthLevel().equals("hremployee")){
+    public User getUser(String empNo) {
+        // SQL Query
+        String sql = "SELECT * FROM employees WHERE empID = ?";
+        try(Connection con = this.connect();
+            PreparedStatement prep = con.prepareStatement(sql)) {
+            prep.setString(1, empNo);
 
+            ResultSet results = prep.executeQuery();
+            if(results.getString(1) != null) {
+                String user = results.getString(1);
+                String department = results.getString(2);
+                String manager = results.getString(3);
+                String accessString = results.getString(4);
+                AccessLevel access;
+                switch (accessString) {
+                    case "employee": access = AccessLevel.EMPLOYEE; break;
+                    case "hremployee": access = AccessLevel.HREMPLOYEE; break;
+                    case "manager": access = AccessLevel.MANAGER; break;
+                    case "director": access = AccessLevel.DIRECTOR; break;
+                    default: access = AccessLevel.EMPLOYEE; break;
+                }
+                return new User(user, department, access, manager);
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
         }
         return null;
     }
 
     /**
-     * creates a new record of personal details for an employee
-     *
-     * @param creator person creating the document
-     * @param forename first name of employee
-     * @param surname last name of employee
-     * @param DOB date of birth for employee
-     * @param mobileNo mobile phone no. for employee
-     * @param emergencyNo emergency contact no. for employee
-     * @param nextOfKin next of kin of an employee
-     * @param telephoneNo home telephone number of employee
-     * @param emergeContact name of emergency contact for employee
-     * @param address home address of employee
-     * @return true if a new record of personal details is created and false otherwise
+     * Add a user to the HR database.
+     * @param empNo employee number to add.
+     * @param department department the user works in.
+     * @param manager the employee number of the user's direct superior.
+     * @param access the access level of the new user.
+     * @return true if successful.
      */
-    public boolean createPersonalDetails(User user, String creator, String forename, String surname, String DOB, String mobileNo, String emergencyNo, String nextOfKin, String telephoneNo, String emergeContact, Address address) {
-        if (user.getAuthLevel().equals("hremployee")){
-            document = new PersonalDetails(creator, forename, surname, DOB, mobileNo, emergencyNo, nextOfKin, telephoneNo, emergeContact, address);
-            documents.add(document);
-            addAuthRecord(user.getUsername(), document, true);
+    boolean addUser(String empNo, String department, String manager, String access) {
+        //Query
+        String sql = "INSERT INTO employees (empID, department, manager, access) values (?, ?, ?, ?);";
+
+        try (Connection con = this.connect();
+             PreparedStatement prep = con.prepareStatement(sql)) {
+            prep.setString(1, empNo);
+            prep.setString(2, department);
+            prep.setString(3, manager);
+            prep.setString(4, access);
+            prep.executeUpdate();
             return true;
-        } else {
-            addAuthRecord(user.getUsername(), null, false);
+        } catch (SQLException sqlEx) {
+            System.err.println(sqlEx.getMessage());
             return false;
         }
+    }
+
+    /**
+     * allows user to read the personal details record of an employee
+     *
+     * @param empNo     the number of the employee who's record it refers to
+     * @param requester the user who has requested to view the record
+     * @return personal details record of an employee or null otherwise
+     */
+    public PersonalDetails readPersonalDetails(String empNo, User requester) {
+        if (requester.getAccessLevel().toString().equals("hremployee") || requester.getAccessLevel().toString().equals("director") || empNo.equals(requester.getEmpNo())) {
+            // SQL Query
+            String sql = "SELECT * FROM PersonalDetails where empNo = ?;";
+            try (Connection con = this.connect();
+                 PreparedStatement prep = con.prepareStatement(sql)) {
+                // Fill placeholders (? characters).
+                prep.setString(1, empNo);
+
+                ResultSet results = prep.executeQuery();
+                if(results.getString(1) != null) {
+                    PersonalDetails document = new PersonalDetails(empNo);
+                    document.setForename(results.getString(2));
+                    document.setSurname(results.getString(3));
+                    document.setDob(results.getString(4));
+                    document.setMobileNo(results.getString(5));
+                    document.setTelephoneNo(results.getString(6));
+                    document.setEmergContact(results.getString(7));
+                    document.setEmergTel(results.getString(8));
+                    writeToFile(requester.getEmpNo(), empNo + ".ReadPersonalDetails", true);
+                    return document;
+                }
+            } catch(SQLException e) {
+                System.err.println(e.getMessage());
+            }
+
+        }
+        writeToFile(requester.getEmpNo(), empNo + ".ReadPersonalDetails", false);
+        return null;
+    }
+
+    /**
+     * allows a user to create a record of personal details of an employee
+     *
+     * @param empNo     the employee number who the record refers to
+     * @param requester the user who is requesting to create a personal details record
+     * @return true if a new record of personal details is created and false otherwise
+     */
+    public boolean createPersonalDetails(String empNo, User requester) {
+        if (requester.getAccessLevel().toString().equals("hremployee")) {
+            //SQL query
+            String sql = "INSERT INTO PersonalDetails (empNo) VALUES (?);";
+            try (Connection con = this.connect();
+                 PreparedStatement prep = con.prepareStatement(sql)) {
+                //fill placeholder
+                prep.setString(1, empNo);
+                prep.executeUpdate();
+                writeToFile(requester.getEmpNo(), empNo + ".CreatePersonalDetails", true);
+                return true;
+            } catch (SQLException sqlEx) {
+                System.err.println(sqlEx.getMessage());
+                writeToFile(requester.getEmpNo(), empNo + ".CreatePersonalDetails", false);
+                return false;
+            }
+        } else {
+            writeToFile(requester.getEmpNo(), empNo + ".CreatePersonalDetails", false);
+            System.err.println("Access level " + requester.getAccessLevel().toString());
+            return false;
+        }
+    }
+
+    /**
+     * allows a user to edit a personal details record
+     *
+     * @param empNo     the number of the employee the record is about
+     * @param field     the field of the record the user wants to change
+     * @param newVal    the new value of the field
+     * @param requester the user who is requesting to change the record or null otherwise
+     */
+    public PersonalDetails amendPersonalDetails(String empNo, String field, String newVal, User requester) {
+        if (requester.getAccessLevel() == AccessLevel.HREMPLOYEE || empNo.equals(requester.getEmpNo())) {
+            //SQL query
+            String sql = "UPDATE PersonalDetails SET "+field+" = ? WHERE empNo =?;";
+            try (Connection con = this.connect();
+                 PreparedStatement prep = con.prepareStatement(sql)) {
+                //fill placeholder
+                prep.setString(1, newVal);
+                prep.setString(2, empNo);
+                //Execute statement
+                prep.executeUpdate();
+                writeToFile(requester.getEmpNo(), empNo + ".AmendPersonalDetails", true);
+                return readPersonalDetails(empNo, requester);
+            } catch (SQLException sqlEx) {
+                System.err.println(sqlEx.getMessage());
+            }
+        }
+        writeToFile(requester.getEmpNo(), empNo + ".AmendPersonalDetails", false);
+        return null;
+    }
+
+    /**
+     * allows user to sign a review
+     *
+     * @param signer the user who signs the record so it's marked as finished
+     */
+    public void signReview(User signer) {
 
     }
+
+    /**
+     * allows a user to create a review record
+     *
+     * @param empNo     the number of the employee who the record is about
+     * @param requester the user requesting to create the record
+     * @param reviewer  the user who reviewed the employee
+     * @return true if the record is created and false otherwise
+     */
+    public AnnualReview createReviewRecord(String empNo, User requester, User reviewer) {
+/*        if (document.getEmpNo().equals(empNo) || reviewer.getEmpNo().equals(reviewer)) {
+            document = new AnnualReview(empNo, null, null, null, null, null, null);
+            authRecord = new AuthRecord(requester.getEmpNo(), null, true);
+            authRecords.add(authRecord);
+            return true;
+        } else {
+            authRecord = new AuthRecord(requester.getEmpNo(), null, false);
+            authRecords.add(authRecord);
+            return false;
+        }
+        */
+        return null;
+    }
+
+    /**
+     * allows a user to edit a review record
+     *
+     * @param empNo     the employee's number who the record is about
+     * @param year      the year the review was created
+     * @param requester the user requesting to amend the record
+     */
+/*    public AnnualReview amendReviewRecord(String empNo, String year, User requester) {
+        if (annualReview.getFirstReviewer().equals(requester.getEmpNo()) ||
+                annualReview.getSecondReviewer().equals(requester.getEmpNo())) {
+        }
+        return null;
+    }*/
+
+    /**
+     * allows a user to read the review record of an employee
+     *
+     * @param empNo     the number of the employee the record refers to
+     * @param year      the year the review took place
+     * @param requester the user who is requesting to read the review
+     * @return the document to be read
+     */
+    public AnnualReview readReviewRecord(String empNo, String year, User requester) {
+/*        if (requester.getAccessLevel().equals("hremployee")) {
+
+        }
+        */
+        return null;
+    }
+
+    /**
+     * Write data to the log file.
+     * @param empNo Employee number.
+     * @param documentName Document accessed.
+     * @param success true if allowed access.
+     */
+    private void writeToFile(String empNo, String documentName, boolean success){
+        BufferedWriter bw = null;
+        FileWriter fw = null;
+
+        try{
+            String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            String content = empNo + "," +  documentName + "," + dateTime + "," + success + "\n";
+            fw = new FileWriter(FILENAME,true);
+            bw = new BufferedWriter(fw);
+            bw.write(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }   finally {
+            try {
+                if (bw!= null)
+                    bw.close();
+
+                if(fw != null)
+                    fw.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
 }

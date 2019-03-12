@@ -1,177 +1,454 @@
 import java.util.Scanner;
-
 /**
- * controls the actions to everything
- *
- * @author Alice Jaffray and Kieran D'Arcy
- * @version 2019/02/16
+ * * controls the actions to everything
+ *  *
+ *  * @author Alice Jaffray and Kieran D'Arcy
+ *  * @version 2019/02/28
  */
 public class AppController {
-    private Scanner input;
-    private String name;
-    private String password;
+    private Scanner scan;
+    private User loggedInUser;
+    private AccessLevel accessLevel;
+    private HRDatabase hrDatabase;
     private AuthServer authServer;
     private boolean loggedIn;
-    private String option;
-    private User currentUser;
-    private HRDatabase hrDatabase;
 
     /**
      * constructor
-     *
-     * @param a  the authServer used
-     * @param db the HR database used
+     * @param hr HR Database object to use.
+     * @param a AuthServer object to use.
      */
-    public AppController(AuthServer a, HRDatabase db) {
+    AppController(HRDatabase hr, AuthServer a) {
+        scan = new Scanner(System.in);
+        hrDatabase = hr;
         authServer = a;
-        input = new Scanner(System.in);
-        name = "";
-        password = "";
         loggedIn = false;
-        option = "";
-        hrDatabase = db;
     }
 
     /**
-     * runs the app
-     * allows the user to log in
-     * gives the user options for functions they can do
+     * Calls display methods for the user.
      */
-    public void runController() {
-        while (!loggedIn) {
-            System.out.print("\nPlease enter your username: ");
-            name = input.next().toLowerCase();
-            System.out.print("Please enter your password: ");
-            password = input.next().toLowerCase();
-            if (login(name, password) && currentUser.getAuthLevel().equals("hremployee")) {
-                System.out.print("\nWould like to log in with Employee privileges(y/n): ");
-                if (input.next().equals("y")) {
-                    requestPrivileges("employee");
-                } else {
-                    System.out.println("\nPrivileges unchanged");
-                }
-            } else {
-                System.out.println("\nPrivileges unchanged");
-            }
+    void runController() {
+        while(!loggedIn) {
+            loginPrompt();
         }
-
-        while (loggedIn) {
-            System.out.println("\nPlease choose an option from the menu");
-            System.out.println("1. Logout");
-            System.out.println("2. Create personal details");
-            System.out.println("3. ...");
-            System.out.println("4. Change current authorisation level");
-            System.out.println("5. ...");
-
-            option = input.next();
-            switch (option) {
-                case "1":
-                    requestPrivileges("reset");
-                    break;
-                case "2":
-                    //first approach to authentication is that we check credentials in the method we called
-                    System.out.println(checkSuccess(hrDatabase.createPersonalDetails(currentUser, currentUser.getUsername(), "Kieran", "D'Arcy", "11/01/1999", "01234567891", "09876543212", "Jim", "01992837465", "999", new Address("64", "Zoo Lane", "Canterbury", "Kent", "CT2 7ST"))));
-                    break;
-                case "3":
-                    //second approach is that we check before we call the method
-                    if (currentUser.getAuthLevel().equals("...")) {
-                        //do something
-                    }
-                    break;
-                case "4":
-                    System.out.print("Enter new authorisation level: ");
-                    option = input.next();
-                    System.out.print("Authorisation level " + checkSuccess(requestPrivileges(option)) + "\n");
-                    break;
-                case "5":
-                    if (currentUser.getAuthLevel().equals("...")) {
-                        //do something
-                    }
-                    break;
-                default:
-                    System.out.println("invalid choice");
-                    break;
-            }
+        baseMainMenu();
+        switch(accessLevel) {
+            case EMPLOYEE: employeeMainMenu(); break;
+            case HREMPLOYEE: hREmployeeMainMenu(); break;
+            case DIRECTOR: directorMainMenu(); break;
+            default: employeeMainMenu(); break;
         }
     }
 
     /**
-     * logs the user into the system
+     * Read the logs from the AuthServer.
+     */
+    private void readLogs() {
+        authServer.readFromFile();
+    }
+
+    /**
+     * Logs the user into the system
      *
-     * @param name     username of the user
+     * @param empNo employee number of the user
      * @param password password of the user
      * @return true if the login was successful and false otherwise
      */
-    public boolean login(String name, String password) {
-        currentUser = authServer.authenticate(name, password);
-        if (currentUser == null) {
-            System.out.println("Invalid username/password");
+    boolean login(String empNo, String password){
+        String access = authServer.authenticate(empNo, password);
+        if(access.equals("denied")) {
             loggedIn = false;
             return false;
         } else {
-            System.out.println("Logged In");
+            switch(access) {
+                case "employee": accessLevel = AccessLevel.EMPLOYEE; break;
+                case "hremployee": accessLevel = AccessLevel.HREMPLOYEE; break;
+                case "manager": accessLevel = AccessLevel.MANAGER; break;
+                case "director": accessLevel = AccessLevel.DIRECTOR; break;
+                default: return false;
+            }
+            loggedInUser = hrDatabase.getUser(empNo);
             loggedIn = true;
+            System.out.println(accessLevel.toString());
             return true;
         }
     }
 
     /**
-     * logs the user out
-     *
-     * @return true if the user was logged out and false otherwise
+     * logs the user out.
      */
-    public boolean logout() {
-        if (loggedIn) {
-            System.out.println("Logged Out");
-            loggedIn = false;
-            currentUser = null;
-            return true;
-        } else {
-            System.out.println("Not logged in");
-            loggedIn = false;
-            return false;
-        }
-
+    void logout(){
+        System.out.println("Logged Out");
+        loggedInUser = null;
+        loggedIn = false;
     }
 
     /**
-    * allows the user to a request a privilege
-     * e.g. change their authorisation level
-     * @param newAuthLvl The new authentication level for the user.
+     * Get the personal details document for a different employee.
+     * @param empNo The owner of the document
+     * @return the document associated with empNo.
+     */
+    PersonalDetails readPersonalDetails(String empNo) {
+        return hrDatabase.readPersonalDetails(empNo, loggedInUser);
+    }
+
+    /**
+     * Create a new blank document for the employee associated with an employee number.
+     * @param empNo the employee the document is for.
      * @return true if successful.
      */
-    public boolean requestPrivileges(String newAuthLvl) {
-        if (authServer.changePrivileges(currentUser, newAuthLvl.toLowerCase())) {
-            logout();
-            runController();
-            return true;
-        } else {
-            return false;
-        }
+    boolean createPersonalDetails(String empNo) {
+        return hrDatabase.createPersonalDetails(empNo, loggedInUser);
     }
 
     /**
-     * checks if the user is logged in
-     *
-     * @return true if the user is logged in and false otherwise
+     * Amend a personal details document associated with an employee number.
+     * @param empNo employee number
+     * @param field field to change
+     * @param newVal new value for the field.
      */
-    public boolean getLoggedIn() {
+    void amendPersonalDetails(String empNo, String field, String newVal) {
+        hrDatabase.amendPersonalDetails(empNo, field, newVal, loggedInUser);
+    }
+
+    /**
+     * sets the user to have an employee access level
+     */
+    void setBasicAccess(){
+        accessLevel = AccessLevel.EMPLOYEE;
+    }
+
+    /**
+     * Getter for access level.
+     * @return access level for the logged in user.
+     */
+    AccessLevel getAccessLevel() {
+        return accessLevel;
+    }
+
+    /**
+     * Getter for logged in user.
+     * @return the logged in user.
+     */
+    User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    /**
+     * Getter for if anyone is logged into the system.
+     * @return true if there is a user logged in.
+     */
+    boolean isLoggedIn() {
         return loggedIn;
     }
 
+    // Methods for displaying menus and such. Untestable, so out of the way.
+
     /**
-     * when a user tries to use a function that requires authorisation
-     * this method checks if the function was completed successfully
-     *
-     * @param check the function to check if it was successful.
-     * @return A string of success or failure.
+     * Displays the login screen functionality.
      */
-    public String checkSuccess(Object check) {
-        if (check != null && check.equals(true)) {
-            return "Success";
+    private void loginPrompt() {
+        System.out.println("Welcome to Yuconz Document System. Please enter your employee number and password:");
+        System.out.println();
+        System.out.print("Employee Number: ");
+        String empNo = scan.next();
+        System.out.println();
+        System.out.print("Password: ");
+        String password = scan.next();
+        if(login(empNo, password)) {
+            System.out.println();
+            System.out.println("Logged In");
+            // Higher level users get the option to login as a base level employee.
+            try {
+                if (accessLevel != AccessLevel.EMPLOYEE) {
+                    basicAccessPrompt();
+                }
+            } catch (NullPointerException ex) {
+                System.out.println("User not present in HR database, contact system administrator.");
+            }
         } else {
-            return "Failed";
+            System.out.println();
+            System.out.println("Invalid employee number or password.");
+        }
+    }
+
+    /**
+     * User access menu.
+     */
+    private void basicAccessPrompt() {
+        while (true) {
+            System.out.print("Would you like to login with base employee access? (y/n): ");
+            String option = scan.next().toLowerCase();
+            if (option.equals("y")) {
+                setBasicAccess();
+                return;
+            } else if (option.equals("n")) {
+                return;
+            } else {
+                System.out.println("That is not a valid option. Please enter either 'y' or 'n' (no quotes).");
+            }
+        }
+    }
+
+    /**
+     * Basic user main menu.
+     */
+    private void baseMainMenu() {
+        System.out.println("Welcome to the Yuconz document system.");
+        System.out.println("Please select an option.");
+        System.out.println();
+
+        System.out.println("1. Logout");
+        System.out.println("2. Read Own Personal Details");
+    }
+
+    /**
+     * Options for employee.
+     */
+    private void employeeMainMenu() {
+        System.out.println("3. Amend own personal details.");
+        String option = scan.next();
+        switch (option) {
+            case "1": logout(); break;
+            case "2": readOwnPersonalDetails(); break;
+            case "3": amendOwnPersonalDetails(); break;
+            default: System.out.println("That is not a valid option.");
+        }
+        runController();
+    }
+
+    /**
+     * Options for HR Employee.
+     */
+    private void hREmployeeMainMenu() {
+        System.out.println("3. Add new login");
+        System.out.println("4. Read other personal details.");
+        System.out.println("5. Create new personal details");
+        System.out.println("6. Amend existing personal details.");
+
+        String option = scan.next();
+        switch (option) {
+            case "1": logout(); break;
+            case "2": readOwnPersonalDetails(); break;
+            case "3": addNewLogin(); break;
+            case "4": readOtherPersonalDetails(); break;
+            case "5": createPersonalDetails(); break;
+            case "6": amendPersonalDetails(); break;
+            default: System.out.println("That is not a valid option.");
+        }
+        runController();
+    }
+
+    /**
+     * Options for director.
+     */
+    private void directorMainMenu() {
+        System.out.println("3. Read other personal details document.");
+        String option = scan.next();
+        switch (option) {
+            case "1": logout(); break;
+            case "2": readOwnPersonalDetails(); break;
+            case "3": readOtherPersonalDetails(); break;
+            default: System.out.println("That is not a valid option.");
+        }
+        runController();
+    }
+
+    /**
+     * Prints result of read own personal details.
+     */
+    private void readOwnPersonalDetails() {
+        PersonalDetails p = readPersonalDetails(loggedInUser.getEmpNo());
+        printPersonalDetails(p);
+    }
+
+    /**
+     * Prints result of read other personal details.
+     */
+    private void readOtherPersonalDetails() {
+        System.out.print("Enter employee number of document owner:");
+        PersonalDetails p = readPersonalDetails(scan.next());
+        printPersonalDetails(p);
+
+    }
+
+    /**
+     * Prints a personal details document to the terminal.
+     * @param p The document to print.
+     */
+    private void printPersonalDetails(PersonalDetails p) {
+        if(p != null) {
+            System.out.println();
+            System.out.println(p.getEmpNo());
+            System.out.println(p.getForename());
+            System.out.println(p.getSurname());
+            System.out.println(p.getDob());
+            System.out.println(p.getMobileNo());
+            System.out.println(p.getTelephoneNo());
+            System.out.println(p.getEmergContact());
+            System.out.println(p.getEmergTel());
+        } else {
+            System.out.println("No personal details document for that employee was found. Contact HR.");
+        }
+    }
+
+    /**
+     * Menu for creating personal details.
+     */
+    private void createPersonalDetails() {
+        System.out.print("Enter employee number of new employee: ");
+        boolean success = createPersonalDetails(scan.next());
+        System.out.println();
+        if (success) {
+            System.out.println("Success! Please amend the document to add values.");
+        } else {
+            System.out.println("Failure, document not created. Document may already exist.");
+        }
+    }
+
+    /**
+     * Passes logged in user to amendPersonalDetails menu.
+     */
+    private void amendOwnPersonalDetails() {
+        amendPersonalDetailsMenu(loggedInUser.getEmpNo());
+    }
+
+    /**
+     * Passes entered user to amendPersonalDetails menu.
+     */
+    private void amendPersonalDetails() {
+        System.out.println("Enter employee number of employee: ");
+        String emp = scan.next();
+        amendPersonalDetailsMenu(emp);
+    }
+
+    /**
+     * Amends the personal details for a user using a text interface.
+     * @param emp The user to change the details of.
+     */
+    private void amendPersonalDetailsMenu(String emp) {
+        boolean done = false;
+        while(!done){
+            System.out.println("Select a field to change: ");
+            System.out.println("1. Forename");
+            System.out.println("2. Surname");
+            System.out.println("3. Date of Birth");
+            System.out.println("4. Mobile Number");
+            System.out.println("5. Telephone Number");
+            System.out.println("6. Emergency Contact Name");
+            System.out.println("7. Emergency Telephone Number");
+            boolean selected = false;
+            while (!selected) {
+                String option = scan.next();
+                System.out.print("Please enter the new value: ");
+                switch (option) {
+                    case "1": amendPersonalDetails(emp, "forename", scan.next()); selected = true;  break;
+                    case "2": amendPersonalDetails(emp, "surname", scan.next()); selected = true;  break;
+                    case "3": amendPersonalDetails(emp, "dob", scan.next()); selected = true;  break;
+                    case "4": amendPersonalDetails(emp, "mobileNo", scan.next()); selected = true;  break;
+                    case "5": amendPersonalDetails(emp, "telephoneNo", scan.next()); selected = true;  break;
+                    case "6": amendPersonalDetails(emp, "emergContact", scan.next()); selected = true; break;
+                    case "7": amendPersonalDetails(emp, "emergTel", scan.next()); selected = true; break;
+                    default: System.out.println("Please select a valid option.");
+                }
+                System.out.println("Done? (y/n)");
+                option = scan.next();
+                boolean finished = false;
+                while (!finished) {
+                    switch (option) {
+                        case "y":
+                            finished = true;
+                            done = true;
+                            break;
+                        case "n":
+                            finished = true;
+                            done = false;
+                            break;
+                        default: System.out.println("Please select a valid option.");
+                    }
+                }
+            }
+        }
+        System.out.println("Done!");
+    }
+
+    /**
+     * Add new login menu for HR employees.
+     */
+    private void addNewLogin() {
+        System.out.println("Enter details for new user:");
+        System.out.print("Enter Employee Number: ");
+        String user = scan.next();
+        System.out.println();
+        System.out.print("Enter Password: ");
+        String pass = scan.next();
+        System.out.println();
+        System.out.println("Select Access Level: ");
+        System.out.println("1. Employee");
+        System.out.println("2. HR Employee");
+        System.out.println("3. Manager");
+        System.out.println("4. Director");
+        String access = "";
+        boolean selected = false;
+        while(!selected) {
+            String option = scan.next();
+            switch (option) {
+                case "1":
+                    access = "employee";
+                    selected = true;
+                    break;
+                case "2":
+                    access = "hremployee";
+                    selected = true;
+                    break;
+                case "3":
+                    access = "manager";
+                    selected = true;
+                    break;
+                case "4":
+                    access = "director";
+                    selected = true;
+                    break;
+                default:
+                    System.out.println("Please select a valid option.");
+            }
+        }
+        System.out.println("Select Access Level: ");
+        System.out.println("1. Human Resources");
+        System.out.println("2. Services Delivery");
+        System.out.println("3. Sales and Marketing");
+        System.out.println("4. Administration");
+        selected = false;
+        String department = "";
+        while(!selected) {
+            String option = scan.next();
+            switch (option) {
+                case "1":
+                    department = "human resources";
+                    selected = true;
+                    break;
+                case "2":
+                    department = "services delivery";
+                    selected = true;
+                    break;
+                case "3":
+                    department = "sales and marketing";
+                    selected = true;
+                    break;
+                case "4":
+                    department = "administration";
+                    selected = true;
+                    break;
+                default:
+                    System.out.println("Please select a valid option.");
+            }
+        }
+
+        if(authServer.insertLogin(user, pass, access) && hrDatabase.addUser(user, department, null, access)) {
+            System.out.println(user + " added to database.");
+        } else {
+            System.out.println(user + " could not be added to database.");
         }
     }
 }
-

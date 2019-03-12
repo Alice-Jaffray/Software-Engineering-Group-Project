@@ -1,3 +1,4 @@
+
 /**
  * creates all needed objects to start the program
  *
@@ -5,17 +6,16 @@
  * @version 2019/02/16
  */
 public class Main {
-
     /**
      * Starts the app
      */
     public static void main(String[] args) {
-        AuthServer authServer = new AuthServer();
-        HRDatabase hrDatabase = new HRDatabase();
-        authServer.addDetails("hremployee", "kieran", "password");
-        authServer.addDetails("employee", "conor", "password");
-        authServer.addDetails("employee", "alice", "password");
-        AppController appController = new AppController(authServer, hrDatabase);
+
+        AuthServer authServer = new AuthServer("Databases/LoginRecords.csv", "jdbc:sqlite:Databases/Yuconz.db");
+        HRDatabase hrDatabase = new HRDatabase("Databases/AuthorisationRecords.csv", "jdbc:sqlite:Databases/pd.db");
+
+
+        AppController appController = new AppController(hrDatabase, authServer);
         appController.runController();
+        }
     }
-}
