@@ -143,7 +143,7 @@ public class AnnualReview extends Document{
      * returns their achievements
      * @return their achievements
      */
-    public String[] getAchievments() {
+    public String[] getAchievements() {
         return achievements;
     }
 
@@ -151,8 +151,8 @@ public class AnnualReview extends Document{
      * sets their achievements
      * @param achievements - their achievements
      */
-    public void setAchievments(String achievements) {
-        this.achievements = null;
+    public void setAchievements(String[] achievements) {
+        this.achievements = achievements;
     }
 
     /**
@@ -183,8 +183,8 @@ public class AnnualReview extends Document{
      * sets goals
      * @param goals - their goals
      */
-    public void setGoals(String goals) {
-        this.goals = null;
+    public void setGoals(String[] goals) {
+        this.goals = goals;
     }
 
     /**
@@ -199,8 +199,8 @@ public class AnnualReview extends Document{
      * sets reviewer comments
      * @param reviewerComments - reviewer comments
      */
-    public void setReviewerComments(String reviewerComments) {
-        this.reviewerComments = null;
+    public void setReviewerComments(String[] reviewerComments) {
+        this.reviewerComments = reviewerComments;
     }
 
     /**

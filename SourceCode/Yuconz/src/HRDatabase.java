@@ -243,11 +243,11 @@ public class HRDatabase {
                     document.setSecondReviewer(results.getString(4));
                     document.setSection(results.getString(5));
                     document.setJobTitle(results.getString(6));
-                    document.setObjectives(new String[]{results.getString(7)});
-                    document.setAchievments(results.getString(8));
+                    document.setObjectives(results.getString(7).split("CHAR(10)"));
+                    document.setAchievements(results.getString(8).split("CHAR(10)"));
                     document.setSummary(results.getString(9));
-                    document.setGoals(results.getString(10));
-                    document.setReviewerComments(results.getString(11));
+                    document.setGoals(results.getString(10).split("CHAR(10)"));
+                    document.setReviewerComments(results.getString(11).split("CHAR(10)"));
                     document.setSignedByReviewee(results.getBoolean(12));
                     document.setSignedByReviewerOne(results.getBoolean(13));
                     document.setSignedByReviewerTwo(results.getBoolean(14));
@@ -306,11 +306,10 @@ public class HRDatabase {
      */
     public AnnualReview amendAnnualReview(String empNo, String year, String field, String newVal, User requester) {
         if (requester.getAccessLevel() == AccessLevel.HREMPLOYEE || empNo.equals(requester.getEmpNo())) {
-            AnnualReview a = alternativeAmendAnnualReview(empNo, year, field, newVal, requester);
             //Runs the alternative amend Annual Review method for specific fields
-            if (a != null) {
-                return a;
-            }
+            AnnualReview a = alternativeAmendAnnualReview(empNo, year, field, newVal, requester);
+            if (a != null) {return a;}
+
             //SQL query
             String sql = "UPDATE AnnualReviews SET " + field + " = ? WHERE empID = ? AND year = ?;";
 
@@ -354,7 +353,8 @@ public class HRDatabase {
                 //fill placeholder
                 prep.setString(1, empNo);
                 prep.setString(2, year);
-                prep.setString(3, newVal);
+                //if the value doesn't end with a dot then add one
+                if(!newVal.startsWith("-")){prep.setString(3, "-".concat(newVal));} else {prep.setString(3, newVal);}
                 prep.setString(4, empNo);
                 prep.setString(5, year);
 
@@ -368,7 +368,6 @@ public class HRDatabase {
         }
         return null;
     }
-
 
     /**
      * Write data to the log file.
