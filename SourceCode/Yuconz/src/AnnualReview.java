@@ -20,6 +20,7 @@ public class AnnualReview extends Document{
     private boolean signedByReviewerOne;
     private boolean isSignedByReviewerTwo;
     private String year;
+    private boolean readOnly;
 
     /**
      * constructor
@@ -41,6 +42,7 @@ public class AnnualReview extends Document{
         this.signedByReviewerOne = false;
         this.isSignedByReviewerTwo = false;
         this.year = "";
+        this.readOnly = false;
     }
 
     /**
@@ -265,5 +267,21 @@ public class AnnualReview extends Document{
      */
     public void setYear(String year) {
         this.year = year;
+    }
+
+    /**
+     * returns whether this document is read only
+     * @return boolean of whether this is read only
+     */
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    /**
+     * set the read only status of this document
+     * @param readOnly value for whether this document is read only or not
+     */
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
     }
 }

@@ -14,7 +14,6 @@ import java.sql.*;
 public class HRDatabase {
     private final String DATABASE;
     private final String FILENAME;
-    private Document document;
 
     /**
      * constructor
@@ -210,14 +209,6 @@ public class HRDatabase {
     }
 
     /**
-     * allows user to sign a review
-     *
-     * @param signer the user who signs the record so it's marked as finished
-     */
-    public void signReview(User signer) {
-    }
-
-    /**
      * allows user to read Annual Reviews
      *
      * @param empNo     the number of the employee who's review it refers to
@@ -252,6 +243,7 @@ public class HRDatabase {
                     document.setSignedByReviewerOne(results.getBoolean(13));
                     document.setSignedByReviewerTwo(results.getBoolean(14));
                     document.setYear(results.getString(15));
+                    document.setReadOnly(results.getBoolean(16));
                     writeToFile(requester.getEmpNo(), empNo + ".ReadAnnualReview", true);
                     return document;
                 }
@@ -272,16 +264,20 @@ public class HRDatabase {
      * @return true if a new annual review is created and false otherwise
      */
     public boolean createAnnualReview(String empNo, User requester) {
-        if (requester.getAccessLevel().toString().equals("hremployee")) { //change accordingly...i don't really know who's allowed to create annual reviews
+        if (requester.getEmpNo().equals(empNo)) {
+            //gets the employees manager
+            String manager = getManager(empNo);
+            if(manager.isEmpty()) {return false;}
             //current year
             String year = new SimpleDateFormat("yyyy").format(new Date());
             //SQL query
-            String sql = "INSERT INTO AnnualReviews (empID, year) VALUES (?, ?);";
+            String sql = "INSERT INTO AnnualReviews (empID, firstReviewer, year) VALUES (?, ?, ?);";
             try (Connection con = this.connect();
                  PreparedStatement prep = con.prepareStatement(sql)) {
                 //fill placeholder
                 prep.setString(1, empNo);
-                prep.setString(2, year);
+                prep.setString(2, manager);
+                prep.setString(3, year);
                 prep.executeUpdate();
                 writeToFile(requester.getEmpNo(), empNo + ".CreateAnnualReview", true);
                 return true;
@@ -298,6 +294,32 @@ public class HRDatabase {
     }
 
     /**
+     * gets the manager of the employee
+     * @param empNo employee number of the employee
+     * @return a string containing the employee id
+     */
+    public String getManager(String empNo) {
+        //SQL query
+        String sql = "SELECT manager FROM employees WHERE empID = ?;";
+
+        try (Connection con = this.connect();
+             PreparedStatement prep = con.prepareStatement(sql)) {
+
+            //fill placeholder
+            prep.setString(1, empNo);
+
+            //get results of table and put in variable
+            ResultSet results = prep.executeQuery();
+
+            //return manager empID
+            return results.getString(1);
+        } catch (SQLException sqlEx) {
+            System.err.println(sqlEx.getMessage());
+            return "";
+        }
+    }
+
+    /**
      * allows a user to edit a review record
      *
      * @param empNo     the employee's number who the record is about
@@ -305,10 +327,11 @@ public class HRDatabase {
      * @param requester the user requesting to amend the record
      */
     public AnnualReview amendAnnualReview(String empNo, String year, String field, String newVal, User requester) {
-        if (requester.getAccessLevel() == AccessLevel.HREMPLOYEE || empNo.equals(requester.getEmpNo())) {
+        AnnualReview review = readAnnualReview(empNo, year, requester);
+        if (requester.getEmpNo().equals(empNo) && !review.isReadOnly() || review.getFirstReviewer().equals(requester.getEmpNo()) && !review.isReadOnly() || review.getSecondReviewer().equals(requester.getEmpNo()) && !review.isReadOnly()) {
             //Runs the alternative amend Annual Review method for specific fields
-            AnnualReview a = alternativeAmendAnnualReview(empNo, year, field, newVal, requester);
-            if (a != null) {return a;}
+            review = alternativeAmendAnnualReview(empNo, year, field, newVal, requester);
+            if (review != null) {return review;}
 
             //SQL query
             String sql = "UPDATE AnnualReviews SET " + field + " = ? WHERE empID = ? AND year = ?;";
@@ -367,6 +390,14 @@ public class HRDatabase {
             }
         }
         return null;
+    }
+
+    /**
+     * allows user to sign a review
+     *
+     * @param signer the user who signs the record so it's marked as finished
+     */
+    public void signReview(User signer) {
     }
 
     /**
