@@ -342,6 +342,7 @@ public class AppController {
             while (!selected) {
                 String option = scan.next();
                 System.out.print("Please enter the new value: ");
+                scan.nextLine();
                 switch (option) {
                     case "1": amendPersonalDetails(emp, "forename", scan.nextLine()); selected = true;  break;
                     case "2": amendPersonalDetails(emp, "surname", scan.nextLine()); selected = true;  break;
@@ -353,9 +354,9 @@ public class AppController {
                     default: System.out.println("Please select a valid option.");
                 }
                 System.out.println("Done? (y/n)");
-                option = scan.next();
                 boolean finished = false;
                 while (!finished) {
+                    option = scan.next();
                     switch (option) {
                         case "y":
                             finished = true;
