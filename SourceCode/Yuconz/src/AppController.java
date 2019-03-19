@@ -42,13 +42,6 @@ public class AppController {
     }
 
     /**
-     * Read the logs from the AuthServer.
-     */
-    private void readLogs() {
-        authServer.readFromFile();
-    }
-
-    /**
      * Logs the user into the system
      *
      * @param empNo employee number of the user
@@ -89,7 +82,7 @@ public class AppController {
      * @param empNo The owner of the document
      * @return the document associated with empNo.
      */
-    PersonalDetails readPersonalDetails(String empNo) {
+    private PersonalDetails readPersonalDetails(String empNo) {
         return hrDatabase.readPersonalDetails(empNo, loggedInUser);
     }
 
@@ -98,7 +91,7 @@ public class AppController {
      * @param empNo the employee the document is for.
      * @return true if successful.
      */
-    boolean createPersonalDetails(String empNo) {
+    private boolean createPersonalDetails(String empNo) {
         return hrDatabase.createPersonalDetails(empNo, loggedInUser);
     }
 
@@ -108,7 +101,7 @@ public class AppController {
      * @param field field to change
      * @param newVal new value for the field.
      */
-    void amendPersonalDetails(String empNo, String field, String newVal) {
+    private void amendPersonalDetails(String empNo, String field, String newVal) {
         hrDatabase.amendPersonalDetails(empNo, field, newVal, loggedInUser);
     }
 
