@@ -343,13 +343,13 @@ public class AppController {
                 String option = scan.next();
                 System.out.print("Please enter the new value: ");
                 switch (option) {
-                    case "1": amendPersonalDetails(emp, "forename", scan.next()); selected = true;  break;
-                    case "2": amendPersonalDetails(emp, "surname", scan.next()); selected = true;  break;
-                    case "3": amendPersonalDetails(emp, "dob", scan.next()); selected = true;  break;
-                    case "4": amendPersonalDetails(emp, "mobileNo", scan.next()); selected = true;  break;
-                    case "5": amendPersonalDetails(emp, "telephoneNo", scan.next()); selected = true;  break;
-                    case "6": amendPersonalDetails(emp, "emergContact", scan.next()); selected = true; break;
-                    case "7": amendPersonalDetails(emp, "emergTel", scan.next()); selected = true; break;
+                    case "1": amendPersonalDetails(emp, "forename", scan.nextLine()); selected = true;  break;
+                    case "2": amendPersonalDetails(emp, "surname", scan.nextLine()); selected = true;  break;
+                    case "3": amendPersonalDetails(emp, "dob", scan.nextLine()); selected = true;  break;
+                    case "4": amendPersonalDetails(emp, "mobileNo", scan.nextLine()); selected = true;  break;
+                    case "5": amendPersonalDetails(emp, "telephoneNo", scan.nextLine()); selected = true;  break;
+                    case "6": amendPersonalDetails(emp, "emergContact", scan.nextLine()); selected = true; break;
+                    case "7": amendPersonalDetails(emp, "emergTel", scan.nextLine()); selected = true; break;
                     default: System.out.println("Please select a valid option.");
                 }
                 System.out.println("Done? (y/n)");
