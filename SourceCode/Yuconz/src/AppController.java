@@ -42,13 +42,6 @@ public class AppController {
     }
 
     /**
-     * Read the logs from the AuthServer.
-     */
-    private void readLogs() {
-        authServer.readFromFile();
-    }
-
-    /**
      * Logs the user into the system
      *
      * @param empNo employee number of the user
@@ -89,7 +82,7 @@ public class AppController {
      * @param empNo The owner of the document
      * @return the document associated with empNo.
      */
-    PersonalDetails readPersonalDetails(String empNo) {
+    private PersonalDetails readPersonalDetails(String empNo) {
         return hrDatabase.readPersonalDetails(empNo, loggedInUser);
     }
 
@@ -98,7 +91,7 @@ public class AppController {
      * @param empNo the employee the document is for.
      * @return true if successful.
      */
-    boolean createPersonalDetails(String empNo) {
+    private boolean createPersonalDetails(String empNo) {
         return hrDatabase.createPersonalDetails(empNo, loggedInUser);
     }
 
@@ -108,7 +101,7 @@ public class AppController {
      * @param field field to change
      * @param newVal new value for the field.
      */
-    void amendPersonalDetails(String empNo, String field, String newVal) {
+    private void amendPersonalDetails(String empNo, String field, String newVal) {
         hrDatabase.amendPersonalDetails(empNo, field, newVal, loggedInUser);
     }
 
@@ -342,20 +335,21 @@ public class AppController {
             while (!selected) {
                 String option = scan.next();
                 System.out.print("Please enter the new value: ");
+                scan.nextLine();
                 switch (option) {
-                    case "1": amendPersonalDetails(emp, "forename", scan.next()); selected = true;  break;
-                    case "2": amendPersonalDetails(emp, "surname", scan.next()); selected = true;  break;
-                    case "3": amendPersonalDetails(emp, "dob", scan.next()); selected = true;  break;
-                    case "4": amendPersonalDetails(emp, "mobileNo", scan.next()); selected = true;  break;
-                    case "5": amendPersonalDetails(emp, "telephoneNo", scan.next()); selected = true;  break;
-                    case "6": amendPersonalDetails(emp, "emergContact", scan.next()); selected = true; break;
-                    case "7": amendPersonalDetails(emp, "emergTel", scan.next()); selected = true; break;
+                    case "1": amendPersonalDetails(emp, "forename", scan.nextLine()); selected = true;  break;
+                    case "2": amendPersonalDetails(emp, "surname", scan.nextLine()); selected = true;  break;
+                    case "3": amendPersonalDetails(emp, "dob", scan.nextLine()); selected = true;  break;
+                    case "4": amendPersonalDetails(emp, "mobileNo", scan.nextLine()); selected = true;  break;
+                    case "5": amendPersonalDetails(emp, "telephoneNo", scan.nextLine()); selected = true;  break;
+                    case "6": amendPersonalDetails(emp, "emergContact", scan.nextLine()); selected = true; break;
+                    case "7": amendPersonalDetails(emp, "emergTel", scan.nextLine()); selected = true; break;
                     default: System.out.println("Please select a valid option.");
                 }
                 System.out.println("Done? (y/n)");
-                option = scan.next();
                 boolean finished = false;
                 while (!finished) {
+                    option = scan.next();
                     switch (option) {
                         case "y":
                             finished = true;
