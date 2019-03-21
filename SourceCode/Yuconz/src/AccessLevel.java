@@ -9,7 +9,8 @@ public enum AccessLevel {
     EMPLOYEE("employee"),
     HREMPLOYEE("hremployee"),
     MANAGER("manager"),
-    DIRECTOR("director");
+    DIRECTOR("director"),
+    REVIEWER("reviewer");
 
     // the access level string
     public final String accessLevel;
