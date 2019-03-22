@@ -1,129 +1,232 @@
-import java.util.ArrayList;
+import java.security.NoSuchAlgorithmException;
+import java.sql.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.security.SecureRandom;
+import java.security.MessageDigest;
 /**
  * stores when a successful login takes place
  * mock of server that holds login information.
- * @author Alice Jaffray and Kieran D'Arcy
+ * @author Alice Jaffray and Kieran D'Arcy and Isaiah Ojo
  * @version 2019/02/16
  */
 public class AuthServer {
-    private ArrayList<User> loginDetails;
-    private ArrayList<LoginRecord> loginRecords;
+    private final String FILENAME;
+    private final String DATABASE;
 
     /**
      * constructor
+     * @param loginLogs file path for log file.
+     * @param database file path for SQLite database.
      */
-    public AuthServer() {
-        loginDetails = new ArrayList<>();
-        loginRecords = new ArrayList<>();
+    public AuthServer(String loginLogs, String database) {
+        DATABASE = database;
+        FILENAME = loginLogs;
+    }
+
+
+    /**
+     * Connects to the Authentication database.
+     * @return A connection to the database.
+     */
+    private Connection connect() {
+        Connection con = null;
+        try{
+            String url = DATABASE;
+            con = DriverManager.getConnection(url);
+        } catch (Exception ex) {
+            System.err.println( ex.getClass().getName() + ": " + ex.getMessage() );
+            System.exit(0);
+        }
+        return con;
     }
 
     /**
      * authenticates the user for login purposes
      * logs the details of the login attempt
      *
-     * @param name username of user
+     * @param user employee number of the user
      * @param password password of user
      * @return the user who is trying to be authenticated or null if attempt failed
      */
-    public User authenticate(String name, String password) {
-        for(User users : loginDetails) {
-            if(users.getUsername().equals(name) && users.getPassword().equals(password)) {
-                loginRecords.add(new LoginRecord(name));
-                return users;
+     String authenticate(String user, String password) {
+        // SQL Query
+        String sql = "select access from users where empID = ? and password = ?;";
+
+         // Check salt is in database;
+        byte[] salt = getSalt(user);
+        if(salt == null) {writeToFile(user, false);return "denied";}
+
+        try (Connection con = this.connect();
+             PreparedStatement prep = con.prepareStatement(sql)) {
+            // Fill placeholders (? characters).
+            prep.setString(1, user);
+            prep.setBytes(2, generateHash(password, salt));
+
+            ResultSet results = prep.executeQuery();
+            // Analyse Results
+            if(results.getString(1) == null)  {
+                writeToFile(user, false);
+                return "denied";
+            } else {
+                writeToFile(user, true);
+                return results.getString(1);
             }
-        }
-        return null;
-    }
-
-    /**
-     * adds authentication details to the server
-     * @param type job role of user i.e. authentication level
-     * @param name username of the user
-     * @param password password of the user
-     */
-    public void addDetails(String type, String name, String password) {
-        //for testing
-        switch (type.toLowerCase()) {
-            case "employee":
-                loginDetails.add(new Employee(name, password));
-                break;
-            case "hremployee":
-                loginDetails.add(new HREmployee(name, password));
-                break;
-            case "manager":
-                loginDetails.add(new Manager(name, password));
-                break;
-            case "director":
-                loginDetails.add(new Director(name, password));
-                break;
-            default:
-                System.out.println("Please pick a valid option!");
-                break;
+        } catch(SQLException e) {
+            System.err.println(e.getMessage());
+            writeToFile(user, false);
+            return "denied";
         }
     }
 
     /**
-     * removes details from auth server
-     * @param name username of te user
-     * @param password password of the user
+     * Get the salt for a user from the database.
+     * @param empNo The user to get the salt for.
+     * @return The returned salt, or null if no salt was made.
      */
-    public void removeDetails(String name, String password){
-        for (User users : loginDetails) {
-            if(users.getUsername().equals(name) && users.getPassword().equals(password)) {
-                loginDetails.remove(users);
-                System.out.println("User '" + name + "' as been removed");
-                break;
+    private byte[] getSalt(String empNo) {
+         String sql = "select salt from users where empID = ?";
+         try (Connection con = this.connect();
+         PreparedStatement prep = con.prepareStatement(sql)) {
+            prep.setString(1, empNo);
+            ResultSet r = prep.executeQuery();
+            if(r.getBytes(1) != null) {
+                return r.getBytes(1);
             }
-        }
+         } catch (SQLException ex) {
+             System.err.println(ex.getMessage());
+         }
+         return null;
     }
 
     /**
-     * updates the user's authorisation level
-     *
-     * @param user the user who's authorisation level is being changed
-     * @param newAuthLvl the wanted authorisation level
-     * @return true is the authorisation level is changed and false otherwise
+     * Insert a new login into the system.
+     * @param empNo The new user's employee number.
+     * @param password The new user's password.
+     * @param access The new user's access level for the system.
+     * @return true if succeeded.
      */
-    public boolean changePrivileges(User user, String newAuthLvl) {
-        if (loginDetails.contains(user) && loginDetails.get(loginDetails.indexOf(user)).changeAuthLevel(newAuthLvl)) {
-            System.out.println("Privileges lowered to employee, Please re-login!");
+     boolean insertLogin(String empNo, String password, String access) {
+        //Query
+        String sql = "INSERT INTO users (empID, password, salt, access) values (?, ?, ?, ?);";
+        // Hash and salt.
+        byte[] salt = generateSalt();
+        byte[] hashedPass = generateHash(password, salt);
+
+        try (Connection con = this.connect();
+             PreparedStatement prep = con.prepareStatement(sql)) {
+            prep.setString(1, empNo);
+            prep.setBytes(2, hashedPass);
+            prep.setBytes(3, salt);
+            prep.setString(4, access);
+            prep.executeUpdate();
             return true;
-        } else {
-            System.out.println("Failed, can't find user OR insufficient privileges.");
+        } catch (SQLException sqlEx) {
+            System.err.println(sqlEx.getMessage());
             return false;
         }
     }
 
     /**
-     * get all the login records
-     * if the user is a HR employee
-     *
-     * @param user the user attempting to get the login records
-     * @return the login records if the user is a HR employee and null otherwise
+     * Delete a user from the database by their login.
+     * @param empNo The new user's employee number.
+     * @return true if succeeded.
      */
-    public ArrayList<LoginRecord> getLoginRecords(User user) {
-        if (user.getAuthLevel().equals("hremployee")){
-            return loginRecords;
-        } else {
-            return null;
+    boolean deleteLogin(String empNo) {
+        //Query
+        String sql = "DELETE FROM users WHERE empID = ?;";
+
+        try (Connection con = this.connect();
+             PreparedStatement prep = con.prepareStatement(sql)) {
+            prep.setString(1, empNo);
+            prep.executeUpdate();
+            return true;
+        } catch (SQLException sqlEx) {
+            System.err.println(sqlEx.getMessage());
+            return false;
         }
     }
 
     /**
-     * prints the the login records
-     * if the user is a HR employee
-     * @param user the user attempting to print the login records
-     * @return true if the records were printed and false if not
+     * Hash and salt a password using SHA-512.
+     * @param password Password to hash.
+     * @param salt Salt to use;
+     * @return Hashed password.
      */
-    public boolean printLoginRecords(User user) {
-        if (user.getAuthLevel().equals("hremployee")){
-            for (LoginRecord records : loginRecords) {
-                System.out.println(records.getDetails());
+    private byte[] generateHash(String password, byte[] salt) {
+        byte[] hashed = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(salt);
+            hashed = md.digest(password.getBytes());
+        } catch (NoSuchAlgorithmException e){
+            System.err.println(e.getMessage());
+        }
+        return hashed;
+    }
+
+    /**
+     * Generate a 16 byte salt for passwords.
+     * @return 16 byte secure random salt.
+     */
+    private byte[] generateSalt() {
+        SecureRandom rand = new SecureRandom();
+        byte[] salt = new byte[16];
+        rand.nextBytes(salt);
+        return salt;
+    }
+
+    /**
+     * Writes to the login records file.
+     * @param empNo User attempting to log in.
+     * @param success If the login was successful.
+     */
+    private void writeToFile(String empNo, boolean success){
+        BufferedWriter bw = null;
+        FileWriter fw = null;
+
+        try{
+            String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            String content = empNo + "," + dateTime + "," + success + "\n";
+            fw = new FileWriter(FILENAME,true);
+            bw = new BufferedWriter(fw);
+            bw.write(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }   finally {
+            try {
+                if (bw!= null)
+                    bw.close();
+
+                if(fw != null)
+                    fw.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
-            return true;
-        } else {
-            return false;
         }
     }
+
+    /**
+     * Read from the LoginRecords.csv file and print to the terminal.
+     */
+    void readFromFile() {
+        try {
+            Scanner scanner = new Scanner(new File(FILENAME));
+            scanner.useDelimiter(",");
+            while (scanner.hasNext()) {
+                System.out.print(scanner.next()+" | ");
+            }
+            scanner.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }
 

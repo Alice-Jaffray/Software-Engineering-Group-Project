@@ -6,14 +6,23 @@
  * @version 2019/02/16
  */
 public class Document {
-    private String staffID;
+    private String empNo;
 
     /**
      * constructor
      *
-     * @param creator the creator of the document
+     * @param empNo the creator of the document
      */
-    public Document(String creator) {
-        staffID = creator;
+    public Document(String empNo) {
+        this.empNo = empNo;
+    }
+
+    /**
+     * gets the employee's id
+     *
+     * @return the employee's id
+     */
+    public String getEmpNo(){
+        return empNo;
     }
 }
