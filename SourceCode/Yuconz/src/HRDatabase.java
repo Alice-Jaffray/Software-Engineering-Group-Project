@@ -246,7 +246,7 @@ public class HRDatabase {
      */
     public AnnualReview readAnnualReview(String empNo, String year, User requester) {
         user = getUser(empNo);
-        if ((requester.getEmpNo().equals(empNo) || requester.getEmpNo().equals(user.getReviewerOne()) || requester.equals(user.getReviewerTwo())) && requester.getAccessLevel() == AccessLevel.REVIEWER) {
+        if (requester.getEmpNo().equals(empNo) || (requester.getEmpNo().equals(user.getReviewerOne()) || requester.equals(user.getReviewerTwo())) && requester.getAccessLevel() == AccessLevel.REVIEWER || requester.getAccessLevel() == AccessLevel.DIRECTOR) {
             // SQL Query
             String sql = "SELECT * FROM AnnualReviews WHERE empID = ? AND year = ?;";
             try (Connection con = this.connect();
@@ -375,7 +375,7 @@ public class HRDatabase {
     private AnnualReview alternativeAmendAnnualReview(String empNo, String year, String field, String newVal, User requester) {
         if (field.equals("objectives") || field.equals("achievements") || field.equals("goals") || field.equals("reviewerComments")) { // Checks if the field requires multiple lines(e.g. Objectives, Achievements, Goals, Comments)
             //SQL query
-            String sql = "Update AnnualReviews SET " + field + " = (SELECT IFNULL(" + field + ", '') FROM AnnualReviews WHERE empID = ? AND year = ?) || ? || CHAR(10) WHERE empID = ? AND year = ?;";
+            String sql = "UPDATE AnnualReviews SET " + field + " = (SELECT " + field + " FROM AnnualReviews WHERE empID = ? AND year = ?) || ? || CHAR(10) WHERE empID = ? AND year = ?;";
 
             try (Connection con = this.connect();
                  PreparedStatement prep = con.prepareStatement(sql)) {
@@ -383,7 +383,7 @@ public class HRDatabase {
                 //fill placeholder
                 prep.setString(1, empNo);
                 prep.setString(2, year);
-                prep.setString(3, newVal.concat("-"));
+                prep.setString(3, newVal);
                 prep.setString(4, empNo);
                 prep.setString(5, year);
 
