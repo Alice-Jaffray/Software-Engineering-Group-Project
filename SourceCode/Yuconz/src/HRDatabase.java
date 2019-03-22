@@ -122,7 +122,7 @@ public class HRDatabase {
      */
     boolean addUser(String empNo, String department, String manager, String access) {
         //Query
-        String sql = "INSERT INTO employees (empID, department, manager, access) values (?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO employees (empID, department, manager, access, reviewerOne) values (?, ?, ?, ?, ?);";
 
         try (Connection con = this.connect();
              PreparedStatement prep = con.prepareStatement(sql)) {
