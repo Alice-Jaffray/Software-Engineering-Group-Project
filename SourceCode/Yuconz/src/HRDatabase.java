@@ -298,14 +298,15 @@ public class HRDatabase {
             //current year
             String year = new SimpleDateFormat("yyyy").format(new Date());
             //SQL query
-            String sql = "INSERT INTO AnnualReviews (empID, firstReviewer, year) VALUES (?, ?, ?);";
+            String sql = "INSERT INTO AnnualReviews (empID, firstReviewer, secondReviewer, year) VALUES (?, ?, ?,?);";
 
             try (Connection con = this.connect();
                  PreparedStatement prep = con.prepareStatement(sql)) {
                 //fill placeholder
                 prep.setString(1, empNo);
-                prep.setString(2, user.getManager());
-                prep.setString(3, year);
+                prep.setString(2, user.getReviewerOne());
+                prep.setString(3, user.getReviewerTwo());
+                prep.setString(4, year);
                 prep.executeUpdate();
                 writeToFile(requester.getEmpNo(), empNo + ".CreateAnnualReview", true);
                 return true;
