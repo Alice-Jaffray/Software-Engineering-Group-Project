@@ -42,13 +42,6 @@ public class AppController {
     }
 
     /**
-     * Read the logs from the AuthServer.
-     */
-    private void readLogs() {
-        authServer.readFromFile();
-    }
-
-    /**
      * Logs the user into the system
      *
      * @param empNo employee number of the user
@@ -89,7 +82,7 @@ public class AppController {
      * @param empNo The owner of the document
      * @return the document associated with empNo.
      */
-    PersonalDetails readPersonalDetails(String empNo) {
+    private PersonalDetails readPersonalDetails(String empNo) {
         return hrDatabase.readPersonalDetails(empNo, loggedInUser);
     }
 
@@ -98,7 +91,7 @@ public class AppController {
      * @param empNo the employee the document is for.
      * @return true if successful.
      */
-    boolean createPersonalDetails(String empNo) {
+    private boolean createPersonalDetails(String empNo) {
         return hrDatabase.createPersonalDetails(empNo, loggedInUser);
     }
 
@@ -108,8 +101,51 @@ public class AppController {
      * @param field field to change
      * @param newVal new value for the field.
      */
-    void amendPersonalDetails(String empNo, String field, String newVal) {
+    private void amendPersonalDetails(String empNo, String field, String newVal) {
         hrDatabase.amendPersonalDetails(empNo, field, newVal, loggedInUser);
+    }
+
+    /**
+     * Read an annual review for a year associated with an employee number.
+     * @param empNo The employee number of the reviewee.
+     * @param year The year of the review.
+     * @return The annual review document from the HRDatabase.
+     */
+    private AnnualReview readAnnualReview(String empNo, String year) {
+        return hrDatabase.readAnnualReview(empNo, year, loggedInUser);
+    }
+
+    /**
+     * Create an annual review document for the logged in user.
+     */
+    private void createAnnualReview() {
+        if(hrDatabase.createAnnualReview(loggedInUser.getEmpNo(), loggedInUser)) {
+            System.out.println("Annual Review document created, please amend the document using your employee number and the current year.");
+        } else {
+            System.out.println("Document not created, check that document does not already exist for current year.");
+        }
+
+    }
+
+    /**
+     * Amend an unsigned annual review.
+     * @param empNo Employee number of reviewee.
+     * @param year year the review was created.
+     * @param field The field to change.
+     * @param newVal The new value for the field.
+     */
+    private void amendAnnualReview(String empNo, String year, String field, String newVal) {
+        hrDatabase.amendAnnualReview(empNo, year, field,newVal, loggedInUser);
+    }
+
+    /**
+     * Add a second reviewer to an employee, for their next annual review.
+     * For HR Employees only.
+     * @param empNo The reviewee.
+     * @param reviewer The second reviewer.
+     */
+    private void assignSecondReviewer(String empNo, String reviewer) {
+        hrDatabase.assignSecondReviewer(empNo, reviewer);
     }
 
     /**
@@ -143,7 +179,7 @@ public class AppController {
         return loggedIn;
     }
 
-    // Methods for displaying menus and such. Untestable, so out of the way.
+    // Methods for displaying menus and such. Untestable, so pushed lower in the class.
 
     /**
      * Displays the login screen functionality.
@@ -191,6 +227,9 @@ public class AppController {
         }
     }
 
+    /**
+     * Basic user main menu.
+     */
     private void baseMainMenu() {
         System.out.println("Welcome to the Yuconz document system.");
         System.out.println("Please select an option.");
@@ -200,23 +239,33 @@ public class AppController {
         System.out.println("2. Read Own Personal Details");
     }
 
+    /**
+     * Options for employee.
+     */
     private void employeeMainMenu() {
         System.out.println("3. Amend own personal details.");
+        System.out.println("4. Create Annual review Document");
         String option = scan.next();
         switch (option) {
             case "1": logout(); break;
             case "2": readOwnPersonalDetails(); break;
             case "3": amendOwnPersonalDetails(); break;
+            case "4": createAnnualReview(); break;
             default: System.out.println("That is not a valid option.");
         }
         runController();
     }
 
+    /**
+     * Options for HR Employee.
+     */
     private void hREmployeeMainMenu() {
         System.out.println("3. Add new login");
         System.out.println("4. Read other personal details.");
         System.out.println("5. Create new personal details");
         System.out.println("6. Amend existing personal details.");
+        System.out.println("7. Create Review Document");
+        System.out.println("8. Reviewer Mode");
 
         String option = scan.next();
         switch (option) {
@@ -226,28 +275,65 @@ public class AppController {
             case "4": readOtherPersonalDetails(); break;
             case "5": createPersonalDetails(); break;
             case "6": amendPersonalDetails(); break;
+            case "7": createAnnualReview(); break;
+            case "8": reviewerMainMenu(); break;
             default: System.out.println("That is not a valid option.");
         }
         runController();
     }
 
+    /**
+     * Options for director.
+     */
     private void directorMainMenu() {
         System.out.println("3. Read other personal details document.");
+        System.out.println("4. Read annual review document.");
+        System.out.println("5. Reviewer Mode.");
         String option = scan.next();
         switch (option) {
             case "1": logout(); break;
             case "2": readOwnPersonalDetails(); break;
             case "3": readOtherPersonalDetails(); break;
+            case "4": readAnnualReview(); break;
+            case "5": reviewerMainMenu(); break;
             default: System.out.println("That is not a valid option.");
         }
         runController();
     }
 
+    /**
+     * Options for reviewer.
+     */
+    private void reviewerMainMenu() {
+        loggedInUser.setAccessLevel(AccessLevel.REVIEWER);
+        accessLevel = AccessLevel.REVIEWER;
+        if(!hrDatabase.isReviewer(loggedInUser.getEmpNo())) {
+            System.out.println("No employees to review.");
+            return;
+        }
+        System.out.println("1. Log Out.");
+        System.out.println("2. Amend/Sign Review");
+        System.out.println("3. Read Review");
+        String option = scan.next();
+        switch (option) {
+            case "1": logout(); break;
+            case "2": amendOtherReview(); break;
+            case "3": readAnnualReview(); break;
+        }
+    }
+
+
+    /**
+     * Prints result of read own personal details.
+     */
     private void readOwnPersonalDetails() {
         PersonalDetails p = readPersonalDetails(loggedInUser.getEmpNo());
         printPersonalDetails(p);
     }
 
+    /**
+     * Prints result of read other personal details.
+     */
     private void readOtherPersonalDetails() {
         System.out.print("Enter employee number of document owner:");
         PersonalDetails p = readPersonalDetails(scan.next());
@@ -255,6 +341,10 @@ public class AppController {
 
     }
 
+    /**
+     * Prints a personal details document to the terminal.
+     * @param p The document to print.
+     */
     private void printPersonalDetails(PersonalDetails p) {
         if(p != null) {
             System.out.println();
@@ -271,6 +361,9 @@ public class AppController {
         }
     }
 
+    /**
+     * Menu for creating personal details.
+     */
     private void createPersonalDetails() {
         System.out.print("Enter employee number of new employee: ");
         boolean success = createPersonalDetails(scan.next());
@@ -282,16 +375,26 @@ public class AppController {
         }
     }
 
+    /**
+     * Passes logged in user to amendPersonalDetails menu.
+     */
     private void amendOwnPersonalDetails() {
         amendPersonalDetailsMenu(loggedInUser.getEmpNo());
     }
 
+    /**
+     * Passes entered user to amendPersonalDetails menu.
+     */
     private void amendPersonalDetails() {
         System.out.println("Enter employee number of employee: ");
         String emp = scan.next();
         amendPersonalDetailsMenu(emp);
     }
 
+    /**
+     * Amends the personal details for a user using a text interface.
+     * @param emp The user to change the details of.
+     */
     private void amendPersonalDetailsMenu(String emp) {
         boolean done = false;
         while(!done){
@@ -307,37 +410,26 @@ public class AppController {
             while (!selected) {
                 String option = scan.next();
                 System.out.print("Please enter the new value: ");
+                scan.nextLine();
                 switch (option) {
-                    case "1": amendPersonalDetails(emp, "forename", scan.next()); selected = true;  break;
-                    case "2": amendPersonalDetails(emp, "surname", scan.next()); selected = true;  break;
-                    case "3": amendPersonalDetails(emp, "dob", scan.next()); selected = true;  break;
-                    case "4": amendPersonalDetails(emp, "mobileNo", scan.next()); selected = true;  break;
-                    case "5": amendPersonalDetails(emp, "telephoneNo", scan.next()); selected = true;  break;
-                    case "6": amendPersonalDetails(emp, "emergContact", scan.next()); selected = true; break;
-                    case "7": amendPersonalDetails(emp, "emergTel", scan.next()); selected = true; break;
+                    case "1": amendPersonalDetails(emp, "forename", scan.nextLine()); selected = true;  break;
+                    case "2": amendPersonalDetails(emp, "surname", scan.nextLine()); selected = true;  break;
+                    case "3": amendPersonalDetails(emp, "dob", scan.nextLine()); selected = true;  break;
+                    case "4": amendPersonalDetails(emp, "mobileNo", scan.nextLine()); selected = true;  break;
+                    case "5": amendPersonalDetails(emp, "telephoneNo", scan.nextLine()); selected = true;  break;
+                    case "6": amendPersonalDetails(emp, "emergContact", scan.nextLine()); selected = true; break;
+                    case "7": amendPersonalDetails(emp, "emergTel", scan.nextLine()); selected = true; break;
                     default: System.out.println("Please select a valid option.");
                 }
-                System.out.println("Done? (y/n)");
-                option = scan.next();
-                boolean finished = false;
-                while (!finished) {
-                    switch (option) {
-                        case "y":
-                            finished = true;
-                            done = true;
-                            break;
-                        case "n":
-                            finished = true;
-                            done = false;
-                            break;
-                        default: System.out.println("Please select a valid option.");
-                    }
-                }
+                done = isDone(done);
             }
         }
         System.out.println("Done!");
     }
 
+    /**
+     * Add new login menu for HR employees.
+     */
     private void addNewLogin() {
         System.out.println("Enter details for new user:");
         System.out.print("Enter Employee Number: ");
@@ -413,4 +505,124 @@ public class AppController {
             System.out.println(user + " could not be added to database.");
         }
     }
+
+    /**
+     * Read an annual review for an employee.
+     * Asks user to enter the employee ID and the year of the review.
+     */
+    private void readAnnualReview() {
+        System.out.print("Enter Employee number of Reviewee: ");
+        String empNo = scan.next();
+        System.out.println();
+        System.out.print("Enter Review Year: ");
+        printAnnualReview(readAnnualReview(empNo, scan.next()));
+    }
+
+    /**
+     * Prints a personal details document to the terminal.
+     * @param a The document to print.
+     */
+    private void printAnnualReview(AnnualReview a) {
+        if(a != null) {
+            System.out.println();
+            System.out.println("Reviewee:" + a.getEmpNo());
+            System.out.println("Reviewee ID:" + a.getName());
+            System.out.println("Reviewer One ID:" + a.getFirstReviewer());
+            System.out.println("Reviewer Two ID:" + a.getSecondReviewer());
+            System.out.println("Year of Review: " + a.getYear());
+            System.out.println("Department" + a.getSection());
+            System.out.println("Job Title: " + a.getJobTitle());
+            System.out.println("Objectives: ");
+            for(String obj: a.getObjectives()) { System.out.println("  " + obj); }
+            System.out.println("Achievements: ");
+            for(String ach: a.getAchievements()) { System.out.println("  " + ach); }
+            System.out.println("Summary: " + a.getSummary());
+            System.out.println("Goals: ");
+            for(String goal: a.getGoals()) { System.out.println("  " + goal); }
+            System.out.println("Reviewer Comments: ");
+            for(String com: a.getReviewerComments()) { System.out.println("  " + com); }
+            System.out.println("Reviewee Sign:      " + a.isSignedByReviewee());
+            System.out.println("Reviewer One Sign:  " + a.isSignedByReviewerOne());
+            System.out.println("Reviewer Two Sign:  " + a.isSignedByReviewerTwo());
+        } else {
+            System.out.println("Annual Review not found. Please check employee number and year are correct.");
+        }
+    }
+
+    private void amendOtherReview() {
+        System.out.print("Enter Employee Number: ");
+        String empNo = scan.next();
+        System.out.println();
+        System.out.print("Enter Year: ");
+        amendReviewMenu(empNo, scan.next());
+    }
+
+    private void amendOwnReview() {
+        System.out.print("Enter Year: ");
+        amendReviewMenu(loggedInUser.getEmpNo(), scan.next());
+    }
+
+    private void amendReviewMenu(String emp, String year) {
+        boolean done = false;
+        while(!done){
+            System.out.println("Select a field to change/append: ");
+            System.out.println("1. Add Objective");
+            System.out.println("2. Add Achievement");
+            System.out.println("3. Change Summary");
+            System.out.println("4. Add Goal");
+            System.out.println("5. Add Reviewer Comment");
+            System.out.println("6. Sign Review");
+            boolean selected = false;
+            while (!selected) {
+                String option = scan.next();
+                System.out.print("Please enter the new value: ");
+                scan.nextLine();
+                switch (option) {
+                    case "1": amendAnnualReview(emp, year, "objectives", scan.nextLine()); selected = true;  break;
+                    case "2": amendAnnualReview(emp, year, "achievements", scan.nextLine()); selected = true;  break;
+                    case "3": amendAnnualReview(emp, year, "summary", scan.nextLine()); selected = true;  break;
+                    case "4": amendAnnualReview(emp, year, "goals", scan.nextLine()); selected = true;  break;
+                    case "5": amendAnnualReview(emp, year, "reviewerComments", scan.nextLine()); selected = true;  break;
+                    case "6": amendAnnualReview(emp, year, "sign", scan.nextLine()); selected = true; break;
+                }
+                done = isDone(done);
+            }
+        }
+        System.out.println("Done!");
+    }
+
+    private void assignSecondReviewer(){
+        System.out.print("Enter Employee Number of Reviewee:");
+        String empNo = scan.next();
+        System.out.println();
+        System.out.print("Enter Employee ID of Second Reviewer:");
+        assignSecondReviewer(empNo, scan.next());
+    }
+
+    /**
+     * Check if the user is done entering data.
+     * @param done If the user is done.
+     * @return If the user is done.
+     */
+    private boolean isDone(boolean done) {
+        String option;
+        System.out.println("Done? (y/n)");
+        boolean finished = false;
+        while (!finished) {
+            option = scan.next();
+            switch (option) {
+                case "y":
+                    finished = true;
+                    done = true;
+                    break;
+                case "n":
+                    finished = true;
+                    done = false;
+                    break;
+                default: System.out.println("Please select a valid option.");
+            }
+        }
+        return done;
+    }
+
 }

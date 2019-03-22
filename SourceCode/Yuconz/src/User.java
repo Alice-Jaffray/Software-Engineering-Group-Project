@@ -89,4 +89,10 @@ public class User {
      * @return reviewerTwo
      */
     public String getReviewerTwo() { return reviewerTwo; }
+
+    /**
+     * set the access level for the user.
+     * @param a The new access level.
+     */
+    public void setAccessLevel(AccessLevel a) { accessLevel = a; }
 }
