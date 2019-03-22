@@ -330,6 +330,7 @@ public class HRDatabase {
      */
     public AnnualReview amendAnnualReview(String empNo, String year, String field, String newVal, User requester) {
         AnnualReview review = readAnnualReview(empNo, year, requester);
+        if(review == null) return null;
         if ((requester.getEmpNo().equals(empNo) || review.getFirstReviewer().equals(requester.getEmpNo()) || review.getSecondReviewer().equals(requester.getEmpNo())) && !review.isReadOnly() && !(field.equals("signedByReviewee") || field.equals("signedByFirstReviewer") || field.equals("signedBySecondReviewer") || field.equals("year") || field.equals("readOnly")) && requester.getAccessLevel() == AccessLevel.REVIEWER){
             if (field.equals("sign")) {
                 return signReview(empNo, year, review, requester);

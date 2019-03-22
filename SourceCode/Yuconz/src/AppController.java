@@ -37,6 +37,8 @@ public class AppController {
             case EMPLOYEE: employeeMainMenu(); break;
             case HREMPLOYEE: hREmployeeMainMenu(); break;
             case DIRECTOR: directorMainMenu(); break;
+            case MANAGER: managerMainMenu(); break;
+            case REVIEWER: reviewerMainMenu(); break;
             default: employeeMainMenu(); break;
         }
     }
@@ -135,7 +137,9 @@ public class AppController {
      * @param newVal The new value for the field.
      */
     private void amendAnnualReview(String empNo, String year, String field, String newVal) {
-        hrDatabase.amendAnnualReview(empNo, year, field,newVal, loggedInUser);
+        if(hrDatabase.amendAnnualReview(empNo, year, field,newVal, loggedInUser) == null) {
+            System.out.println("No document found.");
+        }
     }
 
     /**
@@ -245,12 +249,14 @@ public class AppController {
     private void employeeMainMenu() {
         System.out.println("3. Amend own personal details.");
         System.out.println("4. Create Annual review Document");
+        System.out.println("5. Amend own annual review document.");
         String option = scan.next();
         switch (option) {
             case "1": logout(); break;
             case "2": readOwnPersonalDetails(); break;
             case "3": amendOwnPersonalDetails(); break;
             case "4": createAnnualReview(); break;
+            case "5": amendOwnReview(); break;
             default: System.out.println("That is not a valid option.");
         }
         runController();
@@ -266,6 +272,8 @@ public class AppController {
         System.out.println("6. Amend existing personal details.");
         System.out.println("7. Create Review Document");
         System.out.println("8. Reviewer Mode");
+        System.out.println("9. Assign reviewer");
+        System.out.println("10. Amend own annual review document.");
 
         String option = scan.next();
         switch (option) {
@@ -277,6 +285,30 @@ public class AppController {
             case "6": amendPersonalDetails(); break;
             case "7": createAnnualReview(); break;
             case "8": reviewerMainMenu(); break;
+            case "9": assignSecondReviewer(); break;
+            case "10": amendOwnReview(); break;
+            default: System.out.println("That is not a valid option.");
+        }
+        runController();
+    }
+
+    /**
+     * Options for manager.
+     */
+    private void managerMainMenu() {
+        System.out.println("3. Amend own personal Details");
+        System.out.println("4. Create annual review document.");
+        System.out.println("5. Reviewer Mode.");
+        System.out.println("6. Amend own annual review document.");
+
+        String option = scan.next();
+        switch (option) {
+            case "1": logout(); break;
+            case "2": readOwnPersonalDetails(); break;
+            case "3": amendOwnPersonalDetails(); break;
+            case "4": createAnnualReview(); break;
+            case "5": reviewerMainMenu(); break;
+            case "6": amendOwnReview(); break;
             default: System.out.println("That is not a valid option.");
         }
         runController();
@@ -311,7 +343,9 @@ public class AppController {
             System.out.println("No employees to review.");
             return;
         }
-        System.out.println("1. Log Out.");
+        System.out.println();
+        System.out.println();
+        System.out.println("1. Log Out");
         System.out.println("2. Amend/Sign Review");
         System.out.println("3. Read Review");
         String option = scan.next();
@@ -320,6 +354,7 @@ public class AppController {
             case "2": amendOtherReview(); break;
             case "3": readAnnualReview(); break;
         }
+        runController();
     }
 
 
