@@ -147,12 +147,13 @@ public class HRDatabase {
      */
     boolean setManager(String empNo, String manager) {
         //Query
-        String sql = "UPDATE employees SET manager = ? WHERE empID = ?";
+        String sql = "UPDATE employees SET manager = ?, reviewerOne = ? WHERE empID = ?;";
 
         try (Connection con = this.connect();
              PreparedStatement prep = con.prepareStatement(sql)) {
             prep.setString(1, manager);
-            prep.setString(2, empNo);
+            prep.setString(2, manager);
+            prep.setString(3, empNo);
             prep.executeUpdate();
             return true;
         } catch (SQLException sqlEx) {
@@ -488,9 +489,10 @@ public class HRDatabase {
      * @param reviewerTwoID employee id of second reviewer.
      */
     public void assignSecondReviewer(String empNo, String reviewerTwoID) {
-        user = getUser(empNo);
+        User user = getUser(empNo);
         User user2 = getUser(reviewerTwoID);
-        if(user != null && user2 != null && !user.getReviewerOne().equals(reviewerTwoID) && user2.getAccessLevel() != AccessLevel.EMPLOYEE && user2.getAccessLevel() != AccessLevel.HREMPLOYEE) {
+        if(user == null || user2 == null) {System.err.println("User null"); return;}
+        if(!user.getReviewerOne().equals(reviewerTwoID) && user2.getAccessLevel() != AccessLevel.EMPLOYEE) {
             //Query
             String sql = "UPDATE employees SET reviewerTwo = ? WHERE empID = ?;";
 
