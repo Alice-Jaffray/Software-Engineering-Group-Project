@@ -25,7 +25,7 @@
 ## Personal Details Documents
 -  Personal details documents are accessible to the employee they pertain to and members of HR. 
 - Employees can change their own Personal Details documents, but not create them.
-- These documents musy be created by a user with HR employee level access, (HR employees and the director of HR).
+- These documents must be created by a user with HR employee level access, (HR employees and the director of HR).
 
 ## Annual Reviews
 - Annual review documents are created by the employee that is being reviewed.
