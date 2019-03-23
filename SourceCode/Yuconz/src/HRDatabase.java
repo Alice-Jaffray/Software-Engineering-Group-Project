@@ -42,7 +42,7 @@ public class HRDatabase {
 
     /**
      * can be used from other classes to check if an employee is a reviewer
-     * @param empNo
+     * @param empNo employee number of reivewer.
      * @return true if employee is reviewer, false otherwise
      */
     public boolean isReviewer(String empNo) {

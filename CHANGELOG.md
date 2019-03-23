@@ -2,6 +2,16 @@
 
 Notable changes to the source code for this project will be recorded here. 
 
+## Version - 2019/03/23
+### Added
+* Functionality for Annual Reviews.
+* Test classes for annual reviews. 
+
+## Changed
+* SQLite databases are now a single database. 
+* Access level now has extra reviewer level. 
+* Passwords are now stored as hashed and salted data blobs. 
+
 ## Version - 2019/03/04
 
 ### Added
