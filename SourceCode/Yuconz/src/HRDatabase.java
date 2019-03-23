@@ -246,7 +246,7 @@ public class HRDatabase {
      */
     public AnnualReview readAnnualReview(String empNo, String year, User requester) {
         user = getUser(empNo);
-        if (requester.getEmpNo().equals(empNo) || (requester.getEmpNo().equals(user.getReviewerOne()) || requester.equals(user.getReviewerTwo())) && requester.getAccessLevel() == AccessLevel.REVIEWER || requester.getAccessLevel() == AccessLevel.DIRECTOR) {
+        if (requester.getEmpNo().equals(empNo) || (requester.getEmpNo().equals(user.getReviewerOne()) || requester.getEmpNo().equals(user.getReviewerTwo())) && requester.getAccessLevel() == AccessLevel.REVIEWER || requester.getAccessLevel() == AccessLevel.DIRECTOR) {
             // SQL Query
             String sql = "SELECT * FROM AnnualReviews WHERE empID = ? AND year = ?;";
             try (Connection con = this.connect();
@@ -372,7 +372,7 @@ public class HRDatabase {
      * @param field     - field in the review that is amended
      * @param newVal    - new value of field
      * @param requester - person requesting the review document
-     * @return
+     * @return Amended annual review document or null if failed.
      */
     private AnnualReview alternativeAmendAnnualReview(String empNo, String year, String field, String newVal, User requester) {
         if (field.equals("objectives") || field.equals("achievements") || field.equals("goals") || field.equals("reviewerComments")) { // Checks if the field requires multiple lines(e.g. Objectives, Achievements, Goals, Comments)
@@ -403,11 +403,11 @@ public class HRDatabase {
     /**
      * called upon by amendAnnualReview() when someone tries to sign the document
      *
-     * @param empNo
-     * @param year
-     * @param review
-     * @param requester
-     * @return
+     * @param empNo identifier for reviewee
+     * @param year year of review
+     * @param review annual review document
+     * @param requester employee making request
+     * @return signed review or null if failed.
      */
     private AnnualReview signReview(String empNo, String year, AnnualReview review, User requester) {
         String sql = "";
@@ -439,8 +439,8 @@ public class HRDatabase {
 
     /**
      *  used by signReview() once all document is signed by all three reviewers
-     * @param empNo
-     * @param year
+     * @param empNo employee id of reviewee
+     * @param year year of review.
      */
     private void readOnly(String empNo, String year) {
         //sql statement
@@ -462,8 +462,8 @@ public class HRDatabase {
 
     /**
      * Used to assign the second reviewer for the review
-     * @param empNo
-     * @param reviewerTwoID
+     * @param empNo employee id of reviewee
+     * @param reviewerTwoID employee id of second reviewer.
      */
     public void assignSecondReviewer(String empNo, String reviewerTwoID) {
         user = getUser(empNo);

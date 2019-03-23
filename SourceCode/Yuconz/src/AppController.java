@@ -104,7 +104,7 @@ public class AppController {
      * @param newVal new value for the field.
      */
     private void amendPersonalDetails(String empNo, String field, String newVal) {
-        hrDatabase.amendPersonalDetails(empNo, field, newVal, loggedInUser);
+        printPersonalDetails(hrDatabase.amendPersonalDetails(empNo, field, newVal, loggedInUser));
     }
 
     /**
