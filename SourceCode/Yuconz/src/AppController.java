@@ -594,6 +594,9 @@ public class AppController {
         }
     }
 
+    /**
+     * Allows user to choose employee and year to amend review for.
+     */
     private void amendOtherReview() {
         System.out.print("Enter Employee Number: ");
         String empNo = scan.next();
@@ -602,11 +605,19 @@ public class AppController {
         amendReviewMenu(empNo, scan.next());
     }
 
+    /**
+     * Allows user to edit their own review documents.
+     */
     private void amendOwnReview() {
         System.out.print("Enter Year: ");
         amendReviewMenu(loggedInUser.getEmpNo(), scan.next());
     }
 
+    /**
+     * Manu to allow user to amend elements of an annual review.
+     * @param emp employee number of reviewee.
+     * @param year year of review.
+     */
     private void amendReviewMenu(String emp, String year) {
         boolean done = false;
         while(!done){
@@ -636,6 +647,9 @@ public class AppController {
         System.out.println("Done!");
     }
 
+    /**
+     * Allows a HR employee to assign a second reviewer to an employee.
+     */
     private void assignSecondReviewer(){
         System.out.print("Enter Employee Number of Reviewee:");
         String empNo = scan.next();
