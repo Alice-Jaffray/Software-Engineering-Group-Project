@@ -393,14 +393,14 @@ public class AppController {
     private void printPersonalDetails(PersonalDetails p) {
         if(p != null) {
             System.out.println();
-            System.out.println(p.getEmpNo());
-            System.out.println(p.getForename());
-            System.out.println(p.getSurname());
-            System.out.println(p.getDob());
-            System.out.println(p.getMobileNo());
-            System.out.println(p.getTelephoneNo());
-            System.out.println(p.getEmergContact());
-            System.out.println(p.getEmergTel());
+            System.out.println("Employee Number: " + p.getEmpNo());
+            System.out.println("Forename: " + p.getForename());
+            System.out.println("Surname: " + p.getSurname());
+            System.out.println("Date of Birth: " + p.getDob());
+            System.out.println("Mobile: " + p.getMobileNo());
+            System.out.println("Tel: " + p.getTelephoneNo());
+            System.out.println("Emergency Contact: " + p.getEmergContact());
+            System.out.println("Emergency Tel: " + p.getEmergTel());
         } else {
             System.out.println("No personal details document for that employee was found. Contact HR.");
         }
@@ -443,6 +443,7 @@ public class AppController {
     private void amendPersonalDetailsMenu(String emp) {
         boolean done = false;
         while(!done){
+            printPersonalDetails(readPersonalDetails(emp));
             System.out.println("Select a field to change: ");
             System.out.println("1. Forename");
             System.out.println("2. Surname");
