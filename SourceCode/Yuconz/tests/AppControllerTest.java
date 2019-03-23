@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AppControllerTest {
 
     private AuthServer a = new AuthServer("DatabasesTest/LoginRecordsTest.csv", "jdbc:sqlite:DatabasesTest/YuconzTest.db");
-    private HRDatabase hr = new HRDatabase("DatabasesTest/AuthorisationRecordsTest", "jdbc:sqlite:DatabasesTest/pdTest.db");
+    private HRDatabase hr = new HRDatabase("DatabasesTest/AuthorisationRecordsTest", "jdbc:sqlite:DatabasesTest/YuconzTest.db");
     private AppController app;
 
     @BeforeEach
@@ -39,7 +39,7 @@ class AppControllerTest {
             e.getMessage();
         }
         try {
-            Connection con = this.connect("jdbc:sqlite:DatabasesTest/pdTest.db");
+            Connection con = this.connect("jdbc:sqlite:DatabasesTest/YuconzTest.db");
             Statement s = con.createStatement();
             String sql = "DELETE FROM employees;";
             s.executeUpdate(sql);
