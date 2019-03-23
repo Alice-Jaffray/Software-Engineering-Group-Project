@@ -153,6 +153,16 @@ public class AppController {
     }
 
     /**
+     * Set the manager for an employee in the HR Database.
+     * @param empNo The employee number of the subordinate.
+     * @param manager The employee number of the manager.
+     * @return If the change was successful.
+     */
+    private boolean setManager(String empNo, String manager) {
+        return hrDatabase.setManager(empNo, manager);
+    }
+
+    /**
      * sets the user to have an employee access level
      */
     void setBasicAccess(){
@@ -274,6 +284,7 @@ public class AppController {
         System.out.println("8. Reviewer Mode");
         System.out.println("9. Assign reviewer");
         System.out.println("10. Amend own annual review document.");
+        System.out.println("11. Change employee's manager.");
 
         String option = scan.next();
         switch (option) {
@@ -287,6 +298,7 @@ public class AppController {
             case "8": reviewerMainMenu(); break;
             case "9": assignSecondReviewer(); break;
             case "10": amendOwnReview(); break;
+            case "11": setManager(); break;
             default: System.out.println("That is not a valid option.");
         }
         runController();
@@ -318,16 +330,14 @@ public class AppController {
      * Options for director.
      */
     private void directorMainMenu() {
-        System.out.println("3. Read other personal details document.");
-        System.out.println("4. Read annual review document.");
-        System.out.println("5. Reviewer Mode.");
+        System.out.println("3. Read annual review document.");
+        System.out.println("4. Reviewer Mode.");
         String option = scan.next();
         switch (option) {
             case "1": logout(); break;
             case "2": readOwnPersonalDetails(); break;
-            case "3": readOtherPersonalDetails(); break;
-            case "4": readAnnualReview(); break;
-            case "5": reviewerMainMenu(); break;
+            case "3": readAnnualReview(); break;
+            case "4": reviewerMainMenu(); break;
             default: System.out.println("That is not a valid option.");
         }
         runController();
@@ -658,6 +668,20 @@ public class AppController {
             }
         }
         return done;
+    }
+
+    /**
+     * Menu for controlling setting the manager.
+     */
+    private void setManager() {
+        System.out.print("Enter subordinate employee number: ");
+        String empNo = scan.next();
+        System.out.print("Enter manager employee number:");
+        if(setManager(empNo, scan.next())) {
+            System.out.println("Manager Changed!");
+        } else {
+            System.out.println("Manager not changed, check inputs and try again.");
+        }
     }
 
 }

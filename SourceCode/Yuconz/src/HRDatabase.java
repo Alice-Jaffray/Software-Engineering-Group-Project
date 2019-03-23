@@ -140,6 +140,28 @@ public class HRDatabase {
     }
 
     /**
+     * Set the manager for an employee.
+     * @param empNo the employee number of the subordinate.
+     * @param manager the employee number of the manager
+     * @return if the change was successful
+     */
+    boolean setManager(String empNo, String manager) {
+        //Query
+        String sql = "UPDATE employees SET manager = ? WHERE empID = ?";
+
+        try (Connection con = this.connect();
+             PreparedStatement prep = con.prepareStatement(sql)) {
+            prep.setString(1, manager);
+            prep.setString(2, empNo);
+            prep.executeUpdate();
+            return true;
+        } catch (SQLException sqlEx) {
+            System.err.println(sqlEx.getMessage());
+            return false;
+        }
+    }
+
+    /**
      * allows user to read the personal details record of an employee
      *
      * @param empNo     the number of the employee who's record it refers to
