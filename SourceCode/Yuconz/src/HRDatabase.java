@@ -491,7 +491,7 @@ public class HRDatabase {
     public void assignSecondReviewer(String empNo, String reviewerTwoID) {
         User user = getUser(empNo);
         User user2 = getUser(reviewerTwoID);
-        if(user == null || user2 == null) {System.err.println("User null"); return;}
+        if(user == null || user2 == null || user.getReviewerOne() == null) {System.err.println("Manager not yet assigned."); return;}
         if(!user.getReviewerOne().equals(reviewerTwoID) && user2.getAccessLevel() != AccessLevel.EMPLOYEE) {
             //Query
             String sql = "UPDATE employees SET reviewerTwo = ? WHERE empID = ?;";
