@@ -620,6 +620,10 @@ public class AppController {
      * @param year year of review.
      */
     private void amendReviewMenu(String emp, String year) {
+        if(hrDatabase.readAnnualReview(emp, year, loggedInUser).isReadOnly()) {
+            System.out.println("Document is already signed.");
+            return;
+        }
         boolean done = false;
         while(!done){
             System.out.println("Select a field to change/append: ");
