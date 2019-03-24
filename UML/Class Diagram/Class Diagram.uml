@@ -42,8 +42,7 @@
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
     </ownedOperation>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_BtSVIDwMEemKNctvBByL1w" name="createReview" visibility="private"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_Dk0egDwMEemKNctvBByL1w" name="readReview" visibility="private">
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_Dk0egDwMEemKNctvBByL1w" name="readAnnualReview" visibility="private">
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_m72lUD4AEemqi8Y6eAevPg" name="empNo">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
@@ -51,13 +50,33 @@
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
     </ownedOperation>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_G_kuIDwMEemKNctvBByL1w" name="amendReview" visibility="private"/>
-    <ownedOperation xmi:type="uml:Operation" xmi:id="_JxMhMDwMEemKNctvBByL1w" name="signReview" visibility="private"/>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_Q6HB4D3_Eemqi8Y6eAevPg" name="readOtherPersonalDetails" visibility="private">
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_Tnq0UD3_Eemqi8Y6eAevPg" name="empNo">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_H5lKoD4BEemqi8Y6eAevPg" type="_W0ZDMCY-EemuPal2iT2zKg" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_858X8E2QEemrUNkmBECoiA" name="createAnnualReview" visibility="private"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_eqmPAE2REemrUNkmBECoiA" name="amendOwnAnnualReview" visibility="private">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_jOqQEE2REemrUNkmBECoiA" name="year">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_kk4cIE2REemrUNkmBECoiA" name="amendOtherAnnualReview" visibility="private">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_w32poE2REemrUNkmBECoiA" name="empNo">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_yVPNoE2REemrUNkmBECoiA" name="year">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_3gd8YE2REemrUNkmBECoiA" name="setManager" visibility="private">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_6MTQgE2REemrUNkmBECoiA" name="empNo">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_7hQRQE2REemrUNkmBECoiA" name="manEmpNo">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
     </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_L5IE8CY9EemuPal2iT2zKg" name="Employee">
@@ -131,6 +150,70 @@
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
       <ownedParameter xmi:type="uml:Parameter" xmi:id="_sxousDwYEemKNctvBByL1w" name="year">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_R9hC8E2SEemrUNkmBECoiA" name="setManager" visibility="public">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_R9hC8U2SEemrUNkmBECoiA" name="empNo">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_R9hC8k2SEemrUNkmBECoiA" name="manEmpNo">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_XpdSEE2SEemrUNkmBECoiA" name="readAnnualReview">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_bPQ7IE2SEemrUNkmBECoiA" name="empNo">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_cukxwE2SEemrUNkmBECoiA" name="year">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_emU9kE2SEemrUNkmBECoiA" name="requester" type="_VXMh4CY9EemuPal2iT2zKg"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_gCuDEE2SEemrUNkmBECoiA" name="createAnnuaReview">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_jsIZwE2SEemrUNkmBECoiA" name="empNo">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_llxb8E2SEemrUNkmBECoiA" name="requester" type="_VXMh4CY9EemuPal2iT2zKg"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_nuYuQE2SEemrUNkmBECoiA" name="amendAnnualReview">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_qfWaAE2SEemrUNkmBECoiA" name="empNo">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_sP1gME2SEemrUNkmBECoiA" name="year">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_twCusE2SEemrUNkmBECoiA" name="field">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_u3qeEE2SEemrUNkmBECoiA" name="newValue">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_wwJpsE2SEemrUNkmBECoiA" name="requester" type="_VXMh4CY9EemuPal2iT2zKg"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_3Ja44E2SEemrUNkmBECoiA" name="signReview" visibility="private">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_-LyvcE2SEemrUNkmBECoiA" name="empNo">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="__UMh8E2SEemrUNkmBECoiA" name="year">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_BlOJYE2TEemrUNkmBECoiA" name="review" type="_YFPnECY-EemuPal2iT2zKg"/>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_DfDY0E2TEemrUNkmBECoiA" name="requester" type="_VXMh4CY9EemuPal2iT2zKg"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_FK4ogE2TEemrUNkmBECoiA" name="readOnly" visibility="private">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_IO-roE2TEemrUNkmBECoiA" name="empNo">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_JUPqkE2TEemrUNkmBECoiA" name="year">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_KcdP0E2TEemrUNkmBECoiA" name="assignSecondReviewer">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_NrOR4E2TEemrUNkmBECoiA" name="empNo">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_PEd8wE2TEemrUNkmBECoiA" name="revEmpNo">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedParameter>
     </ownedOperation>
@@ -273,6 +356,8 @@
     </ownedAttribute>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_zSXyoDwqEemKNctvBByL1w" name="goals">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3vNX0EGwEem7Z8HNEIpabg" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3v24EEGwEem7Z8HNEIpabg" value="*"/>
     </ownedAttribute>
     <ownedAttribute xmi:type="uml:Property" xmi:id="_1SnzIDwqEemKNctvBByL1w" name="reviewerComments">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
@@ -439,6 +524,7 @@
     <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_azZnkDtUEem8vr0WXxcOTQ" name="HREMPLOYEE"/>
     <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_cCG2YDtUEem8vr0WXxcOTQ" name="MANAGER"/>
     <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_c80yMDtUEem8vr0WXxcOTQ" name="DIRECTOR"/>
+    <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_xMTFEE2QEemrUNkmBECoiA" name="REVIEWER"/>
   </packagedElement>
   <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_GJKfMCZCEemuPal2iT2zKg">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_GJVeUCZCEemuPal2iT2zKg" source="http://www.eclipse.org/uml2/2.0.0/UML">
