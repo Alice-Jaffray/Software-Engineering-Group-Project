@@ -10,6 +10,8 @@ public class User {
     private AccessLevel accessLevel;
     private String department;
     private String manager;
+    private String reviewerOne;
+    private String reviewerTwo;
 
     /**
      * constructor
@@ -22,6 +24,24 @@ public class User {
         this.department = department;
         this.accessLevel = accessLevel;
         this.manager = manager;
+    }
+
+    /**
+     * second constructor
+     * @param empNo
+     * @param department
+     * @param accessLevel
+     * @param manager
+     * @param reviewerOne
+     * @param reviewerTwo
+     */
+    public User(String empNo, String department, AccessLevel accessLevel, String manager, String reviewerOne, String reviewerTwo) {
+        this.empNo = empNo;
+        this.department = department;
+        this.accessLevel = accessLevel;
+        this.manager = manager;
+        this.reviewerOne = reviewerOne;
+        this.reviewerTwo = reviewerTwo;
     }
 
     /**
@@ -57,4 +77,22 @@ public class User {
     public String getManager() {
         return manager;
     }
+
+    /**
+     * gets the first reviewer of the user
+     * @return reviewerOne
+     */
+    public String getReviewerOne() { return reviewerOne; }
+
+    /**
+     * gets second reviewer of the user
+     * @return reviewerTwo
+     */
+    public String getReviewerTwo() { return reviewerTwo; }
+
+    /**
+     * set the access level for the user.
+     * @param a The new access level.
+     */
+    public void setAccessLevel(AccessLevel a) { accessLevel = a; }
 }

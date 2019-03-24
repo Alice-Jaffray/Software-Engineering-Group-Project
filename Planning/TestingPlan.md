@@ -53,54 +53,25 @@ Tests will be done before each push to the main server repository, and must foll
     * Amend a personal details document as HR employee.
         * Passes if new values are stored in the document. 
     * Amend own personal details document.
-        * Passes if document amended. 
-___
+        * Passes if document amended.
+    * Set manager to another user.
+        * Passes if database contains new manager.  
 
-* **Create new Review Record**
-    * Create document as HR employee.
-        * Passes if form is saved successfully to database. 
-            
-        
-* **Read Review Record**
+* **HRDatabase - Annual Reviews**
+    * Allocate a second reviewer to an employee.
+        * Passes if second reviewer stored in database. 
+    * Create document as any employee.
+        * Passes if document cannot be created without second reviewer assigned, and if attempted to be created by a different employee. 
     * Read document pertaining to logged in employee.
         * Passes if document is successfully delivered.
-    * Read document pertaining to employee managed by logged in employee.
-        * Passes if document is delivered successfully. 
-    * Read document pertaining to employee being reviewed by logged in employee.
-        * Passes if document is delivered successfully. 
-    * Read document that pertains to a non-managed employee as manager.
-        * Passes if authorisation fails and document is not delivered. 
-    
-    
-* **Amend Review Record**
+    * Read document as a manager of an employee.
+        * Passes if nothing is delivered when not in reviewer mode and is delivers when in reviewer mode. 
     * Amend document that is not completed as reviewer.
         * Passes if edited document is saved to the database. 
     * Amend incomplete document as reviewed employee.
         * Passes if edited document is saved to database.
-
-
-* **Read Past Completed Review Records**
-    * Read documents as employee.
-        * Passes if employee is presented with all previous review documents that pertain to them.
-    * Read documents as reviewer of employee documents pertain to.
-        * Passes if documents are delivered successfully.
-
-
-* **Perform Review**
-    * Attempt review outside of review period (2 weeks from anniversary of employment).
-        * Passes if request is rejected and nothing is changed. 
-    * Perform review within review period, review is signed off.
-        * Passes if participants are presented with past review documents (if they exist), review record has been amended, and HR has been informed.
-    * Perform review within review period, no conclusion. 
-        * Passes if no changes are made to the document and a new meeting is scheduled. 
-
-
-* **Allocate Reviewer**
-    * HR employee allocates reviewers to an employee review. 
-        * Passes if the direct manager of the employee is a reviewer and another higher level employee or director is a reviewer, and both have been informed of the date. 
-    * HR employee attempts to allocate reviewers to a review, but no 2<sup>nd</sup> reviewer was selected.
-        * Passes if no reviewers were allocated. 
-
+    * Sign off a review and attempt to edit it.
+        * Passes if review can no longer be edited. 
 
 ## Bug Reporting
 Bug reports are to be handled using the 'Issue' system on GitLab. 
@@ -112,3 +83,7 @@ This information can be found by referring to the latest meeting documents, whic
 * 2019-02-11:  Document amended to include the type of tests being used (JUnit) and mentions the amendments section. 
 * 2019-03-03: Document will now be split by class once the test classes are written. Unwritten classes will remain by use case until covered elsewhere. 
 * 2019-03-04: Test cases added for HRDatabase. 
+
+
+* 2019-03-23: Added Test for changing manager.
+* 2019-03-23: Added tests for annual reviews in HRDatabase. 
